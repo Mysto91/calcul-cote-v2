@@ -6,18 +6,20 @@ import BetSwitch from './components/BetSwitch'
 
 function App (): JSX.Element {
   return (
-    <div className="mt-10 flex items-center space-x-10 font-mono">
-        <BetInput id="bet">
-            Mise cote boostée
-        </BetInput>
-        <BetInput id="quotation-1">
-            Cote 1 boostée
-        </BetInput>
-        <BetInput id="quotation-2">
-            Cote 2
-        </BetInput>
-        <BetSwitch defaultStatus={true} />
-        <Table />
+    <div className="mt-10 font-mono">
+        <div className="flex items-center space-x-10">
+            <BetInput id="bet">
+                Mise cote boostée
+            </BetInput>
+            <BetInput id="quotation-1">
+                Cote 1 boostée
+            </BetInput>
+            <BetInput id="quotation-2">
+                Cote 2
+            </BetInput>
+            <BetSwitch defaultStatus={true} />
+        </div>
+        <Table className="mt-10" />
     </div>
   )
 }
