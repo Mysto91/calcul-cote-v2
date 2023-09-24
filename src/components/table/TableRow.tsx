@@ -28,7 +28,7 @@ export default function TableRow ({ bet }: TableRowProps): JSX.Element {
               {formatToEuroCurrency(bet.profit)}
           </td>
           <td className={`${bet.netProfit >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-              {formatToEuroCurrency(bet.netProfit)}
+              {bet.netProfit > 0 ? '+' : ''}{formatToEuroCurrency(bet.netProfit)}
           </td>
       </tr>
   )

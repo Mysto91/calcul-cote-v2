@@ -44,7 +44,7 @@ export default function Table ({ className }: TableHeaderProps): JSX.Element {
   }
 
   return (
-    <table className={className}>
+    <table className={`w-3/4 ${className}`}>
       <thead>
         <tr>
             {

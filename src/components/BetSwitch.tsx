@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 
 interface BetSwitchProps {
   defaultStatus?: boolean
+  children: string
 }
-export default function BetSwitch ({ defaultStatus }: BetSwitchProps): JSX.Element {
+export default function BetSwitch ({ defaultStatus, children }: BetSwitchProps): JSX.Element {
   const [isActive, setIsActive] = useState<boolean>(defaultStatus ?? false)
 
   return (
@@ -30,13 +31,16 @@ export default function BetSwitch ({ defaultStatus }: BetSwitchProps): JSX.Eleme
                 transition ease-in-out ${isActive ? 'translate-x-full' : ''}
             `}
         >
-            <div className={`
+            <span className={`
                     w-3 h-3
                     rounded-full
                     ${isActive ? 'bg-violet-500' : 'bg-violet-300'}
                 `}
             />
         </label>
+        <span className={`absolute left-16 whitespace-nowrap ${isActive ? 'text-violet-500' : ''}`}>
+            { children }
+        </span>
         <input
             id="toggle"
             type="checkbox"
