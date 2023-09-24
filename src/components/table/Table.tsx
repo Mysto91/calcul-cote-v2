@@ -8,6 +8,7 @@ interface TableHeaderProps {
 }
 export default function Table ({ className }: TableHeaderProps): JSX.Element {
   const headers: string[] = [
+    '',
     'Pari',
     'Cote',
     'Mise 1',
@@ -19,7 +20,7 @@ export default function Table ({ className }: TableHeaderProps): JSX.Element {
   //probabilité dans un dropdown
 
   const bet: BetInterface = {
-    title: '1 r 2',
+    title: '1r2',
     betOne: 10,
     betTwo: 6.45,
     quotation: 1.92,
@@ -27,7 +28,7 @@ export default function Table ({ className }: TableHeaderProps): JSX.Element {
     netProfit: 2.5
   }
  const bet2: BetInterface = {
-    title: '2 r 1',
+    title: '2r1',
     betOne: 10,
     betTwo: 6.45,
     quotation: 1.92,
@@ -35,7 +36,7 @@ export default function Table ({ className }: TableHeaderProps): JSX.Element {
     netProfit: -2.5
   }
  const bet3: BetInterface = {
-    title: '1 ou 2',
+    title: '1ou2',
     betOne: 10,
     betTwo: 6.45,
     quotation: 1.92,
