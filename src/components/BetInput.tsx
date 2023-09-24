@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 interface BetInputProps {
   id: string
-  label: string
+  children: string
 }
-export default function BetInput ({ id, label }: BetInputProps): JSX.Element {
+export default function BetInput ({ id, children }: BetInputProps): JSX.Element {
   const [inputIsFocused, setInputIsFocused] = useState<boolean>(false)
   const [textValue, setTextValue] = useState<string>('')
 
@@ -26,9 +26,9 @@ export default function BetInput ({ id, label }: BetInputProps): JSX.Element {
             transition ease-in-out
             ${inputIsFocusedOrHasTextValue() ? '-translate-y-5 bg-white text-xs text-blue-500' : 'text-base'}
           `}
-          htmlFor={label}
+          htmlFor={children}
       >
-          {label}
+          {children}
       </label>
       <input
           id={id}
@@ -43,7 +43,7 @@ export default function BetInput ({ id, label }: BetInputProps): JSX.Element {
             caret-blue-500
             `}
           type="text"
-          name={label}
+          name={children}
           onFocus={() => { setInputIsFocused(true) }}
           onBlur={() => { setInputIsFocused(false) }}
           onChange={(event) => { setTextValue(event.target.value) }}
