@@ -15,7 +15,7 @@ export default function BetSwitch ({ defaultStatus }: BetSwitchProps): JSX.Eleme
             rounded-full
             cursor-pointer
             drop-shadow-lg
-            ${isActive ? 'bg-blue-500' : 'bg-blue-300'}
+            ${isActive ? 'bg-violet-500' : 'bg-violet-300'}
         `}
          onClick={() => { setIsActive(!isActive) }}
     >
@@ -33,7 +33,7 @@ export default function BetSwitch ({ defaultStatus }: BetSwitchProps): JSX.Eleme
             <div className={`
                     w-3 h-3
                     rounded-full
-                    ${isActive ? 'bg-blue-500' : 'bg-blue-300'}
+                    ${isActive ? 'bg-violet-500' : 'bg-violet-300'}
                 `}
             />
         </label>

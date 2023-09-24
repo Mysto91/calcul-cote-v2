@@ -24,7 +24,7 @@ export default function BetInput ({ id, children }: BetInputProps): JSX.Element 
             absolute z-20
             px-2
             transition ease-in-out
-            ${inputIsFocusedOrHasTextValue() ? '-translate-y-5 bg-white text-xs text-blue-500' : 'text-base'}
+            ${inputIsFocusedOrHasTextValue() ? '-translate-y-5 bg-white text-xs text-violet-500' : 'text-base'}
           `}
           htmlFor={children}
       >
@@ -37,10 +37,10 @@ export default function BetInput ({ id, children }: BetInputProps): JSX.Element 
             ${inputIsFocusedOrHasTextValue() ? 'z-1' : 'z-20'}
             px-1
             w-full h-full
-            rounded-md border border-blue-300 outline-blue-500
+            rounded-md border border-violet-300 outline-violet-500
             bg-transparent
             text-base text-center
-            caret-blue-500
+            caret-violet-500
             `}
           type="text"
           name={children}
