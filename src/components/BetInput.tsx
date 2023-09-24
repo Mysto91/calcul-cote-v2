@@ -22,7 +22,7 @@ export default function BetInput ({ id, label }: BetInputProps): JSX.Element {
           id={`${id}-label`}
           className={`
             absolute z-20
-            p-2
+            px-2
             transition ease-in-out
             ${inputIsFocusedOrHasTextValue() ? '-translate-y-5 bg-white text-xs text-blue-500' : 'text-base'}
           `}
