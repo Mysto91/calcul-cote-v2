@@ -13,7 +13,10 @@ function App (): JSX.Element {
         font-mono"
     >
         <div className="w-full">
-            <div className="flex items-center justify-center space-x-4">
+            <div className="
+                lg:flex lg:items-center lg:justify-center
+                space-y-4 lg:space-y-0 lg:space-x-4"
+            >
                 <BetInput id="bet">
                     Mise cote boostée
                 </BetInput>

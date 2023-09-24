@@ -10,6 +10,7 @@ export default function BetSwitch ({ defaultStatus, children }: BetSwitchProps):
   return (
     <div className={`
             relative
+            ml-auto mr-auto
             w-14 h-8
             px-1
             flex items-center
@@ -38,7 +39,13 @@ export default function BetSwitch ({ defaultStatus, children }: BetSwitchProps):
                 `}
             />
         </label>
-        <span className={`absolute left-16 whitespace-nowrap ${isActive ? 'text-violet-500' : ''}`}>
+        <span className={`
+                absolute 
+                top-10 lg:top-auto -left-[40%] lg:left-16 
+                whitespace-nowrap
+                ${isActive ? 'text-violet-500' : ''}
+            `}
+        >
             { children }
         </span>
         <input

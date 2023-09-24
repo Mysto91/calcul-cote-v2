@@ -36,7 +36,7 @@ export default function BetInput ({ id, children }: BetInputProps): JSX.Element 
             relative
             ${inputIsFocusedOrHasTextValue() ? 'z-1' : 'z-20'}
             px-1
-            w-full h-full
+            w-2/3 md:w-1/3 lg:w-full h-full
             rounded-md border border-violet-300 outline-violet-500
             bg-transparent
             text-base text-center
