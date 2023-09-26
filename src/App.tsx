@@ -10,10 +10,11 @@ function App (): JSX.Element {
   const {
     setBetValue,
     setQuotationOne,
-    setQuotationTwo
+    setQuotationTwo,
+    setBoostedBetEnabled
   } = useBetStore()
 
-  function setStoreValue (inputId: string, newValue: string): void {
+  function setStoreValue (inputId: string, newValue: string | boolean): void {
     // TODO : Validation préalable
     switch (inputId) {
       case InputEnum.BET:
@@ -28,9 +29,13 @@ function App (): JSX.Element {
         console.log('quotation two')
         setQuotationTwo(Number(newValue))
         break
+      case InputEnum.BET_BOOSTED:
+        console.log('bet boosted enabled')
+        setBoostedBetEnabled(newValue as boolean)
+        break
       default:
         // TODO throw exception
-        console.log('invalid')
+        console.log('invalid valeur : ' + inputId)
         break
     }
   }
@@ -47,21 +52,38 @@ function App (): JSX.Element {
                 lg:flex lg:items-center lg:justify-center
                 space-y-4 lg:space-y-0 lg:space-x-4"
             >
-                <BetInput id={InputEnum.BET} handleOnChange={setStoreValue}>
+                <BetInput
+                    id={InputEnum.BET}
+                    handleOnChange={setStoreValue}
+                >
                     Mise cote boostée
                 </BetInput>
-                <BetInput id={InputEnum.QUOTATION_ONE} handleOnChange={setStoreValue}>
+
+                <BetInput
+                    id={InputEnum.QUOTATION_ONE}
+                    handleOnChange={setStoreValue}
+                >
                     Cote 1 boostée
                 </BetInput>
-                <BetInput id={InputEnum.QUOTATION_TWO} handleOnChange={setStoreValue}>
+
+                <BetInput
+                    id={InputEnum.QUOTATION_TWO}
+                    handleOnChange={setStoreValue}
+                >
                     Cote 2
                 </BetInput>
-                <BetSwitch defaultStatus={true}>
+
+                <BetSwitch
+                    id={InputEnum.BET_BOOSTED}
+                    defaultStatus={true}
+                    handleOnChange={setStoreValue}
+                >
                     Cote boostée
                 </BetSwitch>
             </div>
+
             <div className="flex justify-center">
-                <Table className="mt-10" />
+                <Table className="mt-20 lg:mt-10" />
             </div>
         </div>
     </div>

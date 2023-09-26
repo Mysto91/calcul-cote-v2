@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { type BetInterface } from '../../interfaces/BetInterface'
+import { type BetInterface } from '../../interfaces/betInterface'
 import { formatToEuroCurrency } from '../../utils/Currency'
 import IconDownArrow from '../icons/IconDownArrow'
 

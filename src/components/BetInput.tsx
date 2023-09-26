@@ -14,9 +14,9 @@ export default function BetInput ({ id, children, handleOnChange }: BetInputProp
     return inputIsFocused || textValue !== ''
   }
 
-  function updateTextValue (inputId: string, textValue: string): void {
+  function updateTextValue (textValue: string): void {
     setTextValue(textValue)
-    handleOnChange(inputId, textValue)
+    handleOnChange(id, textValue)
   }
 
   return (
@@ -34,12 +34,12 @@ export default function BetInput ({ id, children, handleOnChange }: BetInputProp
             transition ease-in-out
             ${inputIsFocusedOrHasTextValue() ? '-translate-y-5 bg-white text-xs text-violet-500' : 'text-base'}
           `}
-          htmlFor={children}
+          htmlFor={`${id}-input`}
       >
           {children}
       </label>
       <input
-          id={id}
+          id={`${id}-input`}
           className={`
             relative
             ${inputIsFocusedOrHasTextValue() ? 'z-1' : 'z-20'}
@@ -51,10 +51,10 @@ export default function BetInput ({ id, children, handleOnChange }: BetInputProp
             caret-violet-500
             `}
           type="text"
-          name={children}
+          name={`${id}-input`}
           onFocus={() => { setInputIsFocused(true) }}
           onBlur={() => { setInputIsFocused(false) }}
-          onChange={(event) => { updateTextValue(event.target.id, event.target.value) }}
+          onChange={({ target }) => { updateTextValue(target.value) }}
       />
     </div>
   )

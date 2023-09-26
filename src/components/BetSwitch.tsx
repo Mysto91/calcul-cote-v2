@@ -1,14 +1,23 @@
 import React, { useState } from 'react'
 
 interface BetSwitchProps {
+  id: string
   defaultStatus?: boolean
   children: string
+  handleOnChange: (inputId: string, newValue: boolean) => void
 }
-export default function BetSwitch ({ defaultStatus, children }: BetSwitchProps): JSX.Element {
+export default function BetSwitch ({ id, defaultStatus, children, handleOnChange }: BetSwitchProps): JSX.Element {
   const [isActive, setIsActive] = useState<boolean>(defaultStatus ?? false)
 
+  function updateIsActive (): void {
+    setIsActive(!isActive)
+    handleOnChange(id, isActive)
+  }
+
   return (
-    <div className={`
+    <div
+        id={id}
+        className={`
             relative
             ml-auto mr-auto
             w-14 h-8
@@ -19,8 +28,9 @@ export default function BetSwitch ({ defaultStatus, children }: BetSwitchProps):
             drop-shadow-lg
             ${isActive ? 'bg-violet-500' : 'bg-violet-300'}
         `}
-         onClick={() => { setIsActive(!isActive) }}
+         onClick={updateIsActive}
     >
+        { isActive }
         <label
             htmlFor="toggle"
             className={`

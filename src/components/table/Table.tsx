@@ -1,6 +1,6 @@
 import React from 'react'
+import { type BetInterface } from '../../interfaces/betInterface'
 import TableHeader from './TableHeader'
-import { type BetInterface } from '../../interfaces/BetInterface'
 import TableRow from './TableRow'
 
 interface TableHeaderProps {
@@ -17,7 +17,7 @@ export default function Table ({ className }: TableHeaderProps): JSX.Element {
     'Gain net'
   ]
 
-  //probabilité dans un dropdown
+  // probabilité dans un dropdown
 
   const bet: BetInterface = {
     title: '1r2',
@@ -27,7 +27,8 @@ export default function Table ({ className }: TableHeaderProps): JSX.Element {
     profit: 20,
     netProfit: 2.5
   }
- const bet2: BetInterface = {
+
+  const bet2: BetInterface = {
     title: '2r1',
     betOne: 10,
     betTwo: 6.45,
@@ -35,7 +36,8 @@ export default function Table ({ className }: TableHeaderProps): JSX.Element {
     profit: 20,
     netProfit: -2.5
   }
- const bet3: BetInterface = {
+
+  const bet3: BetInterface = {
     title: '1ou2',
     betOne: 10,
     betTwo: 6.45,
