@@ -1,14 +1,22 @@
 import React, { useState } from 'react'
+
 interface BetInputProps {
   id: string
   children: string
+  handleOnChange: (inputId: string, newValue: string) => void
 }
-export default function BetInput ({ id, children }: BetInputProps): JSX.Element {
+
+export default function BetInput ({ id, children, handleOnChange }: BetInputProps): JSX.Element {
   const [inputIsFocused, setInputIsFocused] = useState<boolean>(false)
   const [textValue, setTextValue] = useState<string>('')
 
   function inputIsFocusedOrHasTextValue (): boolean {
     return inputIsFocused || textValue !== ''
+  }
+
+  function updateTextValue (inputId: string, textValue: string): void {
+    setTextValue(textValue)
+    handleOnChange(inputId, textValue)
   }
 
   return (
@@ -46,7 +54,7 @@ export default function BetInput ({ id, children }: BetInputProps): JSX.Element 
           name={children}
           onFocus={() => { setInputIsFocused(true) }}
           onBlur={() => { setInputIsFocused(false) }}
-          onChange={(event) => { setTextValue(event.target.value) }}
+          onChange={(event) => { updateTextValue(event.target.id, event.target.value) }}
       />
     </div>
   )

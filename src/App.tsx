@@ -3,8 +3,38 @@ import './App.css'
 import Table from './components/table/Table'
 import BetInput from './components/BetInput'
 import BetSwitch from './components/BetSwitch'
+import { InputEnum } from './components/enums/inputEnums'
+import { useBetStore } from './stores/useBetStore'
 
 function App (): JSX.Element {
+  const {
+    setBetValue,
+    setQuotationOne,
+    setQuotationTwo
+  } = useBetStore()
+
+  function setStoreValue (inputId: string, newValue: string): void {
+    // TODO : Validation préalable
+    switch (inputId) {
+      case InputEnum.BET:
+        console.log('bet')
+        setBetValue(Number(newValue))
+        break
+      case InputEnum.QUOTATION_ONE:
+        console.log('quotation one')
+        setQuotationOne(Number(newValue))
+        break
+      case InputEnum.QUOTATION_TWO:
+        console.log('quotation two')
+        setQuotationTwo(Number(newValue))
+        break
+      default:
+        // TODO throw exception
+        console.log('invalid')
+        break
+    }
+  }
+
   return (
     <div className="
         absolute top-1/2 -translate-y-1/2
@@ -17,13 +47,13 @@ function App (): JSX.Element {
                 lg:flex lg:items-center lg:justify-center
                 space-y-4 lg:space-y-0 lg:space-x-4"
             >
-                <BetInput id="bet">
+                <BetInput id={InputEnum.BET} handleOnChange={setStoreValue}>
                     Mise cote boostée
                 </BetInput>
-                <BetInput id="quotation-1">
+                <BetInput id={InputEnum.QUOTATION_ONE} handleOnChange={setStoreValue}>
                     Cote 1 boostée
                 </BetInput>
-                <BetInput id="quotation-2">
+                <BetInput id={InputEnum.QUOTATION_TWO} handleOnChange={setStoreValue}>
                     Cote 2
                 </BetInput>
                 <BetSwitch defaultStatus={true}>
