@@ -5,4 +5,5 @@ export interface BetInterface {
   quotation: number
   profit: number
   netProfit: number
+  probability: number
 }

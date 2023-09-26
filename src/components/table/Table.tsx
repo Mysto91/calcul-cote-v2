@@ -1,5 +1,7 @@
 import React from 'react'
 import { type BetInterface } from '../../interfaces/betInterface'
+import { calculateNoBet, calculateOneOrTwo } from '../../services/betCalculate'
+import { useBetStore } from '../../stores/useBetStore'
 import TableHeader from './TableHeader'
 import TableRow from './TableRow'
 
@@ -17,34 +19,20 @@ export default function Table ({ className }: TableHeaderProps): JSX.Element {
     'Gain net'
   ]
 
+  const {
+    betValue,
+    quotationOne,
+    quotationTwo,
+    boostedBetEnabled
+  } = useBetStore()
+
   // probabilité dans un dropdown
 
-  const bet: BetInterface = {
-    title: '1r2',
-    betOne: 10,
-    betTwo: 6.45,
-    quotation: 1.92,
-    profit: 20,
-    netProfit: 2.5
-  }
-
-  const bet2: BetInterface = {
-    title: '2r1',
-    betOne: 10,
-    betTwo: 6.45,
-    quotation: 1.92,
-    profit: 20,
-    netProfit: -2.5
-  }
-
-  const bet3: BetInterface = {
-    title: '1ou2',
-    betOne: 10,
-    betTwo: 6.45,
-    quotation: 1.92,
-    profit: 20,
-    netProfit: -2.5
-  }
+  const bets: BetInterface[] = [
+    calculateNoBet(betValue as number, quotationOne as number, quotationTwo as number, boostedBetEnabled),
+    calculateNoBet(betValue as number, quotationOne as number, quotationTwo as number, boostedBetEnabled, true),
+    calculateOneOrTwo(betValue as number, quotationOne as number, quotationTwo as number, boostedBetEnabled)
+  ]
 
   return (
     <table className={`w-3/4 ${className}`}>
@@ -60,9 +48,9 @@ export default function Table ({ className }: TableHeaderProps): JSX.Element {
         </tr>
       </thead>
       <tbody>
-        <TableRow bet={bet} />
-        <TableRow bet={bet2} />
-        <TableRow bet={bet3} />
+        {
+          bets.map((bet, index) => <TableRow key={index} bet={bet} />)
+        }
       </tbody>
     </table>
   )
