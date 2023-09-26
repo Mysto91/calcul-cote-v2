@@ -1,36 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './App.css'
 import Table from './components/table/Table'
 import BetInput from './components/BetInput'
 import BetSwitch from './components/BetSwitch'
 import { InputEnum } from './components/enums/inputEnums'
 import { useBetStore } from './stores/useBetStore'
+import inputSchema, { type BetSchemaInterface } from './validators/schemas/inputSchema'
 
 function App (): JSX.Element {
   const {
     setBetValue,
     setQuotationOne,
     setQuotationTwo,
-    setBoostedBetEnabled
+    setBoostedBetEnabled,
+    quotationOne,
+    quotationTwo,
+    betValue
   } = useBetStore()
 
   function setStoreValue (inputId: string, newValue: string | boolean): void {
-    // TODO : Validation préalable
     switch (inputId) {
-      case InputEnum.BET:
-        console.log('bet')
+      case InputEnum.BET_VALUE:
         setBetValue(Number(newValue))
         break
       case InputEnum.QUOTATION_ONE:
-        console.log('quotation one')
         setQuotationOne(Number(newValue))
         break
       case InputEnum.QUOTATION_TWO:
-        console.log('quotation two')
         setQuotationTwo(Number(newValue))
         break
       case InputEnum.BET_BOOSTED:
-        console.log('bet boosted enabled')
         setBoostedBetEnabled(newValue as boolean)
         break
       default:
@@ -40,6 +39,25 @@ function App (): JSX.Element {
     }
   }
 
+  async function validateSchema (params: BetSchemaInterface): Promise<void> {
+    try {
+      await inputSchema().validate(params)
+    } catch (error: any) {
+      // TODO gérer les erreurs
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    void validateSchema(
+      {
+        quotationOne,
+        quotationTwo,
+        betValue
+      }
+    )
+  }, [quotationOne, quotationTwo, betValue])
+
   return (
     <div className="
         absolute top-1/2 -translate-y-1/2
@@ -48,12 +66,13 @@ function App (): JSX.Element {
         font-mono"
     >
         <div className="w-full">
-            <div className="
+            <form className="
                 lg:flex lg:items-center lg:justify-center
                 space-y-4 lg:space-y-0 lg:space-x-4"
             >
                 <BetInput
-                    id={InputEnum.BET}
+                    id={InputEnum.BET_VALUE}
+                    defaultValue="10"
                     handleOnChange={setStoreValue}
                 >
                     Mise cote boostée
@@ -80,7 +99,7 @@ function App (): JSX.Element {
                 >
                     Cote boostée
                 </BetSwitch>
-            </div>
+            </form>
 
             <div className="flex justify-center">
                 <Table className="mt-20 lg:mt-10" />
