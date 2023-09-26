@@ -1,19 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 interface BetSwitchProps {
   id: string
-  defaultStatus?: boolean
   children: string
-  handleOnChange: (inputId: string, newValue: boolean) => void
+  isActive: boolean
+  setIsActive: (isActive: boolean) => void
 }
-export default function BetSwitch ({ id, defaultStatus, children, handleOnChange }: BetSwitchProps): JSX.Element {
-  const [isActive, setIsActive] = useState<boolean>(defaultStatus ?? false)
-
-  function updateIsActive (): void {
-    setIsActive(!isActive)
-    handleOnChange(id, isActive)
-  }
-
+export default function BetSwitch ({ id, isActive, setIsActive, children }: BetSwitchProps): JSX.Element {
   return (
     <div
         id={id}
@@ -28,7 +21,7 @@ export default function BetSwitch ({ id, defaultStatus, children, handleOnChange
             drop-shadow-lg
             ${isActive ? 'bg-violet-500' : 'bg-violet-300'}
         `}
-         onClick={updateIsActive}
+         onClick={() => { setIsActive(!isActive) }}
     >
         { isActive }
         <label

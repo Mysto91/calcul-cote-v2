@@ -15,29 +15,9 @@ function App (): JSX.Element {
     setBoostedBetEnabled,
     quotationOne,
     quotationTwo,
-    betValue
+    betValue,
+    boostedBetEnabled
   } = useBetStore()
-
-  function setStoreValue (inputId: string, newValue: string | boolean): void {
-    switch (inputId) {
-      case InputEnum.BET_VALUE:
-        setBetValue(Number(newValue))
-        break
-      case InputEnum.QUOTATION_ONE:
-        setQuotationOne(Number(newValue))
-        break
-      case InputEnum.QUOTATION_TWO:
-        setQuotationTwo(Number(newValue))
-        break
-      case InputEnum.BET_BOOSTED:
-        setBoostedBetEnabled(newValue as boolean)
-        break
-      default:
-        // TODO throw exception
-        console.log('invalid valeur : ' + inputId)
-        break
-    }
-  }
 
   async function validateSchema (params: BetSchemaInterface): Promise<void> {
     try {
@@ -72,30 +52,32 @@ function App (): JSX.Element {
             >
                 <BetInput
                     id={InputEnum.BET_VALUE}
-                    defaultValue="10"
-                    handleOnChange={setStoreValue}
+                    textValue={betValue}
+                    setTextValue={setBetValue}
                 >
                     Mise cote boostée
                 </BetInput>
 
                 <BetInput
                     id={InputEnum.QUOTATION_ONE}
-                    handleOnChange={setStoreValue}
+                    textValue={quotationOne}
+                    setTextValue={setQuotationOne}
                 >
                     Cote 1 boostée
                 </BetInput>
 
                 <BetInput
                     id={InputEnum.QUOTATION_TWO}
-                    handleOnChange={setStoreValue}
+                    textValue={quotationTwo}
+                    setTextValue={setQuotationTwo}
                 >
                     Cote 2
                 </BetInput>
 
                 <BetSwitch
                     id={InputEnum.BET_BOOSTED}
-                    defaultStatus={true}
-                    handleOnChange={setStoreValue}
+                    isActive={boostedBetEnabled}
+                    setIsActive={setBoostedBetEnabled}
                 >
                     Cote boostée
                 </BetSwitch>

@@ -3,22 +3,15 @@ import React, { useState } from 'react'
 interface BetInputProps {
   id: string
   children: string
-  defaultValue?: string
-  handleOnChange: (inputId: string, newValue: string) => void
+  textValue: any
+  setTextValue: (newTextValue: any) => void
 }
 
-export default function BetInput ({ id, children, defaultValue, handleOnChange }: BetInputProps): JSX.Element {
+export default function BetInput ({ id, children, textValue, setTextValue }: BetInputProps): JSX.Element {
   const [inputIsFocused, setInputIsFocused] = useState<boolean>(false)
-  // TODO supprimer la réactivité au profit de celui du store ?
-  const [textValue, setTextValue] = useState<string>(defaultValue ?? '')
 
   function inputIsFocusedOrHasTextValue (): boolean {
-    return inputIsFocused || textValue !== ''
-  }
-
-  function updateTextValue (textValue: string): void {
-    setTextValue(textValue)
-    handleOnChange(id, textValue)
+    return inputIsFocused || (textValue !== '' && textValue !== null)
   }
 
   return (
@@ -54,10 +47,10 @@ export default function BetInput ({ id, children, defaultValue, handleOnChange }
             `}
           type="text"
           name={`${id}-input`}
-          value={textValue}
+          value={textValue ?? ''}
           onFocus={() => { setInputIsFocused(true) }}
           onBlur={() => { setInputIsFocused(false) }}
-          onChange={({ target }) => { updateTextValue(target.value) }}
+          onChange={({ target }) => { setTextValue(target.value) }}
       />
     </div>
   )
