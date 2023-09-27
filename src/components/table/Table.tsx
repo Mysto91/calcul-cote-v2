@@ -35,6 +35,7 @@ export default function Table ({ className }: TableHeaderProps): JSX.Element {
 
   if (errors.length === 0) {
     // TODO voir s'il y a mieux pour gérer les nombres
+    // La validation est asynchrone et du coup on se retrouve à passer ici lors de l'init
     const bet = Number(betValue)
     const q1 = Number(quotationOne)
     const q2 = Number(quotationTwo)
@@ -62,15 +63,17 @@ export default function Table ({ className }: TableHeaderProps): JSX.Element {
       <tbody>
         {
             errors.length > 0 &&
-            <td
-                colSpan={7}
-                className="py-3 text-center border border-violet-100"
-            >
-              Donne les cotes
-            </td>
+            <tr className="text-center border border-violet-100">
+              <td
+                  className="py-3"
+                  colSpan={7}
+              >
+                Donne les cotes
+              </td>
+            </tr>
         }
         {
-          bets.map((bet, index) => <TableRow key={index} bet={bet} />)
+          bets.map((bet: BetInterface, index: number) => <TableRow key={index} bet={bet} />)
         }
       </tbody>
     </table>

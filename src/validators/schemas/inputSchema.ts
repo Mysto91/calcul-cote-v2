@@ -6,6 +6,7 @@ export interface BetSchemaInterface {
   betValue: any
 }
 
+// TODO améliorer les validations et rajouter des messages en français
 export default function inputSchema (): yup.Schema<BetSchemaInterface> {
   return yup.object().shape({
     quotationOne: yup
