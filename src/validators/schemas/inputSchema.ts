@@ -1,4 +1,5 @@
 import * as yup from 'yup'
+import { numberGreaterThanSchema } from './numberGreaterThanSchema'
 
 export interface BetSchemaInterface {
   quotationOne: any
@@ -9,17 +10,11 @@ export interface BetSchemaInterface {
 // TODO améliorer les validations et rajouter des messages en français
 export default function inputSchema (): yup.Schema<BetSchemaInterface> {
   return yup.object().shape({
-    quotationOne: yup
-      .number()
-      .test('notZero', 'La cote 1 ne doit pas être égale à 0', (value: any) => value !== 0)
-      .required(),
-    quotationTwo: yup
-      .number()
-      .test('notZero', 'La cote 2 ne doit pas être égale à 0', (value: any) => value !== 0)
-      .required(),
-    betValue: yup
-      .number()
-      .test('notZero', 'La mise ne doit pas être égale à 0', (value: any) => value !== 0)
-      .required()
+    quotationOne: numberGreaterThanSchema(1, 'cote 1')
+      .required('La cote 1 doit être renseignée'),
+    quotationTwo: numberGreaterThanSchema(1, 'cote 2')
+      .required('La cote 2 doit être renseignée'),
+    betValue: numberGreaterThanSchema(0, 'mise')
+      .required('La mise doit être renseignée')
   })
 }

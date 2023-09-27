@@ -56,7 +56,7 @@ function App (): JSX.Element {
       <>
           <div>
               {
-                  errors.map((error, index) => <p key={index}>{ error }</p>)
+                  errors.map((error: string, index: number) => <p key={index}>{ error }</p>)
               }
           </div>
           <div className="
