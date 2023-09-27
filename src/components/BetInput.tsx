@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
+import { type JSXElementPropsInterface } from '../interfaces/JSXElementPropsInterface'
 
-interface BetInputProps {
+interface BetInputProps extends JSXElementPropsInterface {
   id: string
-  children: string
   textValue: any
   unit?: string
   setTextValue: (newTextValue: any) => void

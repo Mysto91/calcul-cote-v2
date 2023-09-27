@@ -5,11 +5,9 @@ import { useBetStore } from '../../stores/useBetStore'
 import TableHeader from './TableHeader'
 import TableRow from './TableRow'
 import { useErrorsStore } from '../../stores/useErrorsStore'
+import { type JSXElementPropsInterface } from '../../interfaces/JSXElementPropsInterface'
 
-interface TableHeaderProps {
-  className: string
-}
-export default function Table ({ className }: TableHeaderProps): JSX.Element {
+export default function Table ({ className }: JSXElementPropsInterface): JSX.Element {
   const {
     betValue,
     quotationOne,
@@ -48,12 +46,18 @@ export default function Table ({ className }: TableHeaderProps): JSX.Element {
   }
 
   return (
-    <table className={`w-3/4 ${className}`}>
+    <table className={`w-3/4 shadow-2xl rounded-b-lg ${className}`}>
       <thead>
         <tr>
             {
                 headers.map((header: string, index: number) => (
-                    <TableHeader key={index}>
+                    <TableHeader
+                        key={index}
+                        className={`
+                            ${index === 0 ? ' rounded-tl-lg' : ''}
+                            ${index === headers.length - 1 ? 'rounded-tr-lg' : ''}
+                        `}
+                    >
                         {header}
                     </TableHeader>
                 ))
@@ -63,7 +67,7 @@ export default function Table ({ className }: TableHeaderProps): JSX.Element {
       <tbody>
         {
             errors.length > 0 &&
-            <tr className="text-center border border-violet-100">
+            <tr className="text-center">
               <td
                   className="py-3"
                   colSpan={7}
@@ -73,7 +77,7 @@ export default function Table ({ className }: TableHeaderProps): JSX.Element {
             </tr>
         }
         {
-          bets.map((bet: BetInterface, index: number) => <TableRow key={index} bet={bet} />)
+          bets.map((bet: BetInterface, index: number) => <TableRow key={index} bet={bet}/>)
         }
       </tbody>
     </table>

@@ -40,7 +40,7 @@ export function calculateNoBet (
     betInterface.betOne = truncate(bet2)
     betInterface.betTwo = truncate(bet1)
   }
-  console.log(betInterface)
+
   return betInterface
 }
 

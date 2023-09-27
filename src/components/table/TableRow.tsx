@@ -2,25 +2,25 @@ import React, { useState } from 'react'
 import { type BetInterface } from '../../interfaces/betInterface'
 import { formatToEuroCurrency } from '../../utils/Currency'
 import IconDownArrow from '../icons/IconDownArrow'
+import { type JSXElementPropsInterface } from '../../interfaces/JSXElementPropsInterface'
 
-interface TableRowProps {
+interface TableRowProps extends JSXElementPropsInterface {
   bet: BetInterface
 }
-export default function TableRow ({ bet }: TableRowProps): JSX.Element {
+export default function TableRow ({ bet, className }: TableRowProps): JSX.Element {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
       <>
-          <tr className="
+          <tr className={`
                 even:bg-slate-100
-                border border-violet-100
-                text-center"
+                text-center
+                ${className}
+              `}
           >
               <td className="w-4">
                   <button
-                      className={`
-                        p-3
-                      `}
+                      className="p-2 md:p-3"
                       onClick={() => { setIsExpanded(!isExpanded) }}
                   >
                       <span className={`

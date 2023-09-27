@@ -1,15 +1,14 @@
 import React from 'react'
+import { type JSXElementPropsInterface } from '../../interfaces/JSXElementPropsInterface'
 
-interface TableHeaderProps {
-  children: string
-}
-export default function TableHeader ({ children }: TableHeaderProps): JSX.Element {
+export default function TableHeader ({ children, className }: JSXElementPropsInterface): JSX.Element {
   return (
-    <th className="
+    <th className={`
         p-2
         bg-violet-100
-        whitespace-nowrap
-      "
+        sm:whitespace-nowrap
+        ${className}
+    `}
     >
         { children }
     </th>

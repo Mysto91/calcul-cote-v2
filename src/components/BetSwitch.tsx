@@ -1,8 +1,8 @@
 import React from 'react'
+import { type JSXElementPropsInterface } from '../interfaces/JSXElementPropsInterface'
 
-interface BetSwitchProps {
+interface BetSwitchProps extends JSXElementPropsInterface {
   id: string
-  children: string
   isActive: boolean
   setIsActive: (isActive: boolean) => void
 }
