@@ -76,7 +76,7 @@ function App (): JSX.Element {
                           setTextValue={setBetValue}
                           unit="€"
                       >
-                          Mise cote boostée
+                         { boostedBetEnabled ? ' Mise cote boostée' : 'Mise' }
                       </BetInput>
 
                       <BetInput
@@ -84,7 +84,7 @@ function App (): JSX.Element {
                           textValue={quotationOne}
                           setTextValue={setQuotationOne}
                       >
-                          Cote 1 boostée
+                          { boostedBetEnabled ? 'Cote 1 boostée' : 'Cote 1' }
                       </BetInput>
 
                       <BetInput

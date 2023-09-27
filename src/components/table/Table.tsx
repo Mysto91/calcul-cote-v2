@@ -10,22 +10,22 @@ interface TableHeaderProps {
   className: string
 }
 export default function Table ({ className }: TableHeaderProps): JSX.Element {
-  const headers: string[] = [
-    '',
-    'Pari',
-    'Cote',
-    'Mise 1',
-    'Mise 2',
-    'Gain',
-    'Gain net'
-  ]
-
   const {
     betValue,
     quotationOne,
     quotationTwo,
     boostedBetEnabled
   } = useBetStore()
+
+  const headers: string[] = [
+    '',
+    'Pari',
+    'Cote',
+    boostedBetEnabled ? 'Mise 1 boostée' : 'Mise 1',
+    'Mise 2',
+    'Gain',
+    'Gain net'
+  ]
 
   // probabilité dans un dropdown
 
