@@ -74,6 +74,7 @@ function App (): JSX.Element {
                           id={InputEnum.BET_VALUE}
                           textValue={betValue}
                           setTextValue={setBetValue}
+                          unit="€"
                       >
                           Mise cote boostée
                       </BetInput>

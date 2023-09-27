@@ -4,10 +4,11 @@ interface BetInputProps {
   id: string
   children: string
   textValue: any
+  unit?: string
   setTextValue: (newTextValue: any) => void
 }
 
-export default function BetInput ({ id, children, textValue, setTextValue }: BetInputProps): JSX.Element {
+export default function BetInput ({ id, children, textValue, setTextValue, unit }: BetInputProps): JSX.Element {
   const [inputIsFocused, setInputIsFocused] = useState<boolean>(false)
 
   function inputIsFocusedOrHasTextValue (): boolean {
@@ -48,10 +49,24 @@ export default function BetInput ({ id, children, textValue, setTextValue }: Bet
           type="text"
           name={`${id}-input`}
           value={textValue ?? ''}
+          maxLength={8}
           onFocus={() => { setInputIsFocused(true) }}
           onBlur={() => { setInputIsFocused(false) }}
           onChange={({ target }) => { setTextValue(target.value) }}
       />
+      {
+          // TODO Conditionner l'affichage sur l'absence d'erreur au niveau du champs en question
+          (textValue !== '' && textValue !== null) &&
+            <p className={`
+                absolute
+                mt-0.5
+                hidden lg:!block
+                ${textValue.length > 4 ? 'lg:right-1/4' : 'lg:right-1/3'}
+                `
+            }>
+              {unit}
+            </p>
+      }
     </div>
   )
 }
