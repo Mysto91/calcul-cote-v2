@@ -1,4 +1,5 @@
 import { type BetInterface } from '../interfaces/betInterface'
+import { truncate } from '../utils/truncate'
 
 // TODO refacto les params
 export function calculateNoBet (
@@ -27,19 +28,19 @@ export function calculateNoBet (
 
   const betInterface: BetInterface = {
     title,
-    betOne: trunc(bet1),
-    betTwo: trunc(bet2),
-    quotation: trunc(quotation),
-    profit: trunc(mise * quotation),
-    netProfit: trunc(mise * quotation - mise),
-    probability: trunc(probability < 1 ? probability : 1)
+    betOne: truncate(bet1),
+    betTwo: truncate(bet2),
+    quotation: truncate(quotation),
+    profit: truncate(mise * quotation),
+    netProfit: truncate(mise * quotation - mise),
+    probability: truncate(probability < 1 ? probability : 1)
   }
 
   if (reverse && !boosted) {
-    betInterface.betOne = trunc(bet2)
-    betInterface.betTwo = trunc(bet1)
+    betInterface.betOne = truncate(bet2)
+    betInterface.betTwo = truncate(bet1)
   }
-
+  console.log(betInterface)
   return betInterface
 }
 
@@ -65,15 +66,11 @@ export function calculateOneOrTwo (
 
   return {
     title,
-    betOne: trunc(bet1),
-    betTwo: trunc(bet2),
-    quotation: trunc(quotation),
-    profit: trunc(mise * quotation),
-    netProfit: trunc(mise * quotation - mise),
-    probability: trunc(probability < 1 ? probability : 1)
+    betOne: truncate(bet1),
+    betTwo: truncate(bet2),
+    quotation: truncate(quotation),
+    profit: truncate(mise * quotation),
+    netProfit: truncate(mise * quotation - mise),
+    probability: truncate(probability < 1 ? probability : 1)
   }
-}
-
-export function trunc (value: number, digit: number = 2): number {
-  return !isNaN(value) && value % 1 !== 0 ? Number(value.toFixed(digit)) : value
 }

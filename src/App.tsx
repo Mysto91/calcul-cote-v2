@@ -60,15 +60,15 @@ function App (): JSX.Element {
               }
           </div>
           <div className="
-        absolute top-1/2 -translate-y-1/2
-        w-full
-        flex items-center justify-center
-        font-mono"
+                absolute top-1/2 -translate-y-1/2
+                w-full
+                flex items-center justify-center
+                font-mono"
           >
               <div className="w-full">
                   <form className="
-                lg:flex lg:items-center lg:justify-center
-                space-y-4 lg:space-y-0 lg:space-x-4"
+                        lg:flex lg:items-center lg:justify-center
+                        space-y-4 lg:space-y-0 lg:space-x-4"
                   >
                       <BetInput
                           id={InputEnum.BET_VALUE}
