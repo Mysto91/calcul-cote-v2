@@ -14,6 +14,27 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit 
   function inputIsFocusedOrHasTextValue (): boolean {
     return inputIsFocused || (textValue !== '' && textValue !== null)
   }
+  function getUnitSpanClassWidth (): string {
+    const textValueLength = textValue.length
+
+    if (textValueLength === 8) {
+      return 'w-24'
+    }
+
+    if (textValueLength > 6) {
+      return 'w-20'
+    }
+
+    if (textValueLength > 4) {
+      return 'w-16'
+    }
+
+    if (textValueLength > 2) {
+      return 'w-14'
+    }
+
+    return 'w-12'
+  }
 
   return (
     <div className="
@@ -38,7 +59,7 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit 
           id={`${id}-input`}
           className={`
             relative
-            ${inputIsFocusedOrHasTextValue() ? 'z-1' : 'z-20'}
+            ${inputIsFocusedOrHasTextValue() ? 'z-10' : 'z-20'}
             px-1
             w-2/3 md:w-1/3 lg:w-full h-full
             rounded-md border border-violet-300 outline-violet-500
@@ -57,15 +78,13 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit 
       {
           // TODO Conditionner l'affichage sur l'absence d'erreur au niveau du champs en question
           (textValue !== '' && textValue !== null) &&
-            <p className={`
-                absolute
-                mt-0.5
-                hidden lg:!block
-                ${textValue.length > 4 ? 'lg:right-1/4' : 'lg:right-1/3'}
-                `
-            }>
-              {unit}
-            </p>
+            <div className="absolute flex">
+              <span className={`z-0 ${getUnitSpanClassWidth()} bg-transparent`}>
+              </span>
+              <p className="mt-0.5">
+                {unit}
+              </p>
+            </div>
       }
     </div>
   )
