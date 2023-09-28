@@ -6,6 +6,7 @@ import TableHeader from './TableHeader'
 import TableRow from './TableRow'
 import { useErrorsStore } from '../../stores/useErrorsStore'
 import { type JSXElementPropsInterface } from '../../interfaces/JSXElementPropsInterface'
+import { formatNumber } from '../../utils/formatNumber'
 
 export default function Table ({ className }: JSXElementPropsInterface): JSX.Element {
   const {
@@ -34,12 +35,12 @@ export default function Table ({ className }: JSXElementPropsInterface): JSX.Ele
   if (errors.length === 0) {
     // TODO voir s'il y a mieux pour gérer les nombres
     // La validation est asynchrone et du coup on se retrouve à passer ici lors de l'init
-    const bet = Number(betValue)
-    const q1 = Number(quotationOne)
-    const q2 = Number(quotationTwo)
+    const bet = formatNumber(betValue)
+    const q1 = formatNumber(quotationOne)
+    const q2 = formatNumber(quotationTwo)
 
     bets = [
-      calculateNoBet('1r2', bet, q1, quotationTwo as number, boostedBetEnabled),
+      calculateNoBet('1r2', bet, q1, q2, boostedBetEnabled),
       calculateNoBet('2r1', bet, q2, q1, boostedBetEnabled, true),
       calculateOneOrTwo('1ou2', bet, q1, q2, boostedBetEnabled)
     ]
