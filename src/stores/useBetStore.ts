@@ -15,7 +15,7 @@ interface BetStoreInterface {
 
 export const useBetStore = create<BetStoreInterface>((set) => ({
   betValue: 10,
-  quotationOne: null,
+  quotationOne: 2,
   quotationTwo: null,
   boostedBetEnabled: true,
   isLoading: true,

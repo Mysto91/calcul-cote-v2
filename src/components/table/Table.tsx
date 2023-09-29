@@ -27,8 +27,6 @@ export default function Table ({ className }: JSXElementPropsInterface): JSX.Ele
     'Gain net'
   ]
 
-  // probabilité dans un dropdown
-
   const { errors } = useErrorsStore()
 
   let bets: BetInterface[] = []
