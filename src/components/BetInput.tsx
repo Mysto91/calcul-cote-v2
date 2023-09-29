@@ -62,7 +62,8 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit 
             ${inputIsFocusedOrHasTextValue() ? 'z-10' : 'z-20'}
             px-1
             w-2/3 md:w-1/3 lg:w-full h-full
-            rounded-md border-2 border-violet-300 focus:ring-2 focus:ring-violet-300
+            rounded-md border-2 border-violet-300 focus-visible:border-violet-500
+            outline-none focus-visible:ring-violet-300 focus:ring-2
             bg-transparent
             text-base text-center
             caret-violet-500

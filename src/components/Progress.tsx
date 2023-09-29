@@ -15,7 +15,7 @@ export default function Progress ({ value }: ProgressProps): JSX.Element {
           "
       >
           <div
-              className={'p-0.5 h-full rounded-full bg-violet-500 text-center text-sm text-white'}
+              className={'p-px h-full rounded-full bg-violet-500 text-center text-sm text-white'}
               style={{ width: `${value}%` }}
           >
               { value }%
