@@ -47,7 +47,7 @@ export default function Table ({ className }: JSXElementPropsInterface): JSX.Ele
   }
 
   return (
-    <table className={`w-3/4 shadow-2xl rounded-b-lg ${className}`}>
+    <table className={`w-3/4 max-w-7xl shadow-2xl rounded-b-lg ${className}`}>
       <thead>
         <tr>
             {
