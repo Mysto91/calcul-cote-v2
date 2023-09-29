@@ -74,6 +74,7 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit 
           onFocus={() => { setInputIsFocused(true) }}
           onBlur={() => { setInputIsFocused(false) }}
           onChange={({ target }) => { setTextValue(target.value) }}
+          autoComplete="off"
       />
       {
           // TODO Conditionner l'affichage sur l'absence d'erreur au niveau du champs en question

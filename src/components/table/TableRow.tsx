@@ -4,6 +4,7 @@ import { formatToEuroCurrency } from '../../utils/Currency'
 import IconDownArrow from '../icons/IconDownArrow'
 import { type JSXElementPropsInterface } from '../../interfaces/JSXElementPropsInterface'
 import TableRowExpansion from './TableRowExpansion'
+import Progress from '../Progress'
 
 interface TableRowProps extends JSXElementPropsInterface {
   bet: BetInterface
@@ -60,7 +61,10 @@ export default function TableRow ({ bet, className }: TableRowProps): JSX.Elemen
               </td>
           </tr>
           <TableRowExpansion isExpanded={isExpanded}>
-              <div>coucou</div>
+              <div className="p-3 space-y-2">
+                  <p>Probabilité</p>
+                  <Progress value={bet.probability * 100} />
+              </div>
           </TableRowExpansion>
       </>
   )
