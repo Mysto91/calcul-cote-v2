@@ -1,4 +1,4 @@
 export interface JSXElementPropsInterface {
   className?: string
-  children?: string
+  children?: string | JSX.Element
 }

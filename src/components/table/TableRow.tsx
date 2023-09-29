@@ -3,6 +3,7 @@ import { type BetInterface } from '../../interfaces/betInterface'
 import { formatToEuroCurrency } from '../../utils/Currency'
 import IconDownArrow from '../icons/IconDownArrow'
 import { type JSXElementPropsInterface } from '../../interfaces/JSXElementPropsInterface'
+import TableRowExpansion from './TableRowExpansion'
 
 interface TableRowProps extends JSXElementPropsInterface {
   bet: BetInterface
@@ -58,16 +59,9 @@ export default function TableRow ({ bet, className }: TableRowProps): JSX.Elemen
                   {bet.netProfit > 0 ? '+' : ''}{formatToEuroCurrency(bet.netProfit)}
               </td>
           </tr>
-          {
-              isExpanded && (
-                  <tr className="border border-violet-100">
-                      <td colSpan={6}>
-                          Contenu déroulé ici
-                      </td>
-                  </tr>
-              )
-          }
+          <TableRowExpansion isExpanded={isExpanded}>
+              <div>coucou</div>
+          </TableRowExpansion>
       </>
-
   )
 }
