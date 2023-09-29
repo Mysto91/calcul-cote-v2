@@ -18,7 +18,8 @@ function App (): JSX.Element {
     quotationOne,
     quotationTwo,
     betValue,
-    boostedBetEnabled
+    boostedBetEnabled,
+    setIsLoading
   } = useBetStore()
 
   const {
@@ -36,6 +37,8 @@ function App (): JSX.Element {
   }
 
   useEffect(() => {
+    setIsLoading(true)
+
     void validateSchema(
       {
         quotationOne,
@@ -45,10 +48,12 @@ function App (): JSX.Element {
     ).then((error) => {
       if (error === null) {
         setErrors([])
+        setIsLoading(false)
         return
       }
 
       setErrors(error.errors)
+      setIsLoading(false)
     })
   }, [quotationOne, quotationTwo, betValue])
 

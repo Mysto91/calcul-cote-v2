@@ -13,7 +13,8 @@ export default function Table ({ className }: JSXElementPropsInterface): JSX.Ele
     betValue,
     quotationOne,
     quotationTwo,
-    boostedBetEnabled
+    boostedBetEnabled,
+    isLoading
   } = useBetStore()
 
   const headers: string[] = [
@@ -32,9 +33,8 @@ export default function Table ({ className }: JSXElementPropsInterface): JSX.Ele
 
   let bets: BetInterface[] = []
 
-  if (errors.length === 0) {
+  if (!isLoading && errors.length === 0) {
     // TODO voir s'il y a mieux pour gérer les nombres
-    // La validation est asynchrone et du coup on se retrouve à passer ici lors de l'init
     const bet = formatNumber(betValue)
     const q1 = formatNumber(quotationOne)
     const q2 = formatNumber(quotationTwo)
