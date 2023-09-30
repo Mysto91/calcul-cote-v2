@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './App.css'
 import Table from './components/table/Table'
 import BetInput from './components/BetInput'
@@ -8,8 +8,15 @@ import { useBetStore } from './stores/useBetStore'
 import inputSchema, { type BetSchemaInterface } from './validators/schemas/inputSchema'
 import { useErrorsStore } from './stores/useErrorsStore'
 import type * as yup from 'yup'
+import ScreenshotButton from './components/ScreenshotButton'
+import IconCamera from './components/icons/IconCamera'
+import Modal from './components/Modal'
 
 function App (): JSX.Element {
+  const screenshotRef = useRef(null)
+  const [screenshotUrl, setScreenshotUrl] = useState<string | null>(null)
+  const [screenshotModalIsOpen, setScreenshotModalIsOpen] = useState<boolean>(false)
+
   const {
     setBetValue,
     setQuotationOne,
@@ -64,14 +71,34 @@ function App (): JSX.Element {
                    errors?.map((error: string, index: number) => <p key={index}>{ error }</p>)
               }
           </div>
-          <div className="
+          <div
+              ref={screenshotRef}
+              className="
                 absolute top-1/2 -translate-y-1/2
+                py-5
                 w-full
                 flex items-center justify-center
                 font-mono"
           >
               <div className="w-full">
+                  <div className="flex justify-center">
+                      <ScreenshotButton
+                          screenshotRef={screenshotRef}
+                          setScreenshotUrl={setScreenshotUrl}
+                          setScreenshotModalIsOpen={setScreenshotModalIsOpen}
+                      >
+                          <IconCamera className="fill-white" />
+                      </ScreenshotButton>
+
+                      {
+                          screenshotUrl !== null && screenshotModalIsOpen &&
+                          <Modal setIsOpen={setScreenshotModalIsOpen}>
+                              <img src={screenshotUrl} alt="screenshot"/>
+                          </Modal>
+                      }
+                  </div>
                   <form className="
+                        mt-5
                         lg:flex lg:items-center lg:justify-center
                         space-y-4 lg:space-y-0 lg:space-x-4"
                   >
