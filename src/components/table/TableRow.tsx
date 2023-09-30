@@ -19,6 +19,7 @@ export default function TableRow ({ bet, className }: TableRowProps): JSX.Elemen
           <tr className={`
                 even:bg-slate-100
                 text-center
+                whitespace-nowrap
                 ${className}
               `}
           >
