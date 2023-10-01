@@ -3,6 +3,7 @@ import React, { type ReactElement } from 'react'
 interface IconDownArrowProps {
   className?: string
 }
+
 export default function IconDownArrow ({ className }: IconDownArrowProps): ReactElement {
   return (
         <svg

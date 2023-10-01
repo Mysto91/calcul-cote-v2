@@ -8,6 +8,7 @@ import html2canvas from 'html2canvas'
 interface ScreenshotProps extends ReactElementPropsInterface {
   screenshotRef: RefObject<HTMLElement>
 }
+
 export default function Screenshot ({ screenshotRef, className }: ScreenshotProps): ReactElement {
   const [screenshotUrl, setScreenshotUrl] = useState<string | null>(null)
   const [isOpen, setIsOpen] = useState<boolean>(false)

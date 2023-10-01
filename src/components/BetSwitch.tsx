@@ -6,6 +6,7 @@ interface BetSwitchProps extends ReactElementPropsInterface {
   isActive: boolean
   setIsActive: (isActive: boolean) => void
 }
+
 export default function BetSwitch ({ id, isActive, setIsActive, children }: BetSwitchProps): ReactElement {
   return (
     <div

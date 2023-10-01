@@ -1,5 +1,6 @@
 import React, { type ReactElement } from 'react'
 import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
+
 export default function IconClose ({ className }: ReactElementPropsInterface): ReactElement {
   return (
         <svg

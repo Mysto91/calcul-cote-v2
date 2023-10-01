@@ -9,6 +9,7 @@ import Progress from '../Progress'
 interface TableRowProps extends ReactElementPropsInterface {
   bet: BetInterface
 }
+
 export default function TableRow ({ bet, className }: TableRowProps): ReactElement {
   const [isExpanded, setIsExpanded] = useState(false)
 
