@@ -12,8 +12,6 @@ interface TableRowProps extends JSXElementPropsInterface {
 export default function TableRow ({ bet, className }: TableRowProps): JSX.Element {
   const [isExpanded, setIsExpanded] = useState(false)
 
-  // TODO ajouter la probabilité dans le expanded
-
   return (
       <>
           <tr className={`

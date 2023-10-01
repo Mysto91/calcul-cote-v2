@@ -1,6 +1,6 @@
 import React, { type RefObject } from 'react'
 import html2canvas from 'html2canvas'
-import { type JSXElementPropsInterface } from '../interfaces/JSXElementPropsInterface'
+import { type JSXElementPropsInterface } from '../../interfaces/JSXElementPropsInterface'
 
 interface ScreenshotProps extends JSXElementPropsInterface {
   screenshotRef: RefObject<HTMLElement>
