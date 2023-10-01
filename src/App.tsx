@@ -77,7 +77,14 @@ function App (): ReactElement {
                 font-mono"
           >
               <div className="w-full">
-                  <Screenshot screenshotRef={betContainerRef} />
+                  <Screenshot
+                      className="
+                        hidden
+                        md:flex md:justify-center
+                        exclude-from-screenshot
+                      "
+                      screenshotRef={betContainerRef}
+                  />
                   <form className="
                         mt-5
                         lg:flex lg:items-center lg:justify-center
@@ -122,6 +129,15 @@ function App (): ReactElement {
                   </div>
               </div>
           </div>
+          <Screenshot
+              className={`
+                fixed bottom-0
+                mb-5
+                w-full
+                flex md:hidden justify-center
+              `}
+              screenshotRef={betContainerRef}
+          />
       </>
   )
 }
