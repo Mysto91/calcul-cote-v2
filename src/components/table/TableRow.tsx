@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import React, { type ReactElement, useState } from 'react'
 import { type BetInterface } from '../../interfaces/betInterface'
 import { formatToEuroCurrency } from '../../utils/Currency'
 import IconDownArrow from '../icons/IconDownArrow'
-import { type JSXElementPropsInterface } from '../../interfaces/JSXElementPropsInterface'
+import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
 import TableRowExpansion from './TableRowExpansion'
 import Progress from '../Progress'
 
-interface TableRowProps extends JSXElementPropsInterface {
+interface TableRowProps extends ReactElementPropsInterface {
   bet: BetInterface
 }
-export default function TableRow ({ bet, className }: TableRowProps): JSX.Element {
+export default function TableRow ({ bet, className }: TableRowProps): ReactElement {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (

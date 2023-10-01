@@ -1,11 +1,11 @@
-import React from 'react'
-import { type JSXElementPropsInterface } from '../interfaces/JSXElementPropsInterface'
+import React, { type ReactElement } from 'react'
+import { type ReactElementPropsInterface } from '../interfaces/ReactElementPropsInterface'
 import IconClose from './icons/IconClose'
 
-interface ModalProps extends JSXElementPropsInterface {
+interface ModalProps extends ReactElementPropsInterface {
   setIsOpen: (isOpen: boolean) => void
 }
-export default function Modal ({ children, className, setIsOpen }: ModalProps): JSX.Element {
+export default function Modal ({ children, className, setIsOpen }: ModalProps): ReactElement {
   return (
         <div className={`
                 absolute z-50 mx-3

@@ -1,6 +1,6 @@
-import React from 'react'
-import { type JSXElementPropsInterface } from '../../interfaces/JSXElementPropsInterface'
-export default function IconClose ({ className }: JSXElementPropsInterface): JSX.Element {
+import React, { type ReactElement } from 'react'
+import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
+export default function IconClose ({ className }: ReactElementPropsInterface): ReactElement {
   return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

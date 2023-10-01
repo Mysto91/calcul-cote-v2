@@ -1,12 +1,12 @@
-import React from 'react'
-import { type JSXElementPropsInterface } from '../interfaces/JSXElementPropsInterface'
+import React, { type ReactElement } from 'react'
+import { type ReactElementPropsInterface } from '../interfaces/ReactElementPropsInterface'
 
-interface BetSwitchProps extends JSXElementPropsInterface {
+interface BetSwitchProps extends ReactElementPropsInterface {
   id: string
   isActive: boolean
   setIsActive: (isActive: boolean) => void
 }
-export default function BetSwitch ({ id, isActive, setIsActive, children }: BetSwitchProps): JSX.Element {
+export default function BetSwitch ({ id, isActive, setIsActive, children }: BetSwitchProps): ReactElement {
   return (
     <div
         id={id}

@@ -1,11 +1,11 @@
-import React from 'react'
-import { type JSXElementPropsInterface } from '../../interfaces/JSXElementPropsInterface'
+import React, { type ReactElement } from 'react'
+import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
 
-interface TableRowExpansionProps extends JSXElementPropsInterface {
+interface TableRowExpansionProps extends ReactElementPropsInterface {
   isExpanded: boolean
 }
 
-export default function TableRowExpansion ({ isExpanded, children }: TableRowExpansionProps): JSX.Element {
+export default function TableRowExpansion ({ isExpanded, children }: TableRowExpansionProps): ReactElement {
   if (!isExpanded) {
     return (<></>)
   }

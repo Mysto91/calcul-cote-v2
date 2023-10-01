@@ -1,11 +1,11 @@
-import React from 'react'
-import { type JSXElementPropsInterface } from '../interfaces/JSXElementPropsInterface'
+import React, { type ReactElement } from 'react'
+import { type ReactElementPropsInterface } from '../interfaces/ReactElementPropsInterface'
 
-interface ProgressProps extends JSXElementPropsInterface {
+interface ProgressProps extends ReactElementPropsInterface {
   value: number
 }
 
-export default function Progress ({ value }: ProgressProps): JSX.Element {
+export default function Progress ({ value }: ProgressProps): ReactElement {
   return (
       <div
           className="

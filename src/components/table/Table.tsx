@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { type ReactElement } from 'react'
 import { type BetInterface } from '../../interfaces/betInterface'
 import { calculateNoBet, calculateOneOrTwo } from '../../services/betCalculate'
 import { useBetStore } from '../../stores/useBetStore'
 import TableHeader from './TableHeader'
 import TableRow from './TableRow'
 import { useErrorsStore } from '../../stores/useErrorsStore'
-import { type JSXElementPropsInterface } from '../../interfaces/JSXElementPropsInterface'
+import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
 import { formatNumber } from '../../utils/formatNumber'
 
-export default function Table ({ className }: JSXElementPropsInterface): JSX.Element {
+export default function Table ({ className }: ReactElementPropsInterface): ReactElement {
   const {
     betValue,
     quotationOne,

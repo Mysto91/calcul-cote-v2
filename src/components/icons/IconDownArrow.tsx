@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { type ReactElement } from 'react'
 
 interface IconDownArrowProps {
   className?: string
 }
-export default function IconDownArrow ({ className }: IconDownArrowProps): JSX.Element {
+export default function IconDownArrow ({ className }: IconDownArrowProps): ReactElement {
   return (
         <svg
             className={`h-4 w-4 ${className}`}

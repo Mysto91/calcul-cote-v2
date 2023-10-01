@@ -1,13 +1,20 @@
-import React, { type RefObject } from 'react'
+import React, { type ReactElement, type RefObject } from 'react'
 import html2canvas from 'html2canvas'
-import { type JSXElementPropsInterface } from '../../interfaces/JSXElementPropsInterface'
+import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
 
-interface ScreenshotProps extends JSXElementPropsInterface {
+interface ScreenshotProps extends ReactElementPropsInterface {
   screenshotRef: RefObject<HTMLElement>
   setScreenshotUrl: (newScreenshotUrl: string | null) => void
   setScreenshotModalIsOpen: (isOpen: boolean) => void
 }
-export default function ScreenshotButton ({ screenshotRef, setScreenshotUrl, setScreenshotModalIsOpen, children, className }: ScreenshotProps): JSX.Element {
+export default function ScreenshotButton (
+  {
+    screenshotRef,
+    setScreenshotUrl,
+    setScreenshotModalIsOpen,
+    children,
+    className
+  }: ScreenshotProps): ReactElement {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   const captureScreen = () => {
     const element = screenshotRef.current

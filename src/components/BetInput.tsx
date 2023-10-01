@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
-import { type JSXElementPropsInterface } from '../interfaces/JSXElementPropsInterface'
+import React, { type ReactElement, useState } from 'react'
+import { type ReactElementPropsInterface } from '../interfaces/ReactElementPropsInterface'
 
-interface BetInputProps extends JSXElementPropsInterface {
+interface BetInputProps extends ReactElementPropsInterface {
   id: string
   textValue: any
   unit?: string
   setTextValue: (newTextValue: any) => void
 }
 
-export default function BetInput ({ id, children, textValue, setTextValue, unit }: BetInputProps): JSX.Element {
+export default function BetInput ({ id, children, textValue, setTextValue, unit }: BetInputProps): ReactElement {
   const [inputIsFocused, setInputIsFocused] = useState<boolean>(false)
 
   function inputIsFocusedOrHasTextValue (): boolean {

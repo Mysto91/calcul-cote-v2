@@ -1,13 +1,13 @@
 import ScreenshotButton from './ScreenshotButton'
 import IconCamera from '../icons/IconCamera'
 import Modal from '../Modal'
-import React, { type RefObject, useState } from 'react'
-import { type JSXElementPropsInterface } from '../../interfaces/JSXElementPropsInterface'
+import React, { type ReactElement, type RefObject, useState } from 'react'
+import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
 
-interface ScreenshotProps extends JSXElementPropsInterface {
+interface ScreenshotProps extends ReactElementPropsInterface {
   screenshotRef: RefObject<HTMLElement>
 }
-export default function Screenshot ({ screenshotRef }: ScreenshotProps): JSX.Element {
+export default function Screenshot ({ screenshotRef }: ScreenshotProps): ReactElement {
   const [screenshotUrl, setScreenshotUrl] = useState<string | null>(null)
   const [screenshotModalIsOpen, setScreenshotModalIsOpen] = useState<boolean>(false)
 
