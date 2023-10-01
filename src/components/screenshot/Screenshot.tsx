@@ -41,10 +41,10 @@ export default function Screenshot ({ screenshotRef, className }: ScreenshotProp
         <div className={`${className}`}>
             <button
                 className={`
-                  py-2 px-4
-                  bg-violet-300 hover:bg-violet-500
+                  py-3 px-6 md:py-2 md:px-4
+                  bg-violet-500 hover:bg-violet-600
                   shadow-2xl
-                  rounded-md
+                  rounded-full
                   transition ease-in-out duration-200
                   `
                 }

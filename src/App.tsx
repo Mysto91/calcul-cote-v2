@@ -86,7 +86,7 @@ function App (): ReactElement {
                       screenshotRef={betContainerRef}
                   />
                   <form className="
-                        mt-5
+                        md:mt-6
                         lg:flex lg:items-center lg:justify-center
                         space-y-4 lg:space-y-0 lg:space-x-4"
                   >
