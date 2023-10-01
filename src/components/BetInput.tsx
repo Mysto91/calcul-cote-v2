@@ -1,8 +1,12 @@
 import React, { type ReactElement, useState } from 'react'
 import { type ReactElementPropsInterface } from '../interfaces/ReactElementPropsInterface'
+import { useErrorsStore } from '../stores/useErrorsStore'
+import { hasInputError } from '../services/hasInputError'
+import { type InputEnum } from '../enums/inputEnums'
+import IconCheck from './icons/IconCheck'
 
 interface BetInputProps extends ReactElementPropsInterface {
-  id: string
+  id: InputEnum
   textValue: any
   unit?: string
   setTextValue: (newTextValue: any) => void
@@ -36,6 +40,8 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit 
     return 'w-12'
   }
 
+  const { errors } = useErrorsStore()
+
   return (
     <div className="
           relative z-1
@@ -48,12 +54,14 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit 
           className={`
             absolute z-20
             px-2
+            flex
             transition ease-in-out
             ${inputIsFocusedOrHasTextValue() ? '-translate-y-5 bg-white text-xs text-violet-500' : 'text-base'}
           `}
           htmlFor={`${id}-input`}
       >
           {children}
+          { !hasInputError(errors, id) && <IconCheck className="ml-2 fill-green-500" /> }
       </label>
       <input
           id={`${id}-input`}

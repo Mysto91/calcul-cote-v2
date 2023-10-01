@@ -3,12 +3,13 @@ import './App.css'
 import Table from './components/table/Table'
 import BetInput from './components/BetInput'
 import BetSwitch from './components/BetSwitch'
-import { InputEnum } from './components/enums/inputEnums'
+import { InputEnum } from './enums/inputEnums'
 import { useBetStore } from './stores/useBetStore'
 import inputSchema, { type BetSchemaInterface } from './validators/schemas/inputSchema'
 import { useErrorsStore } from './stores/useErrorsStore'
 import type * as yup from 'yup'
 import Screenshot from './components/screenshot/Screenshot'
+import { type InputError } from './interfaces/errorInterface'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -55,7 +56,14 @@ function App (): ReactElement {
         return
       }
 
-      setErrors(error.errors)
+      const inputErrors = error.inner.map((validationError): InputError => (
+        {
+          inputId: validationError.params?.path as InputEnum,
+          message: validationError.message
+        }
+      ))
+
+      setErrors(inputErrors)
       setIsLoading(false)
     })
   }, [quotationOne, quotationTwo, betValue])
@@ -64,7 +72,7 @@ function App (): ReactElement {
       <>
           <div>
               {
-                   errors?.map((error: string, index: number) => <p key={index}>{ error }</p>)
+                   errors?.map((error: InputError, index: number) => <p key={index}>{ error.inputId } : { error.message }</p>)
               }
           </div>
           <div
