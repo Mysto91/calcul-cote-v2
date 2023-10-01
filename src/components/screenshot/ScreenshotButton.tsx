@@ -15,8 +15,7 @@ export default function ScreenshotButton (
     children,
     className
   }: ScreenshotProps): ReactElement {
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const captureScreen = () => {
+  const captureScreen = (): void => {
     const element = screenshotRef.current
 
     if (element !== null) {
