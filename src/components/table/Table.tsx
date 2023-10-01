@@ -45,7 +45,7 @@ export default function Table ({ className }: ReactElementPropsInterface): React
   }
 
   return (
-    <table className={`w-3/4 max-w-7xl shadow-2xl rounded-b-lg ${className}`}>
+    <table className={`mx-2 md:mx-auto md:w-3/4 max-w-7xl shadow-2xl rounded-b-lg ${className}`}>
       <thead>
         <tr>
             {

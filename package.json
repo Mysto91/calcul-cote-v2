@@ -47,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-transform-private-property-in-object": "^7.22.11",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "eslint": "^8.0.1",
     "eslint-config-standard-with-typescript": "^39.1.0",

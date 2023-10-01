@@ -18,7 +18,7 @@ export default function TableRow ({ bet, className }: TableRowProps): ReactEleme
           <tr className={`
                 even:bg-slate-100
                 text-center
-                whitespace-nowrap
+                md:whitespace-nowrap
                 ${className}
               `}
           >
