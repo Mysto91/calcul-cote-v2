@@ -1,6 +1,6 @@
 import React, { type ReactElement, useState } from 'react'
 import { type BetInterface } from '../../interfaces/betInterface'
-import { formatToEuroCurrency } from '../../utils/Currency'
+import { formatToEuroCurrency } from '../../utils/currency'
 import IconDownArrow from '../icons/IconDownArrow'
 import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
 import TableRowExpansion from './TableRowExpansion'
@@ -45,7 +45,7 @@ export default function TableRow ({ bet, className }: TableRowProps): ReactEleme
                   {bet.title}
               </td>
               <td>
-                  {bet.quotation}
+                  {bet.quotation.toFixed(2)}
               </td>
               <td>
                   {formatToEuroCurrency(bet.betOne)}
