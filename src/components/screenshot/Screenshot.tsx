@@ -64,6 +64,7 @@ export default function Screenshot ({ screenshotRef, className }: ScreenshotProp
                         rounded-md
                         border-8 border-violet-300
                     `}
+                    overlayClassName="flex justify-center"
                 >
                     <div className="flex justify-end bg-white">
                         <button
