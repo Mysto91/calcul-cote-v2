@@ -4,6 +4,7 @@ import React, { type ReactElement, type RefObject, useState } from 'react'
 import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
 import IconClose from '../icons/IconClose'
 import html2canvas from 'html2canvas'
+import { EXCLUDE_FROM_SCREENSHOT } from '../constants/screenshotConstants'
 
 interface ScreenshotProps extends ReactElementPropsInterface {
   screenshotRef: RefObject<HTMLElement>
@@ -19,7 +20,7 @@ export default function Screenshot ({ screenshotRef, className }: ScreenshotProp
     if (element !== null) {
       void (async () => {
         const options: any = {
-          ignoreElements: (element: any) => element.classList.contains('exclude-from-screenshot')
+          ignoreElements: (element: any) => element.classList.contains(EXCLUDE_FROM_SCREENSHOT)
         }
 
         const canvas = await html2canvas(element, options)

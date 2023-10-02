@@ -10,6 +10,7 @@ import { useErrorsStore } from './stores/useErrorsStore'
 import type * as yup from 'yup'
 import Screenshot from './components/screenshot/Screenshot'
 import { type InputError } from './interfaces/errorInterface'
+import { EXCLUDE_FROM_SCREENSHOT } from './components/constants/screenshotConstants'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -86,11 +87,11 @@ function App (): ReactElement {
           >
               <div className="w-full">
                   <Screenshot
-                      className="
+                      className={`
                         hidden
                         md:flex md:justify-center
-                        exclude-from-screenshot
-                      "
+                        ${EXCLUDE_FROM_SCREENSHOT}
+                      `}
                       screenshotRef={betContainerRef}
                   />
                   <form className="
