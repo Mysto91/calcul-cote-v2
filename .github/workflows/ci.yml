@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - 'master'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run Jest tests
+        run: yarn test:nowatch
+
+      - name: Publish test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage
+          path: ./coverage
+
+      - name: Check error
+        if: failure()
+        run: exit 1
+
+      - name: Deploy to Firebase
+        if: success() && github.ref == 'refs/heads/master'
+        env:
+          FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+        run: |
+          yarn global add firebase-tools
+          yarn build
+          echo "$FIREBASE_SERVICE_ACCOUNT_KEY" > service-account-key.json
+          export GOOGLE_APPLICATION_CREDENTIALS="$GITHUB_WORKSPACE/service-account-key.json"
+          firebase deploy --only hosting
