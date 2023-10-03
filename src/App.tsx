@@ -1,4 +1,4 @@
-import React, { type ReactElement, useEffect, useRef } from 'react'
+import React, { type ReactElement, useEffect, useRef, useState } from 'react'
 import './App.css'
 import Table from './components/table/Table'
 import BetInput from './components/BetInput'
@@ -8,9 +8,11 @@ import { useBetStore } from './stores/useBetStore'
 import inputSchema, { type BetSchemaInterface } from './validators/schemas/inputSchema'
 import { useErrorsStore } from './stores/useErrorsStore'
 import type * as yup from 'yup'
-import Screenshot from './components/screenshot/Screenshot'
 import { type InputError } from './interfaces/errorInterface'
-import { EXCLUDE_FROM_SCREENSHOT } from './components/constants/screenshotConstants'
+import ShareButton from './components/ShareButton'
+import { useScreenshot } from './hooks/useScreenshot'
+import { dataURLtoBlob } from './utils/dataURLtoBlob'
+import { getFirebaseBlob, storeImage } from './services/useFirebase'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -69,13 +71,65 @@ function App (): ReactElement {
     })
   }, [quotationOne, quotationTwo, betValue])
 
+  const {
+    screenshotUrl,
+    setScreenshotUrl,
+    captureScreenshot
+  } = useScreenshot(betContainerRef)
+
+  const [screenshotInProgress, setScreenshotInProgress] = useState<boolean>(false)
+
+  async function shareScreenshot (): Promise<void> {
+    try {
+      if (screenshotUrl === null) {
+        return
+      }
+
+      const image = dataURLtoBlob(screenshotUrl)
+
+      const fileName = `betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`
+
+      await storeImage(image, fileName)
+
+      const imageBlob = await getFirebaseBlob(fileName)
+
+      if (imageBlob === null) {
+        return
+      }
+
+      if (navigator.share !== undefined) {
+        await navigator.share({
+          files: [
+            new File([imageBlob], fileName)
+          ]
+        })
+      } else {
+        // Copier dans le clipboard
+        await navigator.clipboard.write([
+          new ClipboardItem({ 'image/png': imageBlob })
+        ])
+
+        console.log('Image copiée dans le clipboard!')
+      }
+    } catch (error) {
+      console.error('Erreur lors du partage :', error)
+    }
+
+    setScreenshotUrl(null)
+    setScreenshotInProgress(false)
+  }
+
+  // TODO Ajouter un loader
+  useEffect(() => { void shareScreenshot() }, [screenshotUrl])
+
+  function handleShareButtonClick (): void {
+    setScreenshotInProgress(true)
+    void captureScreenshot()
+  }
+
   return (
       <>
-          <div>
-              {
-                   errors?.map((error: InputError, index: number) => <p key={index}>{ error.inputId } : { error.message }</p>)
-              }
-          </div>
+          { /* TODO ajouter un flash message pour indiquer que l'image a bien été ajoutée au clipboard */ }
           <div
               ref={betContainerRef}
               className="
@@ -86,14 +140,13 @@ function App (): ReactElement {
                 font-mono"
           >
               <div className="w-full">
-                  <Screenshot
-                      className={`
-                        hidden
-                        md:flex md:justify-center
-                        ${EXCLUDE_FROM_SCREENSHOT}
-                      `}
-                      screenshotRef={betContainerRef}
-                  />
+                  <div className="hidden md:flex md:justify-center">
+                      <ShareButton
+                          disabled={errors.length > 0}
+                          onClick={handleShareButtonClick}
+                          isLoading={screenshotInProgress}
+                      />
+                  </div>
                   <form className="
                         md:mt-6
                         lg:flex lg:items-center lg:justify-center
@@ -138,15 +191,19 @@ function App (): ReactElement {
                   </div>
               </div>
           </div>
-          <Screenshot
-              className={`
+          <div className={`
                 fixed bottom-0
                 mb-5
                 w-full
                 flex md:hidden justify-center
               `}
-              screenshotRef={betContainerRef}
-          />
+          >
+              <ShareButton
+                  disabled={errors.length > 0}
+                  onClick={handleShareButtonClick}
+                  isLoading={screenshotInProgress}
+              />
+          </div>
       </>
   )
 }
