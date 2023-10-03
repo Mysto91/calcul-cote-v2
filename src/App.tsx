@@ -87,6 +87,7 @@ function App (): ReactElement {
       const imageUrl = window.URL.createObjectURL(blob)
 
       console.log(imageUrl)
+      // TODO Stocker l'image sur firebase ou créer un fichier dans public
 
       await navigator.share({
         title: 'screenshot',
