@@ -166,6 +166,15 @@ function App (): ReactElement {
                   </div>
               </div>
           </div>
+          <div className={`
+                fixed bottom-0
+                mb-5
+                w-full
+                flex md:hidden justify-center
+              `}
+          >
+              <ShareButton onClick={() => { void captureScreenshot() }}/>
+          </div>
       </>
   )
 }
