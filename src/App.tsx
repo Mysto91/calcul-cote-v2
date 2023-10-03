@@ -8,9 +8,10 @@ import { useBetStore } from './stores/useBetStore'
 import inputSchema, { type BetSchemaInterface } from './validators/schemas/inputSchema'
 import { useErrorsStore } from './stores/useErrorsStore'
 import type * as yup from 'yup'
-import Screenshot from './components/screenshot/Screenshot'
 import { type InputError } from './interfaces/errorInterface'
-import { EXCLUDE_FROM_SCREENSHOT } from './components/constants/screenshotConstants'
+import ShareButton from './components/ShareButton'
+import { useScreenshot } from './components/hooks/useScreenshot'
+import { dataURLtoBlob } from './utils/dataURLtoBlob'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -69,6 +70,38 @@ function App (): ReactElement {
     })
   }, [quotationOne, quotationTwo, betValue])
 
+  const {
+    screenshotUrl,
+    setScreenshotUrl,
+    captureScreenshot
+  } = useScreenshot(betContainerRef)
+
+  async function shareScreenshot (): Promise<void> {
+    try {
+      if (screenshotUrl === null) {
+        return
+      }
+
+      const blob = dataURLtoBlob(screenshotUrl)
+
+      const imageUrl = window.URL.createObjectURL(blob)
+
+      console.log(imageUrl)
+
+      await navigator.share({
+        title: 'screenshot',
+        text: 'screenshot',
+        url: 'https://www.garonapromotion.fr/wp-content/uploads/sites/4/2017/12/Image-test-1_large.jpg'
+      })
+    } catch (error) {
+      console.error('Erreur lors du partage :', error)
+    }
+
+    setScreenshotUrl(null)
+  }
+
+  useEffect(() => { void shareScreenshot() }, [screenshotUrl])
+
   return (
       <>
           <div>
@@ -86,14 +119,9 @@ function App (): ReactElement {
                 font-mono"
           >
               <div className="w-full">
-                  <Screenshot
-                      className={`
-                        hidden
-                        md:flex md:justify-center
-                        ${EXCLUDE_FROM_SCREENSHOT}
-                      `}
-                      screenshotRef={betContainerRef}
-                  />
+                  <div className="hidden md:flex md:justify-center">
+                      <ShareButton onClick={() => { void captureScreenshot() }} />
+                  </div>
                   <form className="
                         md:mt-6
                         lg:flex lg:items-center lg:justify-center
@@ -138,15 +166,6 @@ function App (): ReactElement {
                   </div>
               </div>
           </div>
-          <Screenshot
-              className={`
-                fixed bottom-0
-                mb-5
-                w-full
-                flex md:hidden justify-center
-              `}
-              screenshotRef={betContainerRef}
-          />
       </>
   )
 }
