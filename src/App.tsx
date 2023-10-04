@@ -87,30 +87,17 @@ function App (): ReactElement {
 
       const fileName = `betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`
 
-      // TODO voir si c'est vraiment utile
-      let imageUrl = await getImage(fileName)
+      await storeImage(image, fileName)
+
+      const imageUrl = await getImage(fileName)
 
       if (imageUrl === null) {
-        const storedImage = await storeImage(image, fileName)
-
-        if (storedImage === null) {
-          return
-        }
-
-        imageUrl = await getImage(fileName)
-
-        if (imageUrl === null) {
-          return
-        }
+        return
       }
 
       // TODO gérer les navigateurs qui ne gèrent pas l'api web share
       if (navigator.share !== null) {
-        await navigator.share({
-          title: 'screenshot',
-          text: 'screenshot',
-          url: imageUrl
-        })
+        await navigator.share({ url: imageUrl })
       }
     } catch (error) {
       console.error('Erreur lors du partage :', error)
@@ -119,6 +106,7 @@ function App (): ReactElement {
     setScreenshotUrl(null)
   }
 
+  // TODO Ajouter un loader
   useEffect(() => { void shareScreenshot() }, [screenshotUrl])
 
   return (
