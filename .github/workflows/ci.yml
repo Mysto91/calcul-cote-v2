@@ -38,6 +38,12 @@ jobs:
         env:
           FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
         run: |
+          echo "REACT_APP_APP_ENV=${{ secrets.REACT_APP_APP_ENV }}" >> .env
+          echo "REACT_APP_FIREBASE_BUCKET=${{ secrets.REACT_APP_FIREBASE_BUCKET }}" >> .env
+          echo "REACT_APP_FIREBASE_CLIENT_EMAIL=${{ secrets.REACT_APP_FIREBASE_CLIENT_EMAIL }}" >> .env
+          echo "REACT_APP_FIREBASE_PRIVATE_KEY=${{ secrets.REACT_APP_FIREBASE_PRIVATE_KEY }}" >> .env
+          echo "REACT_APP_FIREBASE_PROJECT_ID=${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}" >> .env
+          cat .env
           yarn global add firebase-tools
           yarn build
           echo "$FIREBASE_SERVICE_ACCOUNT_KEY" > service-account-key.json
