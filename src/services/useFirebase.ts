@@ -1,5 +1,5 @@
 import { initializeApp, type FirebaseApp } from 'firebase/app'
-import { getStorage, ref, uploadBytes } from 'firebase/storage'
+import { getStorage, ref, uploadBytes, getDownloadURL, type StorageReference, type UploadResult } from 'firebase/storage'
 
 interface FirebaseConfig {
   projectId: string
@@ -7,6 +7,15 @@ interface FirebaseConfig {
   clientEmail: string
 }
 
+function getFirebaseStorageRef (fileName: string): StorageReference {
+  const firebaseApp: FirebaseApp = firebaseInit()
+
+  const storage = getStorage(firebaseApp, process.env.REACT_APP_FIREBASE_BUCKET)
+
+  return ref(storage, `${process.env.REACT_APP_APP_ENV}/${fileName}`)
+}
+
+// TODO voir pour initialiser qu'une seule fois
 export function firebaseInit (): FirebaseApp {
   const firebaseConfig: FirebaseConfig = {
     projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID as string,
@@ -17,18 +26,46 @@ export function firebaseInit (): FirebaseApp {
   return initializeApp(firebaseConfig)
 }
 
-export function storeImage (image: Blob, title: string): void {
-  const firebaseApp: FirebaseApp = firebaseInit()
+export async function storeImage (image: Blob, fileName: string): Promise<UploadResult | null> {
+  const storageRef = getFirebaseStorageRef(fileName)
 
-  const storage = getStorage(firebaseApp, process.env.REACT_APP_FIREBASE_BUCKET)
+  try {
+    const response = await uploadBytes(storageRef, image)
+    console.log('Le fichier a été enregistré sur firebase!')
 
-  console.log(storage, process.env)
+    return response
+  } catch (e) {
+    // TODO gérer l'erreur
+    console.log(e)
+  }
 
-  const storageRef = ref(storage, `${process.env.REACT_APP_APP_ENV}/${title}`)
+  return null
+}
 
-  uploadBytes(storageRef, image).then(() => {
-    console.log('Uploaded a blob or file!')
-  }).catch((error) => {
-    console.log(error)
-  })
+export async function getImage (fileName: string): Promise<string | null> {
+  const fileNameRef = getFirebaseStorageRef(fileName)
+
+  try {
+    return await getDownloadURL(fileNameRef)
+  } catch (e: any) {
+    // TODO gérer les erreurs
+    // A full list of error codes is available at
+    // https://firebase.google.com/docs/storage/web/handle-errors
+    switch (e.code) {
+      case 'storage/object-not-found':
+        // File doesn't exist
+        break
+      case 'storage/unauthorized':
+        // User doesn't have permission to access the object
+        break
+      case 'storage/canceled':
+        // User canceled the upload
+        break
+      case 'storage/unknown':
+        // Unknown error occurred, inspect the server response
+        break
+    }
+
+    return null
+  }
 }

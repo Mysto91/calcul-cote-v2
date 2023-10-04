@@ -12,7 +12,7 @@ import { type InputError } from './interfaces/errorInterface'
 import ShareButton from './components/ShareButton'
 import { useScreenshot } from './components/hooks/useScreenshot'
 import { dataURLtoBlob } from './utils/dataURLtoBlob'
-import { storeImage } from './services/useFirebase'
+import { getImage, storeImage } from './services/useFirebase'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -85,17 +85,33 @@ function App (): ReactElement {
 
       const image = dataURLtoBlob(screenshotUrl)
 
-      // const imageUrl = window.URL.createObjectURL(blob)
+      const fileName = `betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`
 
-      storeImage(image, 'macote.jpg')
+      // TODO voir si c'est vraiment utile
+      let imageUrl = await getImage(fileName)
 
-      // TODO Stocker l'image sur firebase ou créer un fichier dans public
+      if (imageUrl === null) {
+        const storedImage = await storeImage(image, fileName)
 
-      await navigator.share({
-        title: 'screenshot',
-        text: 'screenshot',
-        url: 'https://www.garonapromotion.fr/wp-content/uploads/sites/4/2017/12/Image-test-1_large.jpg'
-      })
+        if (storedImage === null) {
+          return
+        }
+
+        imageUrl = await getImage(fileName)
+
+        if (imageUrl === null) {
+          return
+        }
+      }
+
+      // TODO gérer les navigateurs qui ne gèrent pas l'api web share
+      if (navigator.share !== null) {
+        await navigator.share({
+          title: 'screenshot',
+          text: 'screenshot',
+          url: imageUrl
+        })
+      }
     } catch (error) {
       console.error('Erreur lors du partage :', error)
     }
@@ -123,7 +139,10 @@ function App (): ReactElement {
           >
               <div className="w-full">
                   <div className="hidden md:flex md:justify-center">
-                      <ShareButton onClick={() => { void captureScreenshot() }} />
+                      <ShareButton
+                          disabled={errors.length > 0}
+                          onClick={() => { void captureScreenshot() }}
+                      />
                   </div>
                   <form className="
                         md:mt-6
@@ -176,7 +195,10 @@ function App (): ReactElement {
                 flex md:hidden justify-center
               `}
           >
-              <ShareButton onClick={() => { void captureScreenshot() }}/>
+              <ShareButton
+                  disabled={errors.length > 0}
+                  onClick={() => { void captureScreenshot() }}
+              />
           </div>
       </>
   )
