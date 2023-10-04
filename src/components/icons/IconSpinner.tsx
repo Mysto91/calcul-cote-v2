@@ -7,7 +7,7 @@ export default function IconSpinner ({ className }: ReactElementPropsInterface):
     <div role="status">
         <svg
             aria-hidden="true"
-            className={`w-4 h-4 animate-spin ${className}`}
+            className={`w-6 h-6 animate-spin ${className}`}
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

@@ -129,9 +129,7 @@ function App (): ReactElement {
 
   return (
       <>
-          <div>
-              Flash message : image copiée
-          </div>
+          { /* TODO ajouter un flash message pour indiquer que l'image a bien été ajoutée au clipboard */ }
           <div
               ref={betContainerRef}
               className="
