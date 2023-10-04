@@ -12,6 +12,7 @@ import { type InputError } from './interfaces/errorInterface'
 import ShareButton from './components/ShareButton'
 import { useScreenshot } from './components/hooks/useScreenshot'
 import { dataURLtoBlob } from './utils/dataURLtoBlob'
+import { storeImage } from './services/useFirebase'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -102,6 +103,8 @@ function App (): ReactElement {
   }
 
   useEffect(() => { void shareScreenshot() }, [screenshotUrl])
+
+  storeImage(null)
 
   return (
       <>
