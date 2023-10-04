@@ -83,11 +83,12 @@ function App (): ReactElement {
         return
       }
 
-      const blob = dataURLtoBlob(screenshotUrl)
+      const image = dataURLtoBlob(screenshotUrl)
 
-      const imageUrl = window.URL.createObjectURL(blob)
+      // const imageUrl = window.URL.createObjectURL(blob)
 
-      console.log(imageUrl)
+      storeImage(image, 'macote.jpg')
+
       // TODO Stocker l'image sur firebase ou créer un fichier dans public
 
       await navigator.share({
@@ -103,8 +104,6 @@ function App (): ReactElement {
   }
 
   useEffect(() => { void shareScreenshot() }, [screenshotUrl])
-
-  storeImage(null)
 
   return (
       <>
