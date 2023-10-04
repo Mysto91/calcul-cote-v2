@@ -1,4 +1,4 @@
-import React, { type ReactElement, useEffect, useRef } from 'react'
+import React, { type ReactElement, useEffect, useRef, useState } from 'react'
 import './App.css'
 import Table from './components/table/Table'
 import BetInput from './components/BetInput'
@@ -10,9 +10,9 @@ import { useErrorsStore } from './stores/useErrorsStore'
 import type * as yup from 'yup'
 import { type InputError } from './interfaces/errorInterface'
 import ShareButton from './components/ShareButton'
-import { useScreenshot } from './components/hooks/useScreenshot'
+import { useScreenshot } from './hooks/useScreenshot'
 import { dataURLtoBlob } from './utils/dataURLtoBlob'
-import { getImage, storeImage } from './services/useFirebase'
+import { getFirebaseBlob, storeImage } from './services/useFirebase'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -77,6 +77,8 @@ function App (): ReactElement {
     captureScreenshot
   } = useScreenshot(betContainerRef)
 
+  const [screenshotInProgress, setScreenshotInProgress] = useState<boolean>(false)
+
   async function shareScreenshot (): Promise<void> {
     try {
       if (screenshotUrl === null) {
@@ -89,32 +91,46 @@ function App (): ReactElement {
 
       await storeImage(image, fileName)
 
-      const imageUrl = await getImage(fileName)
+      const imageBlob = await getFirebaseBlob(fileName)
 
-      if (imageUrl === null) {
+      if (imageBlob === null) {
         return
       }
 
-      // TODO gérer les navigateurs qui ne gèrent pas l'api web share
-      if (navigator.share !== null) {
-        await navigator.share({ url: imageUrl })
+      if (navigator.share !== undefined) {
+        await navigator.share({
+          files: [
+            new File([imageBlob], fileName)
+          ]
+        })
+      } else {
+        // Copier dans le clipboard
+        await navigator.clipboard.write([
+          new ClipboardItem({ 'image/png': imageBlob })
+        ])
+
+        console.log('Image copiée dans le clipboard!')
       }
     } catch (error) {
       console.error('Erreur lors du partage :', error)
     }
 
     setScreenshotUrl(null)
+    setScreenshotInProgress(false)
   }
 
   // TODO Ajouter un loader
   useEffect(() => { void shareScreenshot() }, [screenshotUrl])
 
+  function handleShareButtonClick (): void {
+    setScreenshotInProgress(true)
+    void captureScreenshot()
+  }
+
   return (
       <>
           <div>
-              {
-                   errors?.map((error: InputError, index: number) => <p key={index}>{ error.inputId } : { error.message }</p>)
-              }
+              Flash message : image copiée
           </div>
           <div
               ref={betContainerRef}
@@ -129,7 +145,8 @@ function App (): ReactElement {
                   <div className="hidden md:flex md:justify-center">
                       <ShareButton
                           disabled={errors.length > 0}
-                          onClick={() => { void captureScreenshot() }}
+                          onClick={handleShareButtonClick}
+                          isLoading={screenshotInProgress}
                       />
                   </div>
                   <form className="
@@ -185,7 +202,8 @@ function App (): ReactElement {
           >
               <ShareButton
                   disabled={errors.length > 0}
-                  onClick={() => { void captureScreenshot() }}
+                  onClick={handleShareButtonClick}
+                  isLoading={screenshotInProgress}
               />
           </div>
       </>

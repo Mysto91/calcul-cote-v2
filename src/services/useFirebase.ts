@@ -1,5 +1,5 @@
 import { initializeApp, type FirebaseApp } from 'firebase/app'
-import { getStorage, ref, uploadBytes, getDownloadURL, type StorageReference, type UploadResult } from 'firebase/storage'
+import { getStorage, ref, uploadBytes, getBlob, getDownloadURL, type StorageReference, type UploadResult } from 'firebase/storage'
 
 interface FirebaseConfig {
   projectId: string
@@ -42,7 +42,7 @@ export async function storeImage (image: Blob, fileName: string): Promise<Upload
   return null
 }
 
-export async function getImage (fileName: string): Promise<string | null> {
+export async function getFirebaseImageUrl (fileName: string): Promise<string | null> {
   const fileNameRef = getFirebaseStorageRef(fileName)
 
   try {
@@ -68,4 +68,17 @@ export async function getImage (fileName: string): Promise<string | null> {
 
     return null
   }
+}
+
+export async function getFirebaseBlob (fileName: string): Promise<Blob | null> {
+  const fileNameRef = getFirebaseStorageRef(fileName)
+
+  try {
+    return await getBlob(fileNameRef)
+  } catch (e) {
+    // TODO gérer les erreurs
+    console.log(e)
+  }
+
+  return null
 }
