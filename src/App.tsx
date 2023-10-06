@@ -104,7 +104,6 @@ function App (): ReactElement {
           ]
         })
       } else {
-        // Copier dans le clipboard
         await navigator.clipboard.write([
           new ClipboardItem({ 'image/png': imageBlob })
         ])
@@ -119,7 +118,6 @@ function App (): ReactElement {
     setScreenshotInProgress(false)
   }
 
-  // TODO Ajouter un loader
   useEffect(() => { void shareScreenshot() }, [screenshotUrl])
 
   function handleShareButtonClick (): void {
@@ -129,7 +127,7 @@ function App (): ReactElement {
 
   return (
       <>
-          { /* TODO ajouter un flash message pour indiquer que l'image a bien été ajoutée au clipboard */ }
+          { /* TODO ajouter des flash messages pour indiquer que l'image a bien été ajoutée au clipboard ou des erreurs */ }
           <div
               ref={betContainerRef}
               className="
