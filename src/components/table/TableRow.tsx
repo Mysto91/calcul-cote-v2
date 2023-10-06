@@ -1,16 +1,16 @@
 import React, { type ReactElement, useState } from 'react'
-import { type BetInterface } from '../../interfaces/betInterface'
 import { formatToEuroCurrency } from '../../utils/currency'
 import IconDownArrow from '../icons/IconDownArrow'
 import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
 import TableRowExpansion from './TableRowExpansion'
 import Progress from '../Progress'
+import { type TableRowInterface } from '../../interfaces/tableRowInterface'
+import clsx from 'clsx'
 
-interface TableRowProps extends ReactElementPropsInterface {
-  bet: BetInterface
+interface TableRowProps extends ReactElementPropsInterface, TableRowInterface {
 }
 
-export default function TableRow ({ bet, className }: TableRowProps): ReactElement {
+export default function TableRow ({ title, bet, className }: TableRowProps): ReactElement {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
@@ -27,22 +27,21 @@ export default function TableRow ({ bet, className }: TableRowProps): ReactEleme
                       className="p-2 md:p-3"
                       onClick={() => { setIsExpanded(!isExpanded) }}
                   >
-                      <span className={`
-                            block
-                            h-7 w-7
-                            flex items-center justify-center
-                            rounded-full
-                            bg-violet-100
-                            transition ease-in-out duration-300
-                            ${isExpanded ? 'rotate-180' : ''}
-                         `}
-                      >
+                      <span className={clsx(
+                        'block',
+                        'h-7 w-7',
+                        'flex items-center justify-center',
+                        'rounded-full',
+                        'bg-violet-100',
+                        'transition ease-in-out duration-300',
+                        isExpanded && 'rotate-180'
+                      )}>
                           <IconDownArrow className="fill-violet-500" />
                       </span>
                   </button>
               </td>
               <td>
-                  {bet.title}
+                  { title }
               </td>
               <td>
                   {bet.quotation.toFixed(2)}

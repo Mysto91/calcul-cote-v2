@@ -86,7 +86,6 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit 
           autoComplete="off"
       />
       {
-          // TODO Conditionner l'affichage sur l'absence d'erreur au niveau du champs en question
           (textValue !== '' && textValue !== null) &&
             <div className="absolute flex">
               <span className={`z-0 ${getUnitSpanClassWidth()} bg-transparent`}>

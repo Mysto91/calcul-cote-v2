@@ -1,76 +1,76 @@
 import { type BetInterface } from '../interfaces/betInterface'
-import { truncate } from '../utils/truncate'
+import { truncateValues } from '../utils/truncate'
 
-// TODO refacto les params
-export function calculateNoBet (
-  title: string,
-  mise: number,
-  q1: number,
-  q2: number,
-  boosted: boolean,
-  reverse: boolean = false
-): BetInterface {
-  let bet1: number, bet2: number, quotationRef: number
-
-  if (boosted) {
-    bet1 = mise !== 0 ? mise : 10
-    bet2 = reverse ? bet1 * (q2 - 1) : bet1 / (q2 - 1)
-    mise = bet1 + bet2
-    quotationRef = (reverse ? bet2 : bet1) * Number(q1)
-  } else {
-    bet2 = mise / q2
-    bet1 = mise - bet2
-    quotationRef = (bet1 * Number(q1))
-  }
-
-  const quotation = quotationRef / mise
-  const probability = 1 / quotation
-
-  const betInterface: BetInterface = {
-    title,
-    betOne: truncate(bet1),
-    betTwo: truncate(bet2),
-    quotation: truncate(quotation),
-    profit: truncate(mise * quotation),
-    netProfit: truncate(mise * quotation - mise),
-    probability: truncate(probability < 1 ? probability : 1)
-  }
-
-  if (reverse && !boosted) {
-    betInterface.betOne = truncate(bet2)
-    betInterface.betTwo = truncate(bet1)
-  }
-
-  return betInterface
+interface BetParams {
+  betValue: number
+  q1: number
+  q2: number
+  boostedBetEnabled: boolean
 }
 
-export function calculateOneOrTwo (
-  title: string,
-  mise: number,
-  q1: number,
-  q2: number,
-  boosted: boolean = false): BetInterface {
-  let bet1: number, bet2: number
+export function calculateNoBet (betParams: BetParams, reverse: boolean = false): BetInterface {
+  const { betValue, q1, q2, boostedBetEnabled } = betParams
 
-  if (boosted) {
-    bet1 = mise !== 0 ? mise : 10
-    mise = bet1 * (q1 + q2) / q2
-    bet2 = mise - bet1
+  let betOne: number, betTwo: number, quotationRef: number
+
+  if (boostedBetEnabled) {
+    betOne = betValue !== 0 ? betValue : 10
+    betTwo = reverse ? betOne * (q2 - 1) : betOne / (q2 - 1)
+    quotationRef = (reverse ? betTwo : betOne) * q1
   } else {
-    bet2 = (q1 * mise) / (q1 + q2)
-    bet1 = mise - bet2
+    betTwo = betValue / q2
+    betOne = betValue - betTwo
+    quotationRef = betOne * q1
+  }
+
+  const finalBetValue = boostedBetEnabled ? betOne + betTwo : betValue
+
+  const quotation = quotationRef / finalBetValue
+  const probability = 1 / quotation
+
+  const bet: BetInterface = {
+    betOne,
+    betTwo,
+    quotation,
+    profit: finalBetValue * quotation,
+    netProfit: finalBetValue * quotation - finalBetValue,
+    probability: probability < 1 ? probability : 1
+  }
+
+  if (reverse && !boostedBetEnabled) {
+    bet.betOne = betTwo
+    bet.betTwo = betOne
+  }
+
+  return truncateValues(bet)
+}
+
+export function calculateOneOrTwo (betParams: BetParams): BetInterface {
+  const { betValue, q1, q2, boostedBetEnabled } = betParams
+
+  let betOne: number, betTwo: number
+  let finalBetValue: number = betValue
+
+  if (boostedBetEnabled) {
+    betOne = betValue !== 0 ? betValue : 10
+    finalBetValue = betOne * (q1 + q2) / q2
+    betTwo = finalBetValue - betOne
+  } else {
+    betTwo = (q1 * betValue) / (q1 + q2)
+    betOne = betValue - betTwo
   }
 
   const quotation = (q1 * q2) / (q1 + q2)
   const probability = 1 / quotation
 
-  return {
-    title,
-    betOne: truncate(bet1),
-    betTwo: truncate(bet2),
-    quotation: truncate(quotation),
-    profit: truncate(mise * quotation),
-    netProfit: truncate(mise * quotation - mise),
-    probability: truncate(probability < 1 ? probability : 1)
+  const bet: BetInterface = {
+    betOne,
+    betTwo,
+    quotation,
+    profit: finalBetValue * quotation,
+    netProfit: finalBetValue * quotation - finalBetValue,
+    probability: probability < 1 ? probability : 1
   }
+
+  return truncateValues(bet)
 }

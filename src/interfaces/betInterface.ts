@@ -1,5 +1,4 @@
 export interface BetInterface {
-  title: string
   betOne: number
   betTwo: number
   quotation: number

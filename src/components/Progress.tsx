@@ -7,8 +7,7 @@ interface ProgressProps extends ReactElementPropsInterface {
 
 export default function Progress ({ value }: ProgressProps): ReactElement {
   return (
-      <div
-          className="
+      <div className="
             w-full
             bg-gray-200
             rounded-full

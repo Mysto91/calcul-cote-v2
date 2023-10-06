@@ -2,10 +2,16 @@ import { calculateNoBet } from '../../services/betCalculate'
 import { type BetInterface } from '../../interfaces/betInterface'
 
 it('test with boosted bet enabled', () => {
-  const bet: BetInterface = calculateNoBet('test', 10, 2, 2.5, true)
+  const betParams = {
+    betValue: 10,
+    q1: 2,
+    q2: 2.5,
+    boostedBetEnabled: true
+  }
+
+  const bet: BetInterface = calculateNoBet(betParams)
 
   const expected: BetInterface = {
-    title: 'test',
     quotation: 1.2,
     betOne: 10,
     betTwo: 6.67,
@@ -18,10 +24,16 @@ it('test with boosted bet enabled', () => {
 })
 
 it('test with boosted bet disabled', () => {
-  const bet: BetInterface = calculateNoBet('test', 10, 2.25, 2.10, false)
+  const betParams = {
+    betValue: 10,
+    q1: 2.25,
+    q2: 2.10,
+    boostedBetEnabled: false
+  }
+
+  const bet: BetInterface = calculateNoBet(betParams)
 
   const expected: BetInterface = {
-    title: 'test',
     quotation: 1.18,
     betOne: 5.24,
     betTwo: 4.76,
@@ -34,10 +46,16 @@ it('test with boosted bet disabled', () => {
 })
 
 it('test with boosted bet enabled and reverse', () => {
-  const bet: BetInterface = calculateNoBet('test', 15, 2.5, 2.3, true, true)
+  const betParams = {
+    betValue: 15,
+    q1: 2.5,
+    q2: 2.3,
+    boostedBetEnabled: true
+  }
+
+  const bet: BetInterface = calculateNoBet(betParams, true)
 
   const expected: BetInterface = {
-    title: 'test',
     quotation: 1.41,
     betOne: 15,
     betTwo: 19.5,
@@ -45,14 +63,21 @@ it('test with boosted bet enabled and reverse', () => {
     profit: 48.75,
     netProfit: 14.25
   }
+
   expect(bet).toEqual(expected)
 })
 
 it('test with boosted bet disabled and reverse', () => {
-  const bet: BetInterface = calculateNoBet('test', 5, 2, 2.25, false, true)
+  const betParams = {
+    betValue: 5,
+    q1: 2,
+    q2: 2.25,
+    boostedBetEnabled: false
+  }
+
+  const bet: BetInterface = calculateNoBet(betParams, true)
 
   const expected = {
-    title: 'test',
     quotation: 1.11,
     betOne: 2.22,
     betTwo: 2.78,

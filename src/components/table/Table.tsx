@@ -1,5 +1,4 @@
 import React, { type ReactElement } from 'react'
-import { type BetInterface } from '../../interfaces/betInterface'
 import { calculateNoBet, calculateOneOrTwo } from '../../services/betCalculate'
 import { useBetStore } from '../../stores/useBetStore'
 import TableHeader from './TableHeader'
@@ -7,6 +6,8 @@ import TableRow from './TableRow'
 import { useErrorsStore } from '../../stores/useErrorsStore'
 import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
 import { formatNumber } from '../../utils/formatNumber'
+import { type TableRowInterface } from '../../interfaces/tableRowInterface'
+import clsx from 'clsx'
 
 export default function Table ({ className }: ReactElementPropsInterface): ReactElement {
   const {
@@ -29,18 +30,20 @@ export default function Table ({ className }: ReactElementPropsInterface): React
 
   const { errors } = useErrorsStore()
 
-  let bets: BetInterface[] = []
+  let tableRows: TableRowInterface[] = []
 
   if (!isLoading && errors.length === 0) {
-    // TODO voir s'il y a mieux pour gérer les nombres
-    const bet = formatNumber(betValue)
-    const q1 = formatNumber(quotationOne)
-    const q2 = formatNumber(quotationTwo)
+    const betParams = {
+      betValue: formatNumber(betValue),
+      q1: formatNumber(quotationOne),
+      q2: formatNumber(quotationTwo),
+      boostedBetEnabled
+    }
 
-    bets = [
-      calculateNoBet('1r2', bet, q1, q2, boostedBetEnabled),
-      calculateNoBet('2r1', bet, q2, q1, boostedBetEnabled, true),
-      calculateOneOrTwo('1ou2', bet, q1, q2, boostedBetEnabled)
+    tableRows = [
+      { title: '1r2', bet: calculateNoBet(betParams) },
+      { title: '2r1', bet: calculateNoBet(betParams, true) },
+      { title: '1ou2', bet: calculateOneOrTwo(betParams) }
     ]
   }
 
@@ -52,10 +55,10 @@ export default function Table ({ className }: ReactElementPropsInterface): React
                 headers.map((header: string, index: number) => (
                     <TableHeader
                         key={index}
-                        className={`
-                            ${index === 0 ? ' rounded-tl-lg' : ''}
-                            ${index === headers.length - 1 ? 'rounded-tr-lg' : ''}
-                        `}
+                        className={clsx(
+                          index === 0 && 'rounded-tl-lg',
+                          index === headers.length - 1 && 'rounded-tr-lg'
+                        )}
                     >
                         {header}
                     </TableHeader>
@@ -76,7 +79,7 @@ export default function Table ({ className }: ReactElementPropsInterface): React
             </tr>
         }
         {
-          bets.map((bet: BetInterface, index: number) => <TableRow key={index} bet={bet}/>)
+          tableRows.map((tableRow: TableRowInterface, index: number) => <TableRow key={index} title={tableRow.title} bet={tableRow.bet}/>)
         }
       </tbody>
     </table>
