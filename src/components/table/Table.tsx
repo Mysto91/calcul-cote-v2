@@ -7,6 +7,7 @@ import { useErrorsStore } from '../../stores/useErrorsStore'
 import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
 import { formatNumber } from '../../utils/formatNumber'
 import { type TableRowInterface } from '../../interfaces/tableRowInterface'
+import clsx from 'clsx'
 
 export default function Table ({ className }: ReactElementPropsInterface): ReactElement {
   const {
@@ -54,10 +55,10 @@ export default function Table ({ className }: ReactElementPropsInterface): React
                 headers.map((header: string, index: number) => (
                     <TableHeader
                         key={index}
-                        className={`
-                            ${index === 0 ? ' rounded-tl-lg' : ''}
-                            ${index === headers.length - 1 ? 'rounded-tr-lg' : ''}
-                        `}
+                        className={clsx(
+                          index === 0 && 'rounded-tl-lg',
+                          index === headers.length - 1 && 'rounded-tr-lg'
+                        )}
                     >
                         {header}
                     </TableHeader>

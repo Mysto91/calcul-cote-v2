@@ -5,6 +5,7 @@ import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPr
 import TableRowExpansion from './TableRowExpansion'
 import Progress from '../Progress'
 import { type TableRowInterface } from '../../interfaces/tableRowInterface'
+import clsx from 'clsx'
 
 interface TableRowProps extends ReactElementPropsInterface, TableRowInterface {
 }
@@ -26,16 +27,15 @@ export default function TableRow ({ title, bet, className }: TableRowProps): Rea
                       className="p-2 md:p-3"
                       onClick={() => { setIsExpanded(!isExpanded) }}
                   >
-                      <span className={`
-                            block
-                            h-7 w-7
-                            flex items-center justify-center
-                            rounded-full
-                            bg-violet-100
-                            transition ease-in-out duration-300
-                            ${isExpanded ? 'rotate-180' : ''}
-                         `}
-                      >
+                      <span className={clsx(
+                        'block',
+                        'h-7 w-7',
+                        'flex items-center justify-center',
+                        'rounded-full',
+                        'bg-violet-100',
+                        'transition ease-in-out duration-300',
+                        isExpanded && 'rotate-180'
+                      )}>
                           <IconDownArrow className="fill-violet-500" />
                       </span>
                   </button>

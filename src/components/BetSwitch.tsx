@@ -1,5 +1,6 @@
 import React, { type ReactElement } from 'react'
 import { type ReactElementPropsInterface } from '../interfaces/ReactElementPropsInterface'
+import clsx from 'clsx'
 
 interface BetSwitchProps extends ReactElementPropsInterface {
   id: string
@@ -27,15 +28,15 @@ export default function BetSwitch ({ id, isActive, setIsActive, children }: BetS
         { isActive }
         <label
             htmlFor="toggle"
-            className={`
-                absolute
-                w-6 h-6
-                bg-white
-                rounded-full shadow-md
-                flex items-center justify-center
-                transition ease-in-out ${isActive ? 'translate-x-full' : ''}
-            `}
-        >
+            className={clsx(
+              'absolute',
+              'w-6 h-6',
+              'bg-white',
+              'rounded-full shadow-md',
+              'flex items-center justify-center',
+              'transition ease-in-out',
+              isActive && 'translate-x-full'
+            )}>
             <span className={`
                     w-3 h-3
                     rounded-full
@@ -43,20 +44,19 @@ export default function BetSwitch ({ id, isActive, setIsActive, children }: BetS
                 `}
             />
         </label>
-        <span className={`
-                absolute 
-                top-10 lg:top-auto -left-[40%] lg:left-16 
-                whitespace-nowrap
-                ${isActive ? 'text-violet-500' : ''}
-            `}
-        >
+        <span className={clsx(
+          'absolute',
+          'top-10 lg:top-auto -left-[40%] lg:left-16',
+          'whitespace-nowrap',
+          isActive && 'text-violet-500'
+        )}>
             { children }
         </span>
         <input
             id="toggle"
             type="checkbox"
             className="absolute h-0 w-0 overflow-hidden"
-            value={isActive ? 1 : 0}
+            value={Number(isActive)}
         />
     </div>
   )
