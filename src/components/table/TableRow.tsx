@@ -1,16 +1,15 @@
 import React, { type ReactElement, useState } from 'react'
-import { type BetInterface } from '../../interfaces/betInterface'
 import { formatToEuroCurrency } from '../../utils/currency'
 import IconDownArrow from '../icons/IconDownArrow'
 import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
 import TableRowExpansion from './TableRowExpansion'
 import Progress from '../Progress'
+import { type TableRowInterface } from '../../interfaces/tableRowInterface'
 
-interface TableRowProps extends ReactElementPropsInterface {
-  bet: BetInterface
+interface TableRowProps extends ReactElementPropsInterface, TableRowInterface {
 }
 
-export default function TableRow ({ bet, className }: TableRowProps): ReactElement {
+export default function TableRow ({ title, bet, className }: TableRowProps): ReactElement {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
@@ -42,7 +41,7 @@ export default function TableRow ({ bet, className }: TableRowProps): ReactEleme
                   </button>
               </td>
               <td>
-                  {bet.title}
+                  { title }
               </td>
               <td>
                   {bet.quotation.toFixed(2)}

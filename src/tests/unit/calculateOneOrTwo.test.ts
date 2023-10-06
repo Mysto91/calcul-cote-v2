@@ -2,10 +2,16 @@ import { calculateOneOrTwo } from '../../services/betCalculate'
 import { type BetInterface } from '../../interfaces/betInterface'
 
 it('test with boosted bet enabled', () => {
-  const bet: BetInterface = calculateOneOrTwo('test', 10, 2, 2.5, true)
+  const betParams = {
+    betValue: 10,
+    q1: 2,
+    q2: 2.5,
+    boostedBetEnabled: true
+  }
+
+  const bet: BetInterface = calculateOneOrTwo(betParams)
 
   const expected: BetInterface = {
-    title: 'test',
     quotation: 1.11,
     betOne: 10,
     betTwo: 8,
@@ -18,16 +24,22 @@ it('test with boosted bet enabled', () => {
 })
 
 it('test with boosted bet disabled', () => {
-  const bet: BetInterface = calculateOneOrTwo('test', 10, 2.1, 2.3, false)
+  const betParams = {
+    betValue: 10,
+    q1: 2,
+    q2: 2.2,
+    boostedBetEnabled: false
+  }
+
+  const bet: BetInterface = calculateOneOrTwo(betParams)
 
   const expected: BetInterface = {
-    title: 'test',
-    quotation: 1.10,
-    betOne: 5.23,
-    betTwo: 4.77,
-    probability: 0.91,
-    profit: 10.98,
-    netProfit: 0.98
+    quotation: 1.05,
+    betOne: 5.24,
+    betTwo: 4.76,
+    probability: 0.95,
+    profit: 10.48,
+    netProfit: 0.48
   }
 
   expect(bet).toEqual(expected)
