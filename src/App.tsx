@@ -13,6 +13,7 @@ import ShareButton from './components/ShareButton'
 import { useScreenshot } from './hooks/useScreenshot'
 import { dataURLtoBlob } from './utils/dataURLtoBlob'
 import { getFirebaseBlob, storeImage } from './services/useFirebase'
+import { useFlashMessage } from './hooks/useFlashMessage'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -110,6 +111,7 @@ function App (): ReactElement {
 
         console.log('Image copiée dans le clipboard!')
       }
+      setInfoMessage('succès du save')
     } catch (error) {
       console.error('Erreur lors du partage :', error)
     }
@@ -125,9 +127,12 @@ function App (): ReactElement {
     void captureScreenshot()
   }
 
+  const { flashMessage, setInfoMessage } = useFlashMessage()
+
   return (
       <>
           { /* TODO ajouter des flash messages pour indiquer que l'image a bien été ajoutée au clipboard ou des erreurs */ }
+          <div> { flashMessage } </div>
           <div
               ref={betContainerRef}
               className="
