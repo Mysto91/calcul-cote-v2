@@ -12,7 +12,7 @@ export interface FlashMessage {
   message: string
 }
 
-export function useFlashMessage (duration: number = 5000): FlashMessageHook {
+export function useFlashMessage (duration: number = 7000): FlashMessageHook {
   const [message, setMessage] = useState<string | null>(null)
   const [status, setStatus] = useState<StatusEnums | null>(null)
 

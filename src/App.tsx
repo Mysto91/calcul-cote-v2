@@ -135,11 +135,9 @@ function App (): ReactElement {
 
   return (
       <>
-          { flashMessage !== null &&
               <div className="mt-4 flex justify-center">
                 <FlashMessage flashMessage={flashMessage} />
               </div>
-          }
           <div
               ref={betContainerRef}
               className="
