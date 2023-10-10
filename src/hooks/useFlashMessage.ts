@@ -1,24 +1,42 @@
 import { useState } from 'react'
+import { StatusEnums } from '../enums/statusEnums'
 
 interface FlashMessageHook {
-  flashMessage: string | null
+  flashMessage: FlashMessage | null
   setErrorMessage: (message: string) => void
   setInfoMessage: (message: string) => void
 }
 
+export interface FlashMessage {
+  status: StatusEnums
+  message: string
+}
+
 export function useFlashMessage (duration: number = 5000): FlashMessageHook {
-  const [flashMessage, setFlashMessage] = useState<string | null>(null)
+  const [message, setMessage] = useState<string | null>(null)
+  const [status, setStatus] = useState<StatusEnums | null>(null)
 
   setTimeout(() => {
-    setFlashMessage(null)
+    setMessage(null)
   }, duration)
 
   function setErrorMessage (message: string): void {
-    setFlashMessage(message)
+    setStatus(StatusEnums.ERROR)
+    setMessage(message)
   }
 
   function setInfoMessage (message: string): void {
-    setFlashMessage(message)
+    setStatus(StatusEnums.INFO)
+    setMessage(message)
+  }
+
+  let flashMessage: FlashMessage | null = null
+
+  if (message !== null && status !== null) {
+    flashMessage = {
+      message,
+      status
+    }
   }
 
   return {

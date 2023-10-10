@@ -30,10 +30,7 @@ export async function storeImage (image: Blob, fileName: string): Promise<Upload
   const storageRef = getFirebaseStorageRef(fileName)
 
   try {
-    const response = await uploadBytes(storageRef, image)
-    console.log('Le fichier a été enregistré sur firebase!')
-
-    return response
+    return await uploadBytes(storageRef, image)
   } catch (e) {
     // TODO gérer l'erreur
     console.log(e)
