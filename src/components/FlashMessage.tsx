@@ -8,6 +8,7 @@ import IconError from './icons/IconError'
 
 interface FlashMessageProps extends ReactElementPropsInterface {
   flashMessage: FlashMessageInterface | null
+  clearMessage: () => void
 }
 
 interface Style {
@@ -20,7 +21,7 @@ interface FlashMessageStyle extends Style {
   closeButton: Style
 }
 
-export default function FlashMessage ({ flashMessage }: FlashMessageProps): ReactElement {
+export default function FlashMessage ({ flashMessage, clearMessage }: FlashMessageProps): ReactElement {
   function getColorStyle (): FlashMessageStyle | null {
     if (flashMessage === null) {
       return null
@@ -91,7 +92,6 @@ export default function FlashMessage ({ flashMessage }: FlashMessageProps): Reac
   return (
         <div className={`
             w-3/4 max-w-[500px]
-            h-16
             rounded-lg drop-shadow-2xl
             flex
             ${colorStyle?.bgColor}
@@ -109,7 +109,7 @@ export default function FlashMessage ({ flashMessage }: FlashMessageProps): Reac
             <span className="w-14 flex items-center justify-center">
                 { getIcon() }
             </span>
-            <div className="flex items-center">
+            <div className="ml-2 py-2 flex items-center">
                 <div>
                     <h1 className="font-semibold">{ getTitle() }</h1>
                     <p className="text-gray-500">
@@ -126,6 +126,7 @@ export default function FlashMessage ({ flashMessage }: FlashMessageProps): Reac
                         fill-green-500
                         ${colorStyle?.closeButton.fillColor}
                     `}
+                    onClick={clearMessage}
                 >
                     <IconClose />
                 </button>

@@ -5,6 +5,7 @@ interface FlashMessageHook {
   flashMessage: FlashMessage | null
   setErrorMessage: (message: string) => void
   setInfoMessage: (message: string) => void
+  clearMessage: () => void
 }
 
 export interface FlashMessage {
@@ -12,12 +13,12 @@ export interface FlashMessage {
   message: string
 }
 
-export function useFlashMessage (duration: number = 7000): FlashMessageHook {
+export function useFlashMessage (duration: number = 5000): FlashMessageHook {
   const [message, setMessage] = useState<string | null>(null)
   const [status, setStatus] = useState<StatusEnums | null>(null)
 
   setTimeout(() => {
-    setMessage(null)
+    clearMessage()
   }, duration)
 
   function setErrorMessage (message: string): void {
@@ -28,6 +29,10 @@ export function useFlashMessage (duration: number = 7000): FlashMessageHook {
   function setInfoMessage (message: string): void {
     setStatus(StatusEnums.INFO)
     setMessage(message)
+  }
+
+  function clearMessage (): void {
+    setMessage(null)
   }
 
   let flashMessage: FlashMessage | null = null
@@ -42,6 +47,7 @@ export function useFlashMessage (duration: number = 7000): FlashMessageHook {
   return {
     flashMessage,
     setInfoMessage,
-    setErrorMessage
+    setErrorMessage,
+    clearMessage
   }
 }

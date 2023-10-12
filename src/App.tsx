@@ -114,6 +114,7 @@ function App (): ReactElement {
       }
     } catch (error) {
       setErrorMessage("Une erreur s'est produite lors du partage")
+      console.error(error)
     }
 
     setScreenshotUrl(null)
@@ -130,14 +131,16 @@ function App (): ReactElement {
   const {
     flashMessage,
     setInfoMessage,
-    setErrorMessage
+    setErrorMessage,
+    clearMessage
   } = useFlashMessage()
 
   return (
       <>
-              <div className="mt-4 flex justify-center">
-                <FlashMessage flashMessage={flashMessage} />
-              </div>
+          { /* TODO Centraliser le message dans un store + avoir plusieurs messages */ }
+          <div className="mt-4 flex justify-center">
+            <FlashMessage flashMessage={flashMessage} clearMessage={clearMessage} />
+          </div>
           <div
               ref={betContainerRef}
               className="
