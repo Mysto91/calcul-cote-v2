@@ -13,6 +13,8 @@ import ShareButton from './components/ShareButton'
 import { useScreenshot } from './hooks/useScreenshot'
 import { dataURLtoBlob } from './utils/dataURLtoBlob'
 import { getFirebaseBlob, storeImage } from './services/useFirebase'
+import { useFlashMessage } from './hooks/useFlashMessage'
+import FlashMessage from './components/FlashMessage'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -108,10 +110,11 @@ function App (): ReactElement {
           new ClipboardItem({ 'image/png': imageBlob })
         ])
 
-        console.log('Image copiée dans le clipboard!')
+        setInfoMessage('Image copiée dans le clipboard!')
       }
     } catch (error) {
-      console.error('Erreur lors du partage :', error)
+      setErrorMessage("Une erreur s'est produite lors du partage")
+      console.error(error)
     }
 
     setScreenshotUrl(null)
@@ -125,9 +128,19 @@ function App (): ReactElement {
     void captureScreenshot()
   }
 
+  const {
+    flashMessage,
+    setInfoMessage,
+    setErrorMessage,
+    clearMessage
+  } = useFlashMessage()
+
   return (
       <>
-          { /* TODO ajouter des flash messages pour indiquer que l'image a bien été ajoutée au clipboard ou des erreurs */ }
+          { /* TODO Centraliser le message dans un store + avoir plusieurs messages */ }
+          <div className="mt-4 flex justify-center">
+            <FlashMessage flashMessage={flashMessage} clearMessage={clearMessage} />
+          </div>
           <div
               ref={betContainerRef}
               className="
