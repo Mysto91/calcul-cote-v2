@@ -12,13 +12,17 @@ import { type InputError } from './interfaces/errorInterface'
 import ShareButton from './components/ShareButton'
 import { useScreenshot } from './hooks/useScreenshot'
 import { dataURLtoBlob } from './utils/dataURLtoBlob'
-import { getFirebaseBlob, storeImage } from './services/useFirebase'
+import { getFirebaseBlob, getFirebaseImageUrl, storeImage } from './services/useFirebase'
 import { useFlashMessage } from './hooks/useFlashMessage'
 import FlashMessage from './components/FlashMessage'
 import { clipboardWrite, hasNavigatorClipboard, hasNavigatorShare, navigatorCanShare, share } from './services/useNavigator'
+import { FacebookMessengerIcon, FacebookMessengerShareButton } from 'react-share'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
+  const messengerButtonRef = useRef<HTMLButtonElement | null>(null)
+
+  const [firebaseImageUrl, setFirebaseImageUrl] = useState<string | null>(null)
 
   const {
     setBetValue,
@@ -96,6 +100,8 @@ function App (): ReactElement {
 
       const imageBlob = await getScreenshotImageBlob(fileName)
 
+      setFirebaseImageUrl(await getFirebaseImageUrl(fileName))
+
       if (imageBlob === null) {
         return
       }
@@ -144,6 +150,14 @@ function App (): ReactElement {
     void handleShare()
   }, [screenshotUrl])
 
+  useEffect(() => {
+    if (navigatorCanShare()) {
+      return
+    }
+
+    messengerButtonRef.current?.click()
+  }, [firebaseImageUrl])
+
   function handleShareButtonClick (): void {
     setScreenshotInProgress(true)
 
@@ -179,6 +193,16 @@ function App (): ReactElement {
                           onClick={handleShareButtonClick}
                           isLoading={screenshotInProgress}
                       />
+
+                      { /* TODO voir s'il est possible de s'en passer et d'utiliser une API */ }
+                      <FacebookMessengerShareButton
+                          hidden
+                          ref={messengerButtonRef}
+                          appId={process.env.REACT_APP_FACEBOOK_APP_ID as string}
+                          url={firebaseImageUrl as string}
+                      >
+                          <FacebookMessengerIcon />
+                      </FacebookMessengerShareButton>
                   </div>
                   <form className="
                         md:mt-6
