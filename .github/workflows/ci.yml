@@ -43,7 +43,7 @@ jobs:
           echo "REACT_APP_FIREBASE_CLIENT_EMAIL=${{ secrets.REACT_APP_FIREBASE_CLIENT_EMAIL }}" >> .env
           echo "REACT_APP_FIREBASE_PRIVATE_KEY=${{ secrets.REACT_APP_FIREBASE_PRIVATE_KEY }}" >> .env
           echo "REACT_APP_FIREBASE_PROJECT_ID=${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}" >> .env
-          cat .env
+          echo "REACT_APP_FACEBOOK_APP_ID=${{ secrets.REACT_APP_FACEBOOK_APP_ID }}" >> .env
           yarn global add firebase-tools
           yarn build
           echo "$FIREBASE_SERVICE_ACCOUNT_KEY" > service-account-key.json
