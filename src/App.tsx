@@ -1,28 +1,23 @@
-import React, { type ReactElement, useEffect, useRef, useState } from 'react'
+import React, { type ReactElement, useEffect, useRef } from 'react'
 import './App.css'
 import Table from './components/table/Table'
 import BetInput from './components/BetInput'
 import BetSwitch from './components/BetSwitch'
 import { InputEnum } from './enums/inputEnums'
 import { useBetStore } from './stores/useBetStore'
-import inputSchema, { type BetSchemaInterface } from './validators/schemas/inputSchema'
 import { useErrorsStore } from './stores/useErrorsStore'
-import type * as yup from 'yup'
 import { type InputError } from './interfaces/errorInterface'
 import ShareButton from './components/ShareButton'
 import { useScreenshot } from './hooks/useScreenshot'
-import { dataURLtoBlob } from './utils/dataURLtoBlob'
-import { getFirebaseBlob, getFirebaseImageUrl, storeImage } from './services/useFirebase'
-import { useFlashMessage } from './hooks/useFlashMessage'
 import FlashMessage from './components/FlashMessage'
-import { clipboardWrite, hasNavigatorClipboard, hasNavigatorShare, navigatorCanShare, share } from './services/useNavigator'
+import { navigatorCanShare } from './services/useNavigator'
 import { FacebookMessengerIcon, FacebookMessengerShareButton } from 'react-share'
+import { validateSchema } from './services/validateSchema'
+import { useFlashMessageStore } from './stores/useFlashMessageStore'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
   const messengerButtonRef = useRef<HTMLButtonElement | null>(null)
-
-  const [firebaseImageUrl, setFirebaseImageUrl] = useState<string | null>(null)
 
   const {
     setBetValue,
@@ -41,14 +36,21 @@ function App (): ReactElement {
     setErrors
   } = useErrorsStore()
 
-  async function validateSchema (params: BetSchemaInterface): Promise<yup.ValidationError | null> {
-    try {
-      await inputSchema().validate(params, { abortEarly: false })
-      return null
-    } catch (error: any) {
-      return error
-    }
-  }
+  const {
+    flashMessage,
+    setErrorMessage,
+    clearMessage
+  } = useFlashMessageStore()
+
+  const {
+    screenshotUrl,
+    setScreenshotUrl,
+    captureScreenshot,
+    firebaseImageUrl,
+    shareScreenshot,
+    screenshotInProgress,
+    setScreenshotInProgress
+  } = useScreenshot(betContainerRef)
 
   useEffect(() => {
     setIsLoading(true)
@@ -78,56 +80,6 @@ function App (): ReactElement {
     })
   }, [quotationOne, quotationTwo, betValue])
 
-  const {
-    screenshotUrl,
-    setScreenshotUrl,
-    captureScreenshot
-  } = useScreenshot(betContainerRef)
-
-  const [screenshotInProgress, setScreenshotInProgress] = useState<boolean>(false)
-
-  async function getScreenshotImageBlob (fileName: string): Promise<Blob | null> {
-    const image = dataURLtoBlob(screenshotUrl as string)
-
-    await storeImage(image, fileName)
-
-    return await getFirebaseBlob(fileName)
-  }
-
-  async function shareScreenshot (): Promise<void> {
-    try {
-      const fileName = `betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`
-
-      const imageBlob = await getScreenshotImageBlob(fileName)
-
-      setFirebaseImageUrl(await getFirebaseImageUrl(fileName))
-
-      if (imageBlob === null) {
-        return
-      }
-
-      if (hasNavigatorShare()) {
-        await share(imageBlob, fileName)
-
-        return
-      }
-
-      if (hasNavigatorClipboard()) {
-        // TODO voir ce qu'il se passe réellement et comment on peut exploiter
-        await clipboardWrite(imageBlob)
-
-        setInfoMessage('Image copiée dans le clipboard!')
-
-        return
-      }
-
-      setErrorMessage('Impossible de partager')
-    } catch (error) {
-      setErrorMessage("Une erreur s'est produite lors du partage")
-      console.error(error)
-    }
-  }
-
   useEffect(() => {
     async function handleShare (): Promise<void> {
       if (screenshotUrl === null) {
@@ -141,7 +93,7 @@ function App (): ReactElement {
         return
       }
 
-      await shareScreenshot()
+      await shareScreenshot(`betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`)
 
       setScreenshotInProgress(false)
       setScreenshotUrl(null)
@@ -164,16 +116,9 @@ function App (): ReactElement {
     void captureScreenshot()
   }
 
-  const {
-    flashMessage,
-    setInfoMessage,
-    setErrorMessage,
-    clearMessage
-  } = useFlashMessage()
-
   return (
       <>
-          { /* TODO Centraliser le message dans un store + avoir plusieurs messages */ }
+          { /* TODO avoir plusieurs messages */ }
           <div className="mt-4 flex justify-center">
             <FlashMessage flashMessage={flashMessage} clearMessage={clearMessage} />
           </div>
