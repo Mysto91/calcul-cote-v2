@@ -15,6 +15,7 @@ import { dataURLtoBlob } from './utils/dataURLtoBlob'
 import { getFirebaseBlob, storeImage } from './services/useFirebase'
 import { useFlashMessage } from './hooks/useFlashMessage'
 import FlashMessage from './components/FlashMessage'
+import { clipboardWrite, hasNavigatorClipboard, hasNavigatorShare, navigatorCanShare, share } from './services/useNavigator'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -81,50 +82,71 @@ function App (): ReactElement {
 
   const [screenshotInProgress, setScreenshotInProgress] = useState<boolean>(false)
 
+  async function getScreenshotImageBlob (fileName: string): Promise<Blob | null> {
+    const image = dataURLtoBlob(screenshotUrl as string)
+
+    await storeImage(image, fileName)
+
+    return await getFirebaseBlob(fileName)
+  }
+
   async function shareScreenshot (): Promise<void> {
     try {
-      if (screenshotUrl === null) {
-        return
-      }
-
-      const image = dataURLtoBlob(screenshotUrl)
-
       const fileName = `betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`
 
-      await storeImage(image, fileName)
-
-      const imageBlob = await getFirebaseBlob(fileName)
+      const imageBlob = await getScreenshotImageBlob(fileName)
 
       if (imageBlob === null) {
         return
       }
 
-      if (navigator.share !== undefined) {
-        await navigator.share({
-          files: [
-            new File([imageBlob], fileName)
-          ]
-        })
-      } else {
-        await navigator.clipboard.write([
-          new ClipboardItem({ 'image/png': imageBlob })
-        ])
+      if (hasNavigatorShare()) {
+        await share(imageBlob, fileName)
+
+        return
+      }
+
+      if (hasNavigatorClipboard()) {
+        // TODO voir ce qu'il se passe réellement et comment on peut exploiter
+        await clipboardWrite(imageBlob)
 
         setInfoMessage('Image copiée dans le clipboard!')
+
+        return
       }
+
+      setErrorMessage('Impossible de partager')
     } catch (error) {
       setErrorMessage("Une erreur s'est produite lors du partage")
       console.error(error)
     }
-
-    setScreenshotUrl(null)
-    setScreenshotInProgress(false)
   }
 
-  useEffect(() => { void shareScreenshot() }, [screenshotUrl])
+  useEffect(() => {
+    async function handleShare (): Promise<void> {
+      if (screenshotUrl === null) {
+        return
+      }
+
+      if (!navigatorCanShare()) {
+        setScreenshotInProgress(false)
+        setScreenshotUrl(null)
+        setErrorMessage("le partage n'est pas disponible")
+        return
+      }
+
+      await shareScreenshot()
+
+      setScreenshotInProgress(false)
+      setScreenshotUrl(null)
+    }
+
+    void handleShare()
+  }, [screenshotUrl])
 
   function handleShareButtonClick (): void {
     setScreenshotInProgress(true)
+
     void captureScreenshot()
   }
 
