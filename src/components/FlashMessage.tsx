@@ -1,10 +1,10 @@
 import React, { type ReactElement } from 'react'
-import { type FlashMessage as FlashMessageInterface } from '../hooks/useFlashMessage'
 import { type ReactElementPropsInterface } from '../interfaces/ReactElementPropsInterface'
 import { StatusEnums } from '../enums/statusEnums'
 import IconClose from './icons/IconClose'
 import IconSuccess from './icons/IconSuccess'
 import IconError from './icons/IconError'
+import { type FlashMessage as FlashMessageInterface } from '../interfaces/flashMessageInterface'
 
 interface FlashMessageProps extends ReactElementPropsInterface {
   flashMessage: FlashMessageInterface | null
