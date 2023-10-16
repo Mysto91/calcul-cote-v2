@@ -5,6 +5,7 @@ import IconClose from './icons/IconClose'
 import IconSuccess from './icons/IconSuccess'
 import IconError from './icons/IconError'
 import { type FlashMessage as FlashMessageInterface } from '../interfaces/flashMessageInterface'
+import IconInfo from './icons/IconInfo'
 
 interface FlashMessageProps extends ReactElementPropsInterface {
   flashMessage: FlashMessageInterface | null
@@ -38,7 +39,7 @@ export default function FlashMessage ({ flashMessage, clearMessage }: FlashMessa
             fillColor: 'fill-red-500'
           }
         }
-      case StatusEnums.INFO:
+      case StatusEnums.SUCCESS:
         return {
           bgColor: 'bg-green-100',
           span: {
@@ -46,6 +47,16 @@ export default function FlashMessage ({ flashMessage, clearMessage }: FlashMessa
           },
           closeButton: {
             fillColor: 'fill-green-500'
+          }
+        }
+      case StatusEnums.INFO:
+        return {
+          bgColor: 'bg-blue-100',
+          span: {
+            bgColor: 'bg-blue-500'
+          },
+          closeButton: {
+            fillColor: 'fill-blue-500'
           }
         }
       default:
@@ -61,8 +72,10 @@ export default function FlashMessage ({ flashMessage, clearMessage }: FlashMessa
     switch (flashMessage.status) {
       case StatusEnums.ERROR:
         return 'Erreur'
-      case StatusEnums.INFO:
+      case StatusEnums.SUCCESS:
         return 'Succès'
+      case StatusEnums.INFO:
+        return 'Info'
       default:
         return ''
     }
@@ -76,8 +89,10 @@ export default function FlashMessage ({ flashMessage, clearMessage }: FlashMessa
     switch (flashMessage.status) {
       case StatusEnums.ERROR:
         return <IconError className="fill-red-500 h-8 w-8" />
-      case StatusEnums.INFO:
+      case StatusEnums.SUCCESS:
         return <IconSuccess className="fill-green-500 h-8 w-8" />
+      case StatusEnums.INFO:
+        return <IconInfo className="fill-blue-500 h-8 w-8" />
       default:
         return <></>
     }
@@ -123,7 +138,6 @@ export default function FlashMessage ({ flashMessage, clearMessage }: FlashMessa
                         mr-3
                         h-8 w-8
                         flex items-center justify-center
-                        fill-green-500
                         ${colorStyle?.closeButton.fillColor}
                     `}
                     onClick={clearMessage}

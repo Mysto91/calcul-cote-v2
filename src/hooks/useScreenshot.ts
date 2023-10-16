@@ -2,18 +2,27 @@ import { useState, type MutableRefObject } from 'react'
 import { EXCLUDE_FROM_SCREENSHOT } from '../constants/screenshotConstants'
 import html2canvas from 'html2canvas'
 import { getFirebaseBlob, getFirebaseImageUrl, storeImage } from '../services/useFirebase'
-import { clipboardWrite, hasNavigatorClipboard, hasNavigatorShare, share } from '../services/useNavigator'
+import {
+  clipboardWrite,
+  hasNavigatorClipboard,
+  hasNavigatorShare,
+  navigatorCanShare,
+  shareUrl,
+  shareBlob
+} from '../services/useNavigator'
 import { dataURLtoBlob } from '../utils/dataURLtoBlob'
 import { useFlashMessageStore } from '../stores/useFlashMessageStore'
+import { ExceptionEnums } from '../enums/exceptionEnums'
 
 interface ScreenshotHook {
   firebaseImageUrl: string | null
   screenshotUrl: string | null
   captureScreenshot: () => Promise<void>
   setScreenshotUrl: (screenshotUrl: string | null) => void
-  shareScreenshot: (fileName: string) => Promise<void>
+  shareScreenshot: (fileName: string, showManualShareButton: (show: boolean) => void) => Promise<void>
   screenshotInProgress: boolean
   setScreenshotInProgress: (screenshotInProgress: boolean) => void
+  shareManually: (imageUrl: string) => void
 }
 
 export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | null>): ScreenshotHook {
@@ -37,8 +46,9 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
   }
 
   const {
-    setInfoMessage,
-    setErrorMessage
+    setSuccessMessage,
+    setErrorMessage,
+    setInfoMessage
   } = useFlashMessageStore()
 
   async function getScreenshotImageBlob (fileName: string): Promise<Blob | null> {
@@ -49,7 +59,7 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
     return await getFirebaseBlob(fileName)
   }
 
-  async function shareScreenshot (fileName: string): Promise<void> {
+  async function shareScreenshot (fileName: string, showManualShareButton: (show: boolean) => void): Promise<void> {
     try {
       const imageBlob = await getScreenshotImageBlob(fileName)
 
@@ -60,7 +70,7 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
       }
 
       if (hasNavigatorShare()) {
-        await share(imageBlob, fileName)
+        await shareBlob(imageBlob, fileName)
 
         return
       }
@@ -69,16 +79,38 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
         // TODO voir ce qu'il se passe réellement et comment on peut exploiter
         await clipboardWrite(imageBlob)
 
-        setInfoMessage('Image copiée dans le clipboard!')
+        setSuccessMessage('Image copiée dans le clipboard!')
 
         return
       }
 
       setErrorMessage('Impossible de partager')
     } catch (error) {
+      if (error instanceof DOMException && error.name === ExceptionEnums.NOT_ALLOWED) {
+        setInfoMessage('Cliquez sur le bouton partager')
+        showManualShareButton(true)
+        return
+      }
       setErrorMessage("Une erreur s'est produite lors du partage")
       console.error(error)
     }
+  }
+
+  function shareManually (imageUrl: string): void {
+    async function handle (): Promise<void> {
+      if (!navigatorCanShare()) {
+        return
+      }
+
+      try {
+        await shareUrl(imageUrl)
+      } catch (error) {
+        console.error(error)
+        setErrorMessage("Une erreur s'est produite lors du partage")
+      }
+    }
+
+    void handle()
   }
 
   return {
@@ -88,6 +120,7 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
     captureScreenshot,
     shareScreenshot,
     screenshotInProgress,
-    setScreenshotInProgress
+    setScreenshotInProgress,
+    shareManually
   }
 }

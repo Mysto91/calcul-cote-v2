@@ -1,4 +1,4 @@
-import React, { type ReactElement, useEffect, useRef } from 'react'
+import React, { type ReactElement, useEffect, useRef, useState } from 'react'
 import './App.css'
 import Table from './components/table/Table'
 import BetInput from './components/BetInput'
@@ -49,11 +49,13 @@ function App (): ReactElement {
     firebaseImageUrl,
     shareScreenshot,
     screenshotInProgress,
-    setScreenshotInProgress
+    setScreenshotInProgress,
+    shareManually
   } = useScreenshot(betContainerRef)
 
   useEffect(() => {
     setIsLoading(true)
+    setShowManualShareButton(false)
 
     void validateSchema(
       {
@@ -93,7 +95,7 @@ function App (): ReactElement {
         return
       }
 
-      await shareScreenshot(`betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`)
+      await shareScreenshot(`betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`, setShowManualShareButton)
 
       setScreenshotInProgress(false)
       setScreenshotUrl(null)
@@ -115,6 +117,8 @@ function App (): ReactElement {
 
     void captureScreenshot()
   }
+
+  const [showManualShareButton, setShowManualShareButton] = useState<boolean>(false)
 
   return (
       <>
@@ -138,6 +142,14 @@ function App (): ReactElement {
                           onClick={handleShareButtonClick}
                           isLoading={screenshotInProgress}
                       />
+
+                      {/* TODO : Voir si on mets ça sous forme d'une modal ou autre */}
+                      {
+                          showManualShareButton && (firebaseImageUrl != null) &&
+                          <button onClick={() => { shareManually(firebaseImageUrl) }}>
+                              Partager
+                          </button>
+                      }
 
                       { /* TODO voir s'il est possible de s'en passer et d'utiliser une API */ }
                       <FacebookMessengerShareButton
