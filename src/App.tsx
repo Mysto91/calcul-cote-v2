@@ -6,14 +6,13 @@ import BetSwitch from './components/BetSwitch'
 import { InputEnum } from './enums/inputEnums'
 import { useBetStore } from './stores/useBetStore'
 import { useErrorsStore } from './stores/useErrorsStore'
-import { type InputError } from './interfaces/errorInterface'
 import ShareButton from './components/ShareButton'
 import { useScreenshot } from './hooks/useScreenshot'
 import FlashMessage from './components/FlashMessage'
 import { navigatorCanShare } from './services/useNavigator'
 import { FacebookMessengerIcon, FacebookMessengerShareButton } from 'react-share'
-import { validateSchema } from './services/validateSchema'
 import { useFlashMessageStore } from './stores/useFlashMessageStore'
+import { handleValidation } from './services/useValidation'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -34,7 +33,6 @@ function App (): ReactElement {
   } = useBetStore()
 
   const { errors, setErrors } = useErrorsStore()
-
   const { flashMessage, clearMessage } = useFlashMessageStore()
 
   const {
@@ -49,25 +47,12 @@ function App (): ReactElement {
   } = useScreenshot(betContainerRef)
 
   useEffect(() => {
-    setIsLoading(true)
     setShowManualShareButton(false)
 
-    void validateSchema({ quotationOne, quotationTwo, betValue }).then((error) => {
-      if (error === null) {
-        setErrors([])
-        setIsLoading(false)
-        return
-      }
-
-      const inputErrors = error.inner.map((validationError): InputError => (
-        {
-          inputId: validationError.params?.path as InputEnum,
-          message: validationError.message
-        }
-      ))
-
-      setErrors(inputErrors)
-      setIsLoading(false)
+    void handleValidation({
+      params: { quotationOne, quotationTwo, betValue },
+      setIsLoading,
+      setErrors
     })
   }, [quotationOne, quotationTwo, betValue])
 
