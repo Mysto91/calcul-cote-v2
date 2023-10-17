@@ -1,4 +1,4 @@
-import React, { type ReactElement, useEffect, useRef } from 'react'
+import React, { type ReactElement, useEffect, useRef, useState } from 'react'
 import './App.css'
 import Table from './components/table/Table'
 import BetInput from './components/BetInput'
@@ -6,24 +6,23 @@ import BetSwitch from './components/BetSwitch'
 import { InputEnum } from './enums/inputEnums'
 import { useBetStore } from './stores/useBetStore'
 import { useErrorsStore } from './stores/useErrorsStore'
-import { type InputError } from './interfaces/errorInterface'
 import ShareButton from './components/ShareButton'
 import { useScreenshot } from './hooks/useScreenshot'
 import FlashMessage from './components/FlashMessage'
-import { navigatorCanShare } from './services/useNavigator'
+import { navigatorCanShare } from './services/navigator'
 import { FacebookMessengerIcon, FacebookMessengerShareButton } from 'react-share'
-import { validateSchema } from './services/validateSchema'
 import { useFlashMessageStore } from './stores/useFlashMessageStore'
+import { handleValidation } from './services/validation'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
   const messengerButtonRef = useRef<HTMLButtonElement | null>(null)
 
+  const [showManualShareButton, setShowManualShareButton] = useState<boolean>(false)
+
   const {
-    setBetValue,
-    setQuotationOne,
-    setQuotationTwo,
     setBoostedBetEnabled,
+    setBetStoreValue,
     quotationOne,
     quotationTwo,
     betValue,
@@ -31,75 +30,30 @@ function App (): ReactElement {
     setIsLoading
   } = useBetStore()
 
-  const {
-    errors,
-    setErrors
-  } = useErrorsStore()
-
-  const {
-    flashMessage,
-    setErrorMessage,
-    clearMessage
-  } = useFlashMessageStore()
+  const { errors, setErrors } = useErrorsStore()
+  const { flashMessage, clearMessage } = useFlashMessageStore()
 
   const {
     screenshotUrl,
-    setScreenshotUrl,
-    captureScreenshot,
     firebaseImageUrl,
-    shareScreenshot,
     screenshotInProgress,
-    setScreenshotInProgress
+    handleShareButtonClick,
+    handleShare,
+    shareManually
   } = useScreenshot(betContainerRef)
 
   useEffect(() => {
-    setIsLoading(true)
+    setShowManualShareButton(false)
 
-    void validateSchema(
-      {
-        quotationOne,
-        quotationTwo,
-        betValue
-      }
-    ).then((error) => {
-      if (error === null) {
-        setErrors([])
-        setIsLoading(false)
-        return
-      }
-
-      const inputErrors = error.inner.map((validationError): InputError => (
-        {
-          inputId: validationError.params?.path as InputEnum,
-          message: validationError.message
-        }
-      ))
-
-      setErrors(inputErrors)
-      setIsLoading(false)
+    void handleValidation({
+      params: { quotationOne, quotationTwo, betValue },
+      setIsLoading,
+      setErrors
     })
   }, [quotationOne, quotationTwo, betValue])
 
   useEffect(() => {
-    async function handleShare (): Promise<void> {
-      if (screenshotUrl === null) {
-        return
-      }
-
-      if (!navigatorCanShare()) {
-        setScreenshotInProgress(false)
-        setScreenshotUrl(null)
-        setErrorMessage("le partage n'est pas disponible")
-        return
-      }
-
-      await shareScreenshot(`betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`)
-
-      setScreenshotInProgress(false)
-      setScreenshotUrl(null)
-    }
-
-    void handleShare()
+    void handleShare(`betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`, setShowManualShareButton)
   }, [screenshotUrl])
 
   useEffect(() => {
@@ -107,14 +61,8 @@ function App (): ReactElement {
       return
     }
 
-    messengerButtonRef.current?.click()
+    (messengerButtonRef.current as HTMLButtonElement).click()
   }, [firebaseImageUrl])
-
-  function handleShareButtonClick (): void {
-    setScreenshotInProgress(true)
-
-    void captureScreenshot()
-  }
 
   return (
       <>
@@ -139,6 +87,14 @@ function App (): ReactElement {
                           isLoading={screenshotInProgress}
                       />
 
+                      {/* TODO : Voir si on mets ça sous forme d'une modal ou autre */}
+                      {
+                          showManualShareButton && (firebaseImageUrl !== null) &&
+                          <button onClick={() => { shareManually(firebaseImageUrl) }}>
+                              Partager
+                          </button>
+                      }
+
                       { /* TODO voir s'il est possible de s'en passer et d'utiliser une API */ }
                       <FacebookMessengerShareButton
                           hidden
@@ -157,7 +113,7 @@ function App (): ReactElement {
                       <BetInput
                           id={InputEnum.BET_VALUE}
                           textValue={betValue}
-                          setTextValue={setBetValue}
+                          setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.BET_VALUE, target.value) }}
                           unit="€"
                       >
                          { boostedBetEnabled ? ' Mise cote boostée' : 'Mise' }
@@ -166,7 +122,7 @@ function App (): ReactElement {
                       <BetInput
                           id={InputEnum.QUOTATION_ONE}
                           textValue={quotationOne}
-                          setTextValue={setQuotationOne}
+                          setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.QUOTATION_ONE, target.value) }}
                       >
                           { boostedBetEnabled ? 'Cote 1 boostée' : 'Cote 1' }
                       </BetInput>
@@ -174,7 +130,7 @@ function App (): ReactElement {
                       <BetInput
                           id={InputEnum.QUOTATION_TWO}
                           textValue={quotationTwo}
-                          setTextValue={setQuotationTwo}
+                          setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.QUOTATION_TWO, target.value) }}
                       >
                           Cote 2
                       </BetInput>

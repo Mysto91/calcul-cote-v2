@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { InputEnum } from '../enums/inputEnums'
 
 interface BetStoreInterface {
   betValue: number | null
@@ -6,11 +7,9 @@ interface BetStoreInterface {
   quotationTwo: number | null
   boostedBetEnabled: boolean
   isLoading: boolean
-  setBetValue: (newValue: number) => void
-  setQuotationOne: (newValue: number) => void
-  setQuotationTwo: (newValue: number) => void
   setBoostedBetEnabled: (newValue: boolean) => void
   setIsLoading: (newValue: boolean) => void
+  setBetStoreValue: (inputType: InputEnum, newValue: number) => void
 }
 
 export const useBetStore = create<BetStoreInterface>((set) => ({
@@ -19,9 +18,21 @@ export const useBetStore = create<BetStoreInterface>((set) => ({
   quotationTwo: null,
   boostedBetEnabled: true,
   isLoading: true,
-  setBetValue: (newBetValue: number) => { set(() => ({ betValue: newBetValue })) },
-  setQuotationOne: (newQuotationOne: number) => { set(() => ({ quotationOne: newQuotationOne })) },
-  setQuotationTwo: (newQuotationTwo: number) => { set(() => ({ quotationTwo: newQuotationTwo })) },
   setBoostedBetEnabled: (newBoostedBetEnabled: boolean) => { set(() => ({ boostedBetEnabled: newBoostedBetEnabled })) },
-  setIsLoading: (newIsLoading: boolean) => { set(() => ({ isLoading: newIsLoading })) }
+  setIsLoading: (newIsLoading: boolean) => { set(() => ({ isLoading: newIsLoading })) },
+  setBetStoreValue: (inputType: InputEnum, newValue: number) => {
+    switch (inputType) {
+      case InputEnum.QUOTATION_ONE:
+        set(() => ({ quotationOne: newValue }))
+        break
+      case InputEnum.BET_VALUE:
+        set(() => ({ betValue: newValue }))
+        break
+      case InputEnum.QUOTATION_TWO:
+        set(() => ({ quotationTwo: newValue }))
+        break
+      default:
+        break
+    }
+  }
 }))
