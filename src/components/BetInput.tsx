@@ -82,7 +82,7 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit 
           maxLength={8}
           onFocus={() => { setInputIsFocused(true) }}
           onBlur={() => { setInputIsFocused(false) }}
-          onChange={({ target }) => { setTextValue(target.value) }}
+          onChange={setTextValue}
           autoComplete="off"
       />
       {

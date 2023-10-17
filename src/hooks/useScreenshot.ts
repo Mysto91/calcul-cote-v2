@@ -1,13 +1,13 @@
 import { useState, type MutableRefObject } from 'react'
 import { EXCLUDE_FROM_SCREENSHOT } from '../constants/screenshotConstants'
 import html2canvas from 'html2canvas'
-import { getFirebaseBlob, getFirebaseImageUrl, storeImage } from '../services/useFirebase'
+import { getFirebaseBlob, getFirebaseImageUrl, storeImage } from '../services/firebase'
 import {
   hasNavigatorShare,
   navigatorCanShare,
   shareUrl,
   shareBlob
-} from '../services/useNavigator'
+} from '../services/navigator'
 import { dataURLtoBlob } from '../utils/dataURLtoBlob'
 import { useFlashMessageStore } from '../stores/useFlashMessageStore'
 import { ExceptionEnums } from '../enums/exceptionEnums'
@@ -15,14 +15,13 @@ import { ExceptionEnums } from '../enums/exceptionEnums'
 interface ScreenshotHook {
   firebaseImageUrl: string | null
   screenshotUrl: string | null
-  captureScreenshot: () => Promise<void>
-  setScreenshotUrl: (screenshotUrl: string | null) => void
-  shareScreenshot: (fileName: string, showManualShareButton: (show: boolean) => void) => Promise<void>
+  handleShare: (fileName: string, showManualShareButton: (show: boolean) => void) => Promise<void>
   screenshotInProgress: boolean
-  setScreenshotInProgress: (screenshotInProgress: boolean) => void
   shareManually: (imageUrl: string) => void
+  handleShareButtonClick: () => void
 }
 
+/* TODO : séparer le share et le screenshot */
 export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | null>): ScreenshotHook {
   const [screenshotUrl, setScreenshotUrl] = useState<string | null>(null)
   const [firebaseImageUrl, setFirebaseImageUrl] = useState<string | null>(null)
@@ -79,6 +78,7 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
         showManualShareButton(true)
         return
       }
+
       setErrorMessage("Une erreur s'est produite lors du partage")
       console.error(error)
     }
@@ -101,14 +101,29 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
     void handle()
   }
 
+  async function handleShare (fileName: string, showManualShareButton: (show: boolean) => void): Promise<void> {
+    if (screenshotUrl === null) {
+      return
+    }
+
+    await shareScreenshot(fileName, showManualShareButton)
+
+    setScreenshotInProgress(false)
+    setScreenshotUrl(null)
+  }
+
+  function handleShareButtonClick (): void {
+    setScreenshotInProgress(true)
+
+    void captureScreenshot()
+  }
+
   return {
     firebaseImageUrl,
     screenshotUrl,
-    setScreenshotUrl,
-    captureScreenshot,
-    shareScreenshot,
     screenshotInProgress,
-    setScreenshotInProgress,
-    shareManually
+    handleShare,
+    shareManually,
+    handleShareButtonClick
   }
 }

@@ -9,10 +9,10 @@ import { useErrorsStore } from './stores/useErrorsStore'
 import ShareButton from './components/ShareButton'
 import { useScreenshot } from './hooks/useScreenshot'
 import FlashMessage from './components/FlashMessage'
-import { navigatorCanShare } from './services/useNavigator'
+import { navigatorCanShare } from './services/navigator'
 import { FacebookMessengerIcon, FacebookMessengerShareButton } from 'react-share'
 import { useFlashMessageStore } from './stores/useFlashMessageStore'
-import { handleValidation } from './services/useValidation'
+import { handleValidation } from './services/validation'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -21,10 +21,8 @@ function App (): ReactElement {
   const [showManualShareButton, setShowManualShareButton] = useState<boolean>(false)
 
   const {
-    setBetValue,
-    setQuotationOne,
-    setQuotationTwo,
     setBoostedBetEnabled,
+    setBetStoreValue,
     quotationOne,
     quotationTwo,
     betValue,
@@ -37,12 +35,10 @@ function App (): ReactElement {
 
   const {
     screenshotUrl,
-    setScreenshotUrl,
-    captureScreenshot,
     firebaseImageUrl,
-    shareScreenshot,
     screenshotInProgress,
-    setScreenshotInProgress,
+    handleShareButtonClick,
+    handleShare,
     shareManually
   } = useScreenshot(betContainerRef)
 
@@ -57,18 +53,7 @@ function App (): ReactElement {
   }, [quotationOne, quotationTwo, betValue])
 
   useEffect(() => {
-    async function handleShare (): Promise<void> {
-      if (screenshotUrl === null) {
-        return
-      }
-
-      await shareScreenshot(`betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`, setShowManualShareButton)
-
-      setScreenshotInProgress(false)
-      setScreenshotUrl(null)
-    }
-
-    void handleShare()
+    void handleShare(`betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`, setShowManualShareButton)
   }, [screenshotUrl])
 
   useEffect(() => {
@@ -78,12 +63,6 @@ function App (): ReactElement {
 
     (messengerButtonRef.current as HTMLButtonElement).click()
   }, [firebaseImageUrl])
-
-  function handleShareButtonClick (): void {
-    setScreenshotInProgress(true)
-
-    void captureScreenshot()
-  }
 
   return (
       <>
@@ -134,7 +113,7 @@ function App (): ReactElement {
                       <BetInput
                           id={InputEnum.BET_VALUE}
                           textValue={betValue}
-                          setTextValue={setBetValue}
+                          setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.BET_VALUE, target.value) }}
                           unit="€"
                       >
                          { boostedBetEnabled ? ' Mise cote boostée' : 'Mise' }
@@ -143,7 +122,7 @@ function App (): ReactElement {
                       <BetInput
                           id={InputEnum.QUOTATION_ONE}
                           textValue={quotationOne}
-                          setTextValue={setQuotationOne}
+                          setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.QUOTATION_ONE, target.value) }}
                       >
                           { boostedBetEnabled ? 'Cote 1 boostée' : 'Cote 1' }
                       </BetInput>
@@ -151,7 +130,7 @@ function App (): ReactElement {
                       <BetInput
                           id={InputEnum.QUOTATION_TWO}
                           textValue={quotationTwo}
-                          setTextValue={setQuotationTwo}
+                          setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.QUOTATION_TWO, target.value) }}
                       >
                           Cote 2
                       </BetInput>
