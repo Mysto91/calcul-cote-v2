@@ -19,6 +19,8 @@ function App (): ReactElement {
   const betContainerRef = useRef(null)
   const messengerButtonRef = useRef<HTMLButtonElement | null>(null)
 
+  const [showManualShareButton, setShowManualShareButton] = useState<boolean>(false)
+
   const {
     setBetValue,
     setQuotationOne,
@@ -31,16 +33,9 @@ function App (): ReactElement {
     setIsLoading
   } = useBetStore()
 
-  const {
-    errors,
-    setErrors
-  } = useErrorsStore()
+  const { errors, setErrors } = useErrorsStore()
 
-  const {
-    flashMessage,
-    setErrorMessage,
-    clearMessage
-  } = useFlashMessageStore()
+  const { flashMessage, clearMessage } = useFlashMessageStore()
 
   const {
     screenshotUrl,
@@ -57,13 +52,7 @@ function App (): ReactElement {
     setIsLoading(true)
     setShowManualShareButton(false)
 
-    void validateSchema(
-      {
-        quotationOne,
-        quotationTwo,
-        betValue
-      }
-    ).then((error) => {
+    void validateSchema({ quotationOne, quotationTwo, betValue }).then((error) => {
       if (error === null) {
         setErrors([])
         setIsLoading(false)
@@ -88,13 +77,6 @@ function App (): ReactElement {
         return
       }
 
-      if (!navigatorCanShare()) {
-        setScreenshotInProgress(false)
-        setScreenshotUrl(null)
-        setErrorMessage("le partage n'est pas disponible")
-        return
-      }
-
       await shareScreenshot(`betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`, setShowManualShareButton)
 
       setScreenshotInProgress(false)
@@ -109,7 +91,7 @@ function App (): ReactElement {
       return
     }
 
-    messengerButtonRef.current?.click()
+    (messengerButtonRef.current as HTMLButtonElement).click()
   }, [firebaseImageUrl])
 
   function handleShareButtonClick (): void {
@@ -117,8 +99,6 @@ function App (): ReactElement {
 
     void captureScreenshot()
   }
-
-  const [showManualShareButton, setShowManualShareButton] = useState<boolean>(false)
 
   return (
       <>
@@ -145,7 +125,7 @@ function App (): ReactElement {
 
                       {/* TODO : Voir si on mets ça sous forme d'une modal ou autre */}
                       {
-                          showManualShareButton && (firebaseImageUrl != null) &&
+                          showManualShareButton && (firebaseImageUrl !== null) &&
                           <button onClick={() => { shareManually(firebaseImageUrl) }}>
                               Partager
                           </button>

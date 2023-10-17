@@ -3,8 +3,6 @@ import { EXCLUDE_FROM_SCREENSHOT } from '../constants/screenshotConstants'
 import html2canvas from 'html2canvas'
 import { getFirebaseBlob, getFirebaseImageUrl, storeImage } from '../services/useFirebase'
 import {
-  clipboardWrite,
-  hasNavigatorClipboard,
   hasNavigatorShare,
   navigatorCanShare,
   shareUrl,
@@ -46,7 +44,6 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
   }
 
   const {
-    setSuccessMessage,
     setErrorMessage,
     setInfoMessage
   } = useFlashMessageStore()
@@ -75,16 +72,7 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
         return
       }
 
-      if (hasNavigatorClipboard()) {
-        // TODO voir ce qu'il se passe réellement et comment on peut exploiter
-        await clipboardWrite(imageBlob)
-
-        setSuccessMessage('Image copiée dans le clipboard!')
-
-        return
-      }
-
-      setErrorMessage('Impossible de partager')
+      setInfoMessage("La fonction de partage du navigateur n'est pas disponible")
     } catch (error) {
       if (error instanceof DOMException && error.name === ExceptionEnums.NOT_ALLOWED) {
         setInfoMessage('Cliquez sur le bouton partager')
