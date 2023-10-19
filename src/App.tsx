@@ -63,6 +63,10 @@ function App (): ReactElement {
       return
     }
 
+    if (firebaseImageUrl === null || firebaseImageUrl === undefined) {
+      return
+    }
+
     (messengerButtonRef.current as HTMLButtonElement).click()
   }, [firebaseImageUrl])
 
@@ -164,11 +168,25 @@ function App (): ReactElement {
                 flex md:hidden justify-center
               `}
           >
-              <ShareButton
-                  disabled={errors.length > 0}
-                  onClick={handleShareButtonClick}
-                  isLoading={screenshotInProgress}
-              />
+              {
+                  !showManualShareButton &&
+                  <ShareButton
+                      className="w-16 h-10"
+                      disabled={errors.length > 0}
+                      onClick={handleShareButtonClick}
+                      isLoading={screenshotInProgress}
+                  />
+              }
+
+              {
+                  showManualShareButton && (firebaseImageUrl !== null) &&
+                  <Button
+                      className="w-16 h-10"
+                      onClick={() => { shareManually(firebaseImageUrl) }}
+                  >
+                      <IconRocket className="w-6 w-6" />
+                  </Button>
+              }
           </div>
       </>
   )
