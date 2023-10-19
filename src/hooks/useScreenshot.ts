@@ -74,7 +74,7 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
       setInfoMessage("La fonction de partage du navigateur n'est pas disponible")
     } catch (error) {
       if (error instanceof DOMException && error.name === ExceptionEnums.NOT_ALLOWED) {
-        setInfoMessage('Cliquez sur le bouton partager')
+        setInfoMessage('Cliquez sur la fusée pour partager')
         showManualShareButton(true)
         return
       }

@@ -13,6 +13,8 @@ import { navigatorCanShare } from './services/navigator'
 import { FacebookMessengerIcon, FacebookMessengerShareButton } from 'react-share'
 import { useFlashMessageStore } from './stores/useFlashMessageStore'
 import { handleValidation } from './services/validation'
+import IconRocket from './components/icons/IconRocket'
+import Button from './components/Button'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -81,18 +83,24 @@ function App (): ReactElement {
           >
               <div className="w-full">
                   <div className="hidden md:flex md:justify-center">
-                      <ShareButton
-                          disabled={errors.length > 0}
-                          onClick={handleShareButtonClick}
-                          isLoading={screenshotInProgress}
-                      />
+                      {
+                          !showManualShareButton &&
+                          <ShareButton
+                              className="w-16 h-10"
+                              disabled={errors.length > 0}
+                              onClick={handleShareButtonClick}
+                              isLoading={screenshotInProgress}
+                          />
+                      }
 
-                      {/* TODO : Voir si on mets ça sous forme d'une modal ou autre */}
                       {
                           showManualShareButton && (firebaseImageUrl !== null) &&
-                          <button onClick={() => { shareManually(firebaseImageUrl) }}>
-                              Partager
-                          </button>
+                          <Button
+                              className="w-16 h-10"
+                              onClick={() => { shareManually(firebaseImageUrl) }}
+                          >
+                              <IconRocket className="w-6 w-6" />
+                          </Button>
                       }
 
                       { /* TODO voir s'il est possible de s'en passer et d'utiliser une API */ }
