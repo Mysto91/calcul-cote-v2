@@ -4,7 +4,7 @@ import IconDownArrow from '../icons/IconDownArrow'
 import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
 import TableRowExpansion from './TableRowExpansion'
 import Progress from '../Progress'
-import { type TableRowInterface } from '../../interfaces/tableRowInterface'
+import { type TableRow as TableRowInterface } from '../../interfaces/tableRowInterface'
 import clsx from 'clsx'
 
 interface TableRowProps extends ReactElementProps, TableRowInterface {

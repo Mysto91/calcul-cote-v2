@@ -1,6 +1,6 @@
 import { type BetInterface } from './betInterface'
 
-export interface TableRowInterface {
+export interface TableRow {
   title: string
   bet: BetInterface
 }

@@ -6,7 +6,7 @@ import TableRow from './TableRow'
 import { useErrorsStore } from '../../stores/useErrorsStore'
 import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
 import { formatNumber } from '../../utils/formatNumber'
-import { type TableRowInterface } from '../../interfaces/tableRowInterface'
+import { type TableRow as TableRowInterface } from '../../interfaces/tableRowInterface'
 import clsx from 'clsx'
 
 export default function Table ({ className }: ReactElementProps): ReactElement {
