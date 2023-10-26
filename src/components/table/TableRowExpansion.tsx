@@ -1,7 +1,7 @@
 import React, { type ReactElement } from 'react'
-import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
+import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
 
-interface TableRowExpansionProps extends ReactElementPropsInterface {
+interface TableRowExpansionProps extends ReactElementProps {
   isExpanded: boolean
 }
 

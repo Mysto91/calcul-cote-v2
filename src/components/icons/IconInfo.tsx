@@ -1,7 +1,7 @@
 import React, { type ReactElement } from 'react'
-import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
+import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
 
-export default function IconInfo ({ className }: ReactElementPropsInterface): ReactElement {
+export default function IconInfo ({ className }: ReactElementProps): ReactElement {
   return (
       <svg
           className={className}

@@ -1,8 +1,8 @@
 import React, { type ReactElement } from 'react'
-import { type ReactElementPropsInterface } from '../interfaces/ReactElementPropsInterface'
+import { type ReactElementProps } from '../interfaces/ReactElementPropsInterface'
 import { EXCLUDE_FROM_SCREENSHOT } from '../constants/screenshotConstants'
 
-interface ButtonProps extends ReactElementPropsInterface {
+interface ButtonProps extends ReactElementProps {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 

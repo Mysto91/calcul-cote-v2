@@ -1,7 +1,7 @@
 import React, { type ReactElement } from 'react'
-import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
+import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
 
-export default function TableHeader ({ children, className }: ReactElementPropsInterface): ReactElement {
+export default function TableHeader ({ children, className }: ReactElementProps): ReactElement {
   return (
     <th className={`
         p-2
