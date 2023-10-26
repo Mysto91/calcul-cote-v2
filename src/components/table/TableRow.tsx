@@ -1,13 +1,13 @@
 import React, { type ReactElement, useState } from 'react'
 import { formatToEuroCurrency } from '../../utils/currency'
 import IconDownArrow from '../icons/IconDownArrow'
-import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
+import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
 import TableRowExpansion from './TableRowExpansion'
 import Progress from '../Progress'
-import { type TableRowInterface } from '../../interfaces/tableRowInterface'
+import { type TableRow as TableRowInterface } from '../../interfaces/tableRowInterface'
 import clsx from 'clsx'
 
-interface TableRowProps extends ReactElementPropsInterface, TableRowInterface {
+interface TableRowProps extends ReactElementProps, TableRowInterface {
 }
 
 export default function TableRow ({ title, bet, className }: TableRowProps): ReactElement {

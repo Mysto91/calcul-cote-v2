@@ -1,8 +1,8 @@
 import React from 'react'
 import { type ReactElement } from 'react'
-import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
+import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
 
-export default function IconSpinner ({ className }: ReactElementPropsInterface): ReactElement {
+export default function IconSpinner ({ className }: ReactElementProps): ReactElement {
   return (
     <div role="status">
         <svg

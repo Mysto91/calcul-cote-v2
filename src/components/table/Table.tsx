@@ -4,12 +4,12 @@ import { useBetStore } from '../../stores/useBetStore'
 import TableHeader from './TableHeader'
 import TableRow from './TableRow'
 import { useErrorsStore } from '../../stores/useErrorsStore'
-import { type ReactElementPropsInterface } from '../../interfaces/ReactElementPropsInterface'
+import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
 import { formatNumber } from '../../utils/formatNumber'
-import { type TableRowInterface } from '../../interfaces/tableRowInterface'
+import { type TableRow as TableRowInterface } from '../../interfaces/tableRowInterface'
 import clsx from 'clsx'
 
-export default function Table ({ className }: ReactElementPropsInterface): ReactElement {
+export default function Table ({ className }: ReactElementProps): ReactElement {
   const {
     betValue,
     quotationOne,

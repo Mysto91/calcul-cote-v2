@@ -1,5 +1,5 @@
 import React, { type ReactElement } from 'react'
-import { type ReactElementPropsInterface } from '../interfaces/ReactElementPropsInterface'
+import { type ReactElementProps } from '../interfaces/ReactElementPropsInterface'
 import { StatusEnums } from '../enums/statusEnums'
 import IconClose from './icons/IconClose'
 import IconSuccess from './icons/IconSuccess'
@@ -7,7 +7,7 @@ import IconError from './icons/IconError'
 import { type FlashMessage as FlashMessageInterface } from '../interfaces/flashMessageInterface'
 import IconInfo from './icons/IconInfo'
 
-interface FlashMessageProps extends ReactElementPropsInterface {
+interface FlashMessageProps extends ReactElementProps {
   flashMessage: FlashMessageInterface | null
   clearMessage: () => void
 }

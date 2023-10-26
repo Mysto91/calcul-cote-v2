@@ -1,4 +1,4 @@
-export interface BetInterface {
+export interface Bet {
   betOne: number
   betTwo: number
   quotation: number
