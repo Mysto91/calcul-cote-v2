@@ -1,4 +1,4 @@
-import { type BetInterface } from '../interfaces/betInterface'
+import { type Bet } from '../interfaces/betInterface'
 import { truncateValues } from '../utils/truncate'
 
 interface BetParams {
@@ -8,7 +8,7 @@ interface BetParams {
   boostedBetEnabled: boolean
 }
 
-export function calculateNoBet (betParams: BetParams, reverse: boolean = false): BetInterface {
+export function calculateNoBet (betParams: BetParams, reverse: boolean = false): Bet {
   const { betValue, q1, q2, boostedBetEnabled } = betParams
 
   let betOne: number, betTwo: number, quotationRef: number
@@ -28,7 +28,7 @@ export function calculateNoBet (betParams: BetParams, reverse: boolean = false):
   const quotation = quotationRef / finalBetValue
   const probability = 1 / quotation
 
-  const bet: BetInterface = {
+  const bet: Bet = {
     betOne,
     betTwo,
     quotation,
@@ -45,7 +45,7 @@ export function calculateNoBet (betParams: BetParams, reverse: boolean = false):
   return truncateValues(bet)
 }
 
-export function calculateOneOrTwo (betParams: BetParams): BetInterface {
+export function calculateOneOrTwo (betParams: BetParams): Bet {
   const { betValue, q1, q2, boostedBetEnabled } = betParams
 
   let betOne: number, betTwo: number
@@ -63,7 +63,7 @@ export function calculateOneOrTwo (betParams: BetParams): BetInterface {
   const quotation = (q1 * q2) / (q1 + q2)
   const probability = 1 / quotation
 
-  const bet: BetInterface = {
+  const bet: Bet = {
     betOne,
     betTwo,
     quotation,

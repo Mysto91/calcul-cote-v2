@@ -1,5 +1,5 @@
 import { calculateOneOrTwo } from '../../services/betCalculate'
-import { type BetInterface } from '../../interfaces/betInterface'
+import { type Bet } from '../../interfaces/betInterface'
 
 it('test with boosted bet enabled', () => {
   const betParams = {
@@ -9,9 +9,9 @@ it('test with boosted bet enabled', () => {
     boostedBetEnabled: true
   }
 
-  const bet: BetInterface = calculateOneOrTwo(betParams)
+  const bet: Bet = calculateOneOrTwo(betParams)
 
-  const expected: BetInterface = {
+  const expected: Bet = {
     quotation: 1.11,
     betOne: 10,
     betTwo: 8,
@@ -31,9 +31,9 @@ it('test with boosted bet disabled', () => {
     boostedBetEnabled: false
   }
 
-  const bet: BetInterface = calculateOneOrTwo(betParams)
+  const bet: Bet = calculateOneOrTwo(betParams)
 
-  const expected: BetInterface = {
+  const expected: Bet = {
     quotation: 1.05,
     betOne: 5.24,
     betTwo: 4.76,
