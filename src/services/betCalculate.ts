@@ -13,17 +13,21 @@ export function calculateNoBet (betParams: BetParams, reverse: boolean = false):
 
   let betOne: number, betTwo: number, quotationRef: number
 
+  let finalBetValue: number = betValue
+
   if (boostedBetEnabled) {
     betOne = betValue !== 0 ? betValue : 10
-    betTwo = reverse ? betOne * (q2 - 1) : betOne / (q2 - 1)
-    quotationRef = (reverse ? betTwo : betOne) * q1
+    betTwo = reverse ? betOne * (q1 - 1) : betOne / (q2 - 1)
+
+    quotationRef = reverse ? betTwo * q2 : betOne * q1
+
+    finalBetValue = betOne + betTwo
   } else {
     betTwo = betValue / q2
     betOne = betValue - betTwo
+
     quotationRef = betOne * q1
   }
-
-  const finalBetValue = boostedBetEnabled ? betOne + betTwo : betValue
 
   const quotation = quotationRef / finalBetValue
   const probability = 1 / quotation
