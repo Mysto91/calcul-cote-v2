@@ -18,9 +18,9 @@ function getFirebaseStorageRef (fileName: string): StorageReference {
 // TODO voir pour initialiser qu'une seule fois
 export function firebaseInit (): FirebaseApp {
   const firebaseConfig: FirebaseConfig = {
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID as string,
-    privateKey: process.env.REACT_APP_FIREBASE_PRIVATE_KEY as string,
-    clientEmail: process.env.REACT_APP_FIREBASE_CLIENT_EMAIL as string
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID ?? '',
+    privateKey: process.env.REACT_APP_FIREBASE_PRIVATE_KEY ?? '',
+    clientEmail: process.env.REACT_APP_FIREBASE_CLIENT_EMAIL ?? ''
   }
 
   return initializeApp(firebaseConfig)

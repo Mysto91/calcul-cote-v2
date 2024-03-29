@@ -67,7 +67,7 @@ function App (): ReactElement {
       return
     }
 
-    (messengerButtonRef.current as HTMLButtonElement).click()
+    messengerButtonRef.current?.click()
   }, [firebaseImageUrl])
 
   return (

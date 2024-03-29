@@ -48,7 +48,11 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
   } = useFlashMessageStore()
 
   async function getScreenshotImageBlob (fileName: string): Promise<Blob | null> {
-    const image = dataURLtoBlob(screenshotUrl as string)
+    if (screenshotUrl === null) {
+      return null
+    }
+
+    const image = dataURLtoBlob(screenshotUrl)
 
     await storeImage(image, fileName)
 
