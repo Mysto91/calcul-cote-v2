@@ -1,9 +1,6 @@
 import React, { type ReactElement, useEffect, useRef, useState } from 'react'
 import './App.css'
 import Table from './components/table/Table'
-import BetInput from './components/BetInput'
-import BetSwitch from './components/BetSwitch'
-import { InputEnum } from './enums/inputEnums'
 import { useBetStore } from './stores/useBetStore'
 import { useErrorsStore } from './stores/useErrorsStore'
 import ShareButton from './components/ShareButton'
@@ -15,6 +12,7 @@ import { useFlashMessageStore } from './stores/useFlashMessageStore'
 import { handleValidation } from './services/validation'
 import IconRocket from './components/icons/IconRocket'
 import Button from './components/Button'
+import BetForm from './components/inputs/BetForm'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -23,12 +21,9 @@ function App (): ReactElement {
   const [showManualShareButton, setShowManualShareButton] = useState<boolean>(false)
 
   const {
-    setBoostedBetEnabled,
-    setBetStoreValue,
     quotationOne,
     quotationTwo,
     betValue,
-    boostedBetEnabled,
     setIsLoading
   } = useBetStore()
 
@@ -72,10 +67,10 @@ function App (): ReactElement {
 
   return (
       <>
-          { /* TODO avoir plusieurs messages */ }
           <div className="mt-4 flex justify-center">
             <FlashMessage flashMessage={flashMessage} clearMessage={clearMessage} />
           </div>
+
           <div
               ref={betContainerRef}
               className="
@@ -107,7 +102,6 @@ function App (): ReactElement {
                           </Button>
                       }
 
-                      { /* TODO voir s'il est possible de s'en passer et d'utiliser une API */ }
                       <FacebookMessengerShareButton
                           hidden
                           ref={messengerButtonRef}
@@ -117,56 +111,21 @@ function App (): ReactElement {
                           <FacebookMessengerIcon />
                       </FacebookMessengerShareButton>
                   </div>
-                  <form className="
-                        md:mt-6
-                        lg:flex lg:items-center lg:justify-center
-                        space-y-4 lg:space-y-0 lg:space-x-4"
-                  >
-                      <BetInput
-                          id={InputEnum.BET_VALUE}
-                          textValue={betValue}
-                          setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.BET_VALUE, target.value) }}
-                          unit="€"
-                      >
-                         { boostedBetEnabled ? ' Mise cote boostée' : 'Mise' }
-                      </BetInput>
 
-                      <BetInput
-                          id={InputEnum.QUOTATION_ONE}
-                          textValue={quotationOne}
-                          setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.QUOTATION_ONE, target.value) }}
-                      >
-                          { boostedBetEnabled ? 'Cote 1 boostée' : 'Cote 1' }
-                      </BetInput>
-
-                      <BetInput
-                          id={InputEnum.QUOTATION_TWO}
-                          textValue={quotationTwo}
-                          setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.QUOTATION_TWO, target.value) }}
-                      >
-                          Cote 2
-                      </BetInput>
-
-                      <BetSwitch
-                          id={InputEnum.BET_BOOSTED}
-                          isActive={boostedBetEnabled}
-                          setIsActive={setBoostedBetEnabled}
-                      >
-                          Cote boostée
-                      </BetSwitch>
-                  </form>
+                  <BetForm />
 
                   <div className="flex justify-center">
                       <Table className="mt-20 lg:mt-10" />
                   </div>
               </div>
           </div>
-          <div className={`
+
+          <div className="
                 fixed bottom-0
                 mb-5
                 w-full
                 flex md:hidden justify-center
-              `}
+              "
           >
               {
                   !showManualShareButton &&

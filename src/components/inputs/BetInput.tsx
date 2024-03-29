@@ -1,9 +1,9 @@
 import React, { type ReactElement, useState } from 'react'
-import { type ReactElementProps } from '../interfaces/ReactElementPropsInterface'
-import { useErrorsStore } from '../stores/useErrorsStore'
-import { hasInputError } from '../services/hasInputError'
-import { type InputEnum } from '../enums/inputEnums'
-import IconCheck from './icons/IconCheck'
+import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
+import { useErrorsStore } from '../../stores/useErrorsStore'
+import { hasInputError } from '../../services/hasInputError'
+import { type InputEnum } from '../../enums/inputEnums'
+import IconCheck from '../icons/IconCheck'
 
 interface BetInputProps extends ReactElementProps {
   id: InputEnum

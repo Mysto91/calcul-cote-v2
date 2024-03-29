@@ -1,5 +1,5 @@
 import React, { type ReactElement } from 'react'
-import { type ReactElementProps } from '../interfaces/ReactElementPropsInterface'
+import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
 import clsx from 'clsx'
 
 interface BetSwitchProps extends ReactElementProps {
