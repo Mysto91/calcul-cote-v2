@@ -6,11 +6,11 @@ interface BetState {
   quotationOne: number | null
   quotationTwo: number | null
   boostedBetEnabled: boolean
-  isLoading: boolean
+  isCalculating: boolean
 }
 
 interface BetContextInterface extends BetState {
-  setIsLoading: (newValue: boolean) => void
+  setIsCalculating: (newValue: boolean) => void
   setBetStoreValue: (inputType: InputEnum, newValue: number | boolean) => void
 }
 
@@ -19,8 +19,8 @@ export const BetContext = createContext<BetContextInterface>({
   quotationOne: null,
   quotationTwo: null,
   boostedBetEnabled: true,
-  isLoading: true,
-  setIsLoading: () => {},
+  isCalculating: true,
+  setIsCalculating: () => {},
   setBetStoreValue: () => {}
 })
 
@@ -45,21 +45,21 @@ function betReducer (betState: BetState, action: Action): BetState {
 }
 
 export function BetContextProvider ({ children }: { children: ReactNode }): ReactElement {
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isCalculating, setIsCalculating] = useState<boolean>(true)
 
   const [state, dispatch] = useReducer(betReducer, {
     betValue: 10,
     quotationOne: 2,
     quotationTwo: null,
     boostedBetEnabled: true,
-    isLoading: true
+    isCalculating: true
   })
 
   return (
     <BetContext.Provider value={{
       ...state,
-      isLoading,
-      setIsLoading,
+      isCalculating,
+      setIsCalculating,
       setBetStoreValue: (inputType: InputEnum, newValue: number | boolean) => { dispatch({ type: inputType, newValue }) }
     }}>
       {children}

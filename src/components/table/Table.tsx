@@ -15,7 +15,7 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
     quotationOne,
     quotationTwo,
     boostedBetEnabled,
-    isLoading
+    isCalculating
   } = useContext(BetContext)
 
   const headers: string[] = [
@@ -32,7 +32,7 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
 
   let tableRows: TableRowInterface[] = []
 
-  if (!isLoading && errors.length === 0) {
+  if (!isCalculating && errors.length === 0) {
     const betParams = {
       betValue: formatNumber(betValue),
       q1: formatNumber(quotationOne),

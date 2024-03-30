@@ -24,7 +24,7 @@ function App (): ReactElement {
     quotationOne,
     quotationTwo,
     betValue,
-    setIsLoading
+    setIsCalculating
   } = useContext(BetContext)
 
   const { flashMessage, clearMessage } = useContext(FlashMessageContext)
@@ -44,7 +44,7 @@ function App (): ReactElement {
 
     void handleValidation({
       params: { quotationOne, quotationTwo, betValue },
-      setIsLoading,
+      setIsLoading: setIsCalculating,
       setErrors
     })
   }, [quotationOne, quotationTwo, betValue])
