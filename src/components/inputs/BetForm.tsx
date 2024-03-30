@@ -6,7 +6,6 @@ import { BetContext } from '../../contexts/BetContext'
 
 export default function BetForm (): ReactElement {
   const {
-    setBoostedBetEnabled,
     setBetStoreValue,
     quotationOne,
     quotationTwo,
@@ -48,7 +47,7 @@ export default function BetForm (): ReactElement {
         <BetSwitch
             id={InputEnum.BET_BOOSTED}
             isActive={boostedBetEnabled}
-            setIsActive={setBoostedBetEnabled}
+            setIsActive={ (newValue) => { setBetStoreValue(InputEnum.BET_BOOSTED, newValue) }}
         >
             Cote boostée
         </BetSwitch>

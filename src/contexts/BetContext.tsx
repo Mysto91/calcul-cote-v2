@@ -1,15 +1,17 @@
-import React, { type ReactElement, createContext, useState, type ReactNode } from 'react'
+import React, { type ReactElement, createContext, useState, type ReactNode, useReducer } from 'react'
 import { InputEnum } from '../enums/inputEnums'
 
-interface BetContextInterface {
+interface BetState {
   betValue: number | null
   quotationOne: number | null
   quotationTwo: number | null
   boostedBetEnabled: boolean
   isLoading: boolean
-  setBoostedBetEnabled: (newValue: boolean) => void
+}
+
+interface BetContextInterface extends BetState {
   setIsLoading: (newValue: boolean) => void
-  setBetStoreValue: (inputType: InputEnum, newValue: number) => void
+  setBetStoreValue: (inputType: InputEnum, newValue: number | boolean) => void
 }
 
 export const BetContext = createContext<BetContextInterface>({
@@ -18,44 +20,47 @@ export const BetContext = createContext<BetContextInterface>({
   quotationTwo: null,
   boostedBetEnabled: true,
   isLoading: true,
-  setBoostedBetEnabled: () => {},
   setIsLoading: () => {},
   setBetStoreValue: () => {}
 })
 
+interface Action {
+  type: InputEnum
+  newValue: any
+}
+
+function betReducer (betState: BetState, action: Action): BetState {
+  switch (action.type) {
+    case InputEnum.BET_VALUE:
+      return { ...betState, betValue: action.newValue }
+    case InputEnum.QUOTATION_ONE:
+      return { ...betState, quotationOne: action.newValue }
+    case InputEnum.QUOTATION_TWO:
+      return { ...betState, quotationTwo: action.newValue }
+    case InputEnum.BET_BOOSTED:
+      return { ...betState, boostedBetEnabled: action.newValue }
+    default:
+      return betState
+  }
+}
+
 export function BetContextProvider ({ children }: { children: ReactNode }): ReactElement {
-  const [betValue, setBetValue] = useState<number | null>(10)
-  const [quotationOne, setQuotationOne] = useState<number | null>(2)
-  const [quotationTwo, setQuotationTwo] = useState<number | null>(null)
-  const [boostedBetEnabled, setBoostedBetEnabled] = useState<boolean>(true)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  function setBetStoreValue (inputType: InputEnum, newValue: number): void {
-    switch (inputType) {
-      case InputEnum.QUOTATION_ONE:
-        setQuotationOne(newValue)
-        break
-      case InputEnum.BET_VALUE:
-        setBetValue(newValue)
-        break
-      case InputEnum.QUOTATION_TWO:
-        setQuotationTwo(newValue)
-        break
-      default:
-        break
-    }
-  }
+  const [state, dispatch] = useReducer(betReducer, {
+    betValue: 10,
+    quotationOne: 2,
+    quotationTwo: null,
+    boostedBetEnabled: true,
+    isLoading: true
+  })
 
   return (
     <BetContext.Provider value={{
-      betValue,
-      quotationOne,
-      quotationTwo,
-      boostedBetEnabled,
+      ...state,
       isLoading,
       setIsLoading,
-      setBoostedBetEnabled,
-      setBetStoreValue
+      setBetStoreValue: (inputType: InputEnum, newValue: number | boolean) => { dispatch({ type: inputType, newValue }) }
     }}>
       {children}
     </BetContext.Provider>
