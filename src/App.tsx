@@ -7,12 +7,12 @@ import { useScreenshot } from './hooks/useScreenshot'
 import FlashMessage from './components/FlashMessage'
 import { navigatorCanShare } from './services/navigator'
 import { FacebookMessengerIcon, FacebookMessengerShareButton } from 'react-share'
-import { useFlashMessageStore } from './stores/useFlashMessageStore'
 import { handleValidation } from './services/validation'
 import IconRocket from './components/icons/IconRocket'
 import Button from './components/Button'
 import BetForm from './components/inputs/BetForm'
 import { ErrorContext } from './contexts/ErrorContext'
+import { FlashMessageContext } from './contexts/FlashMessageContext'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -27,8 +27,7 @@ function App (): ReactElement {
     setIsLoading
   } = useBetStore()
 
-  const { flashMessage, clearMessage } = useFlashMessageStore()
-
+  const { flashMessage, clearMessage } = useContext(FlashMessageContext)
   const { errors, setErrors } = useContext(ErrorContext)
 
   const {
