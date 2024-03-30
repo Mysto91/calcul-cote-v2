@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
+import { ErrorContextProvider } from './contexts/ErrorContext'
 
 if (process.env.REACT_APP_APP_ENV === 'prod') {
   console.log = () => {}
@@ -14,6 +15,8 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App />
+    <ErrorContextProvider>
+      <App />
+    </ErrorContextProvider>
   </React.StrictMode>
 )

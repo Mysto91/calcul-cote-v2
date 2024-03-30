@@ -1,13 +1,13 @@
-import React, { type ReactElement } from 'react'
+import React, { useContext, type ReactElement } from 'react'
 import { calculateNoBet, calculateOneOrTwo } from '../../services/betCalculate'
 import { useBetStore } from '../../stores/useBetStore'
 import TableHeader from './TableHeader'
 import TableRow from './TableRow'
-import { useErrorsStore } from '../../stores/useErrorsStore'
 import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
 import { formatNumber } from '../../utils/formatNumber'
 import { type TableRow as TableRowInterface } from '../../interfaces/tableRowInterface'
 import clsx from 'clsx'
+import { ErrorContext } from '../../contexts/ErrorContext'
 
 export default function Table ({ className }: ReactElementProps): ReactElement {
   const {
@@ -28,7 +28,7 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
     'Gain net'
   ]
 
-  const { errors } = useErrorsStore()
+  const { errors } = useContext(ErrorContext)
 
   let tableRows: TableRowInterface[] = []
 
