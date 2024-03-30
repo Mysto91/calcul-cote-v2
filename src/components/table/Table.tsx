@@ -1,6 +1,5 @@
 import React, { useContext, type ReactElement } from 'react'
 import { calculateNoBet, calculateOneOrTwo } from '../../services/betCalculate'
-import { useBetStore } from '../../stores/useBetStore'
 import TableHeader from './TableHeader'
 import TableRow from './TableRow'
 import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
@@ -8,6 +7,7 @@ import { formatNumber } from '../../utils/formatNumber'
 import { type TableRow as TableRowInterface } from '../../interfaces/tableRowInterface'
 import clsx from 'clsx'
 import { ErrorContext } from '../../contexts/ErrorContext'
+import { BetContext } from '../../contexts/BetContext'
 
 export default function Table ({ className }: ReactElementProps): ReactElement {
   const {
@@ -16,7 +16,7 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
     quotationTwo,
     boostedBetEnabled,
     isLoading
-  } = useBetStore()
+  } = useContext(BetContext)
 
   const headers: string[] = [
     '',

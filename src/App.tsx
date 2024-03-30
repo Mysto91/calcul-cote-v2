@@ -1,7 +1,6 @@
 import React, { type ReactElement, useEffect, useRef, useState, useContext } from 'react'
 import './App.css'
 import Table from './components/table/Table'
-import { useBetStore } from './stores/useBetStore'
 import ShareButton from './components/ShareButton'
 import { useScreenshot } from './hooks/useScreenshot'
 import FlashMessage from './components/FlashMessage'
@@ -13,6 +12,7 @@ import Button from './components/Button'
 import BetForm from './components/inputs/BetForm'
 import { ErrorContext } from './contexts/ErrorContext'
 import { FlashMessageContext } from './contexts/FlashMessageContext'
+import { BetContext } from './contexts/BetContext'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -25,7 +25,7 @@ function App (): ReactElement {
     quotationTwo,
     betValue,
     setIsLoading
-  } = useBetStore()
+  } = useContext(BetContext)
 
   const { flashMessage, clearMessage } = useContext(FlashMessageContext)
   const { errors, setErrors } = useContext(ErrorContext)
