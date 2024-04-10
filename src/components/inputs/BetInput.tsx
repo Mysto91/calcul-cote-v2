@@ -1,9 +1,9 @@
-import React, { type ReactElement, useState } from 'react'
+import React, { type ReactElement, useState, useContext } from 'react'
 import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
-import { useErrorsStore } from '../../stores/useErrorsStore'
 import { hasInputError } from '../../services/hasInputError'
 import { type InputEnum } from '../../enums/inputEnums'
 import IconCheck from '../icons/IconCheck'
+import { ErrorContext } from '../../contexts/ErrorContext'
 
 interface BetInputProps extends ReactElementProps {
   id: InputEnum
@@ -40,7 +40,7 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit 
     return 'w-12'
   }
 
-  const { errors } = useErrorsStore()
+  const { errors } = useContext(ErrorContext)
 
   return (
     <div className="

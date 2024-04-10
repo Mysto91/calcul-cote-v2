@@ -1,4 +1,4 @@
-import { useState, type MutableRefObject } from 'react'
+import { useState, type MutableRefObject, useContext } from 'react'
 import { EXCLUDE_FROM_SCREENSHOT } from '../constants/screenshotConstants'
 import html2canvas from 'html2canvas'
 import { getFirebaseBlob, getFirebaseImageUrl, storeImage } from '../services/firebase'
@@ -9,8 +9,8 @@ import {
   shareBlob
 } from '../services/navigator'
 import { dataURLtoBlob } from '../utils/dataURLtoBlob'
-import { useFlashMessageStore } from '../stores/useFlashMessageStore'
 import { ExceptionEnums } from '../enums/exceptionEnums'
+import { FlashMessageContext } from '../contexts/FlashMessageContext'
 
 interface ScreenshotHook {
   firebaseImageUrl: string | null
@@ -42,10 +42,7 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
     }
   }
 
-  const {
-    setErrorMessage,
-    setInfoMessage
-  } = useFlashMessageStore()
+  const { addErrorMessage, addInfoMessage } = useContext(FlashMessageContext)
 
   async function getScreenshotImageBlob (fileName: string): Promise<Blob | null> {
     if (screenshotUrl === null) {
@@ -75,15 +72,15 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
         return
       }
 
-      setInfoMessage("La fonction de partage du navigateur n'est pas disponible")
+      addInfoMessage("La fonction de partage du navigateur n'est pas disponible")
     } catch (error) {
       if (error instanceof DOMException && error.name === ExceptionEnums.NOT_ALLOWED) {
-        setInfoMessage('Cliquez sur la fusée pour partager')
+        addInfoMessage('Cliquez sur la fusée pour partager')
         showManualShareButton(true)
         return
       }
 
-      setErrorMessage("Une erreur s'est produite lors du partage")
+      addErrorMessage("Une erreur s'est produite lors du partage")
       console.error(error)
     }
   }
@@ -98,7 +95,7 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
         await shareUrl(imageUrl)
       } catch (error) {
         console.error(error)
-        setErrorMessage("Une erreur s'est produite lors du partage")
+        addErrorMessage("Une erreur s'est produite lors du partage")
       }
     }
 

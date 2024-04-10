@@ -1,18 +1,17 @@
-import React, { type ReactElement } from 'react'
+import React, { useContext, type ReactElement } from 'react'
 import BetInput from './BetInput'
 import { InputEnum } from '../../enums/inputEnums'
-import { useBetStore } from '../../stores/useBetStore'
 import BetSwitch from './BetSwitch'
+import { BetContext } from '../../contexts/BetContext'
 
 export default function BetForm (): ReactElement {
   const {
-    setBoostedBetEnabled,
     setBetStoreValue,
     quotationOne,
     quotationTwo,
     betValue,
     boostedBetEnabled
-  } = useBetStore()
+  } = useContext(BetContext)
 
   return (
     <form className="
@@ -48,7 +47,7 @@ export default function BetForm (): ReactElement {
         <BetSwitch
             id={InputEnum.BET_BOOSTED}
             isActive={boostedBetEnabled}
-            setIsActive={setBoostedBetEnabled}
+            setIsActive={ (newValue) => { setBetStoreValue(InputEnum.BET_BOOSTED, newValue) }}
         >
             Cote boostée
         </BetSwitch>
