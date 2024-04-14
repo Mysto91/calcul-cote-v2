@@ -5,6 +5,7 @@ export interface BetSchemaInterface {
   quotationOne: any
   quotationTwo: any
   betValue: any
+  boostedBetEnabled: any
 }
 
 export default function inputSchema (): yup.Schema<BetSchemaInterface> {
@@ -14,6 +15,7 @@ export default function inputSchema (): yup.Schema<BetSchemaInterface> {
     quotationTwo: numberGreaterThanSchema(1, 'cote 2')
       .required('La cote 2 doit être renseignée'),
     betValue: numberGreaterThanSchema(0, 'mise')
-      .required('La mise doit être renseignée')
+      .required('La mise doit être renseignée'),
+    boostedBetEnabled: yup.boolean().required()
   })
 }

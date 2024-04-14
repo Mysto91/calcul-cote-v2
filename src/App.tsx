@@ -24,6 +24,7 @@ function App (): ReactElement {
     quotationOne,
     quotationTwo,
     betValue,
+    boostedBetEnabled,
     setIsCalculating
   } = useContext(BetContext)
 
@@ -41,13 +42,12 @@ function App (): ReactElement {
 
   useEffect(() => {
     setShowManualShareButton(false)
-
     void handleValidation({
-      params: { quotationOne, quotationTwo, betValue },
+      params: { quotationOne, quotationTwo, betValue, boostedBetEnabled },
       setIsLoading: setIsCalculating,
       setErrors
     })
-  }, [quotationOne, quotationTwo, betValue])
+  }, [quotationOne, quotationTwo, betValue, boostedBetEnabled])
 
   useEffect(() => {
     void handleShare(`betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`, setShowManualShareButton)
