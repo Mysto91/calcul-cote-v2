@@ -1,5 +1,4 @@
-export interface ReactElementProps {
+export interface ReactElementProps extends React.PropsWithChildren {
   className?: string
-  children?: string | JSX.Element
   disabled?: boolean
 }
