@@ -22,46 +22,64 @@ interface FlashMessageStyle extends Style {
   closeButton: Style
 }
 
+const statusMap = new Map<StatusEnums, { title: string, colorStyle: FlashMessageStyle, icon: ReactElement }>([
+  [
+    StatusEnums.ERROR,
+    {
+      title: 'Erreur',
+      colorStyle: {
+        bgColor: 'bg-red-100',
+        span: {
+          bgColor: 'bg-red-500'
+        },
+        closeButton: {
+          fillColor: 'fill-red-500'
+        }
+      },
+      icon: <IconError className="fill-red-500 h-8 w-8" />
+    }
+  ],
+  [
+    StatusEnums.SUCCESS,
+    {
+      title: 'Succès',
+      colorStyle: {
+        bgColor: 'bg-green-100',
+        span: {
+          bgColor: 'bg-green-500'
+        },
+        closeButton: {
+          fillColor: 'fill-green-500'
+        }
+      },
+      icon: <IconSuccess className="fill-green-500 h-8 w-8" />
+    }
+  ],
+  [
+    StatusEnums.INFO,
+    {
+      title: 'Info',
+      colorStyle: {
+        bgColor: 'bg-blue-100',
+        span: {
+          bgColor: 'bg-blue-500'
+        },
+        closeButton: {
+          fillColor: 'fill-blue-500'
+        }
+      },
+      icon: <IconInfo className="fill-blue-500 h-8 w-8" />
+    }
+  ]
+])
+
 export default function FlashMessage ({ flashMessage, clearMessage }: FlashMessageProps): ReactElement {
   function getColorStyle (): FlashMessageStyle | null {
     if (flashMessage === null) {
       return null
     }
 
-    switch (flashMessage.status) {
-      case StatusEnums.ERROR:
-        return {
-          bgColor: 'bg-red-100',
-          span: {
-            bgColor: 'bg-red-500'
-          },
-          closeButton: {
-            fillColor: 'fill-red-500'
-          }
-        }
-      case StatusEnums.SUCCESS:
-        return {
-          bgColor: 'bg-green-100',
-          span: {
-            bgColor: 'bg-green-500'
-          },
-          closeButton: {
-            fillColor: 'fill-green-500'
-          }
-        }
-      case StatusEnums.INFO:
-        return {
-          bgColor: 'bg-blue-100',
-          span: {
-            bgColor: 'bg-blue-500'
-          },
-          closeButton: {
-            fillColor: 'fill-blue-500'
-          }
-        }
-      default:
-        return null
-    }
+    return statusMap.get(flashMessage.status)?.colorStyle ?? null
   }
 
   function getTitle (): string {
@@ -69,16 +87,7 @@ export default function FlashMessage ({ flashMessage, clearMessage }: FlashMessa
       return ''
     }
 
-    switch (flashMessage.status) {
-      case StatusEnums.ERROR:
-        return 'Erreur'
-      case StatusEnums.SUCCESS:
-        return 'Succès'
-      case StatusEnums.INFO:
-        return 'Info'
-      default:
-        return ''
-    }
+    return statusMap.get(flashMessage.status)?.title ?? ''
   }
 
   function getIcon (): ReactElement {
@@ -86,19 +95,10 @@ export default function FlashMessage ({ flashMessage, clearMessage }: FlashMessa
       return <></>
     }
 
-    switch (flashMessage.status) {
-      case StatusEnums.ERROR:
-        return <IconError className="fill-red-500 h-8 w-8" />
-      case StatusEnums.SUCCESS:
-        return <IconSuccess className="fill-green-500 h-8 w-8" />
-      case StatusEnums.INFO:
-        return <IconInfo className="fill-blue-500 h-8 w-8" />
-      default:
-        return <></>
-    }
+    return statusMap.get(flashMessage.status)?.icon ?? <></>
   }
 
-  const colorStyle: FlashMessageStyle | null = getColorStyle()
+  const colorStyle = getColorStyle()
 
   if (flashMessage === null) {
     return <></>

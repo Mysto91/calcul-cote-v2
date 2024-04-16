@@ -1,4 +1,4 @@
-import React, { type ReactElement, createContext, useState, type ReactNode, useReducer } from 'react'
+import React, { type ReactElement, createContext, useState, useReducer } from 'react'
 import { InputEnum } from '../enums/inputEnums'
 
 interface BetState {
@@ -26,25 +26,29 @@ export const BetContext = createContext<BetContextInterface>({
 
 interface Action {
   type: InputEnum
-  newValue: any
+  newValue: number | boolean
 }
 
 function betReducer (betState: BetState, action: Action): BetState {
-  switch (action.type) {
-    case InputEnum.BET_VALUE:
-      return { ...betState, betValue: action.newValue }
-    case InputEnum.QUOTATION_ONE:
-      return { ...betState, quotationOne: action.newValue }
-    case InputEnum.QUOTATION_TWO:
-      return { ...betState, quotationTwo: action.newValue }
-    case InputEnum.BET_BOOSTED:
-      return { ...betState, boostedBetEnabled: action.newValue }
-    default:
-      return betState
+  const { type, newValue } = action
+
+  const actionHandlers = new Map<InputEnum, (value: any) => BetState>([
+    [InputEnum.BET_BOOSTED, (value) => ({ ...betState, boostedBetEnabled: value })],
+    [InputEnum.BET_VALUE, (value) => ({ ...betState, betValue: value })],
+    [InputEnum.QUOTATION_ONE, (value) => ({ ...betState, quotationOne: value })],
+    [InputEnum.QUOTATION_TWO, (value) => ({ ...betState, quotationTwo: value })]
+  ])
+
+  const handler = actionHandlers.get(type)
+
+  if (handler !== undefined) {
+    return handler(newValue)
   }
+
+  return betState
 }
 
-export function BetContextProvider ({ children }: { children: ReactNode }): ReactElement {
+export function BetContextProvider ({ children }: React.PropsWithChildren): ReactElement {
   const [isCalculating, setIsCalculating] = useState<boolean>(true)
 
   const [state, dispatch] = useReducer(betReducer, {
