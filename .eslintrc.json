@@ -18,7 +18,8 @@
       "allowNullableBoolean": true,
       "allowString": true,
       "allowNullableString": true
-    }]
+    }],
+    "react/no-unescaped-entities": "off"
   },
   "ignorePatterns": [
     "build/static/js/main.57585c3c.js",
