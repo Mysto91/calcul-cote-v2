@@ -1,4 +1,4 @@
-import React, { type ReactElement, useState } from 'react'
+import React, { type ReactElement, useState, useContext } from 'react'
 import { formatToEuroCurrency } from '../../utils/currency'
 import IconDownArrow from '../icons/IconDownArrow'
 import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
@@ -6,12 +6,15 @@ import TableRowExpansion from './TableRowExpansion'
 import Progress from '../Progress'
 import { type TableRow as TableRowInterface } from '../../interfaces/tableRowInterface'
 import clsx from 'clsx'
+import { BetContext } from '../../contexts/BetContext'
 
 interface TableRowProps extends ReactElementProps, TableRowInterface {
 }
 
 export default function TableRow ({ title, bet, className }: TableRowProps): ReactElement {
   const [isExpanded, setIsExpanded] = useState(false)
+
+  const { boostedBetEnabled } = useContext(BetContext)
 
   return (
       <>
@@ -46,7 +49,7 @@ export default function TableRow ({ title, bet, className }: TableRowProps): Rea
               <td>
                   {bet.quotation.toFixed(2)}
               </td>
-              <td>
+              <td className={`${boostedBetEnabled ? 'text-amber-500' : ''}`}>
                   {formatToEuroCurrency(bet.betOne)}
               </td>
               <td>

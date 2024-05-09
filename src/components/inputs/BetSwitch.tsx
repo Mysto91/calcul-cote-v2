@@ -48,6 +48,7 @@ export default function BetSwitch ({ id, isActive, setIsActive, children }: BetS
           'absolute',
           'top-10 lg:top-auto -left-[40%] lg:left-16',
           'whitespace-nowrap',
+          'select-none',
           isActive && 'text-violet-500'
         )}>
             { children }
