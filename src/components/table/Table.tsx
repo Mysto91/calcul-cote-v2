@@ -80,7 +80,7 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
                   className="py-3"
                   colSpan={7}
               >
-                Donne les cotes
+                C'est l'heure des cotes, sortez vos billets
               </td>
             </tr>
         }
