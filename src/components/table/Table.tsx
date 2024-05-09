@@ -9,6 +9,11 @@ import clsx from 'clsx'
 import { ErrorContext } from '../../contexts/ErrorContext'
 import { BetContext } from '../../contexts/BetContext'
 
+interface Header {
+  title: string
+  className?: string
+}
+
 export default function Table ({ className }: ReactElementProps): ReactElement {
   const {
     betValue,
@@ -18,14 +23,14 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
     isCalculating
   } = useContext(BetContext)
 
-  const headers: string[] = [
-    '',
-    'Pari',
-    'Cote',
-    boostedBetEnabled ? 'Mise 1 boostée' : 'Mise 1',
-    'Mise 2',
-    'Gain',
-    'Gain net'
+  const headers: Header[] = [
+    { title: '' },
+    { title: 'Pari' },
+    { title: 'Cote' },
+    { title: boostedBetEnabled ? 'Mise 1 boostée' : 'Mise 1', className: boostedBetEnabled ? 'text-amber-500' : undefined },
+    { title: 'Mise 2' },
+    { title: 'Gain' },
+    { title: 'Gain net' }
   ]
 
   const { errors } = useContext(ErrorContext)
@@ -52,15 +57,16 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
       <thead>
         <tr>
             {
-                headers.map((header: string, index: number) => (
+                headers.map((header, index: number) => (
                     <TableHeader
                         key={index}
                         className={clsx(
                           index === 0 && 'rounded-tl-lg',
-                          index === headers.length - 1 && 'rounded-tr-lg'
+                          index === headers.length - 1 && 'rounded-tr-lg',
+                          header.className
                         )}
                     >
-                        {header}
+                        {header.title}
                     </TableHeader>
                 ))
             }

@@ -49,7 +49,7 @@ export default function TableRow ({ title, bet, className }: TableRowProps): Rea
               <td>
                   {bet.quotation.toFixed(2)}
               </td>
-              <td className={`${boostedBetEnabled ? 'text-amber-500' : ''}`}>
+              <td className={clsx(boostedBetEnabled && 'text-amber-500')}>
                   {formatToEuroCurrency(bet.betOne)}
               </td>
               <td>

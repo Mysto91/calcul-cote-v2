@@ -4,7 +4,7 @@ import { hasInputError } from '../../services/hasInputError'
 import { type InputEnum } from '../../enums/inputEnums'
 import IconCheck from '../icons/IconCheck'
 import { ErrorContext } from '../../contexts/ErrorContext'
-import { type Style, useStyle } from '../../utils/style'
+import { type Style, useStyle } from '../../utils/useStyle'
 
 interface BetInputProps extends ReactElementProps {
   id: InputEnum
