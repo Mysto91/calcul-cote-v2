@@ -4,20 +4,23 @@ import { hasInputError } from '../../services/hasInputError'
 import { type InputEnum } from '../../enums/inputEnums'
 import IconCheck from '../icons/IconCheck'
 import { ErrorContext } from '../../contexts/ErrorContext'
+import { type Style, useStyle } from '../../utils/useStyle'
 
 interface BetInputProps extends ReactElementProps {
   id: InputEnum
   textValue: any
+  style?: Style
   unit?: string
   setTextValue: (newTextValue: any) => void
 }
 
-export default function BetInput ({ id, children, textValue, setTextValue, unit }: BetInputProps): ReactElement {
+export default function BetInput ({ id, children, textValue, setTextValue, unit, style = {} }: BetInputProps): ReactElement {
   const [inputIsFocused, setInputIsFocused] = useState<boolean>(false)
 
   function inputIsFocusedOrHasTextValue (): boolean {
     return inputIsFocused || (textValue !== '' && textValue !== null)
   }
+
   function getUnitSpanClassWidth (): string {
     const textValueLength = textValue.length
 
@@ -40,6 +43,8 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit 
     return 'w-12'
   }
 
+  const { textColorClass, borderColorClass, ringColorClass } = useStyle(style)
+
   const { errors } = useContext(ErrorContext)
 
   return (
@@ -56,7 +61,7 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit 
             px-2
             flex
             transition ease-in-out
-            ${inputIsFocusedOrHasTextValue() ? '-translate-y-5 bg-white text-xs text-violet-500' : 'text-base'}
+            ${inputIsFocusedOrHasTextValue() ? `-translate-y-5 bg-white text-xs ${textColorClass ?? 'text-violet-500'}` : 'text-base'}
           `}
           htmlFor={`${id}-input`}
       >
@@ -70,11 +75,13 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit 
             ${inputIsFocusedOrHasTextValue() ? 'z-10' : 'z-20'}
             px-1
             w-2/3 md:w-1/3 lg:w-full h-full
-            rounded-md border-2 border-violet-300 focus-visible:border-violet-500
-            outline-none focus-visible:ring-violet-300 focus:ring-2
+            rounded-md border-2 ${borderColorClass ? `${borderColorClass} focus-visible:${borderColorClass}` : 'border-violet-300 focus-visible:border-violet-500'}
+            outline-none ${borderColorClass ? `focus-visible:${ringColorClass}` : 'focus-visible:ring-violet-300'} focus:ring-2
             bg-transparent
-            text-base text-center
+            text-base text-center text-violet
             caret-violet-500
+            ${textColorClass}
+            transition ease-in-out
             `}
           type="text"
           name={`${id}-input`}
@@ -87,7 +94,7 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit 
       />
       {
           (textValue !== '' && textValue !== null) &&
-            <div className="absolute flex">
+            <div className={`absolute flex ${textColorClass} transition ease-in-out`}>
               <span className={`z-0 ${getUnitSpanClassWidth()} bg-transparent`}>
               </span>
               <p className="mt-0.5">

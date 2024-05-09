@@ -13,7 +13,13 @@
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "rules": {},
+  "rules": {
+    "@typescript-eslint/strict-boolean-expressions": ["error", {
+      "allowNullableBoolean": true,
+      "allowString": true,
+      "allowNullableString": true
+    }]
+  },
   "ignorePatterns": [
     "build/static/js/main.57585c3c.js",
     "tailwind.config.js",

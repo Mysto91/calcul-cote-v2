@@ -23,9 +23,14 @@ export default function BetForm (): ReactElement {
             id={InputEnum.BET_VALUE}
             textValue={betValue}
             setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.BET_VALUE, target.value) }}
+            style={{
+              textColor: boostedBetEnabled ? 'amber-500' : null,
+              borderColor: boostedBetEnabled ? 'amber-500' : null,
+              ringColor: boostedBetEnabled ? 'amber-300' : null
+            }}
             unit="€"
         >
-            { boostedBetEnabled ? ' Mise cote boostée' : 'Mise' }
+            { boostedBetEnabled ? 'Mise cote boostée' : 'Mise' }
         </BetInput>
 
         <BetInput
