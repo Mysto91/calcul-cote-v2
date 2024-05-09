@@ -9,7 +9,7 @@ import clsx from 'clsx'
 import { ErrorContext } from '../../contexts/ErrorContext'
 import { BetContext } from '../../contexts/BetContext'
 
-interface Header {
+interface THeader {
   title: string
   className?: string
 }
@@ -23,7 +23,7 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
     isCalculating
   } = useContext(BetContext)
 
-  const headers: Header[] = [
+  const headers: THeader[] = [
     { title: '' },
     { title: 'Pari' },
     { title: 'Cote' },
@@ -57,7 +57,7 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
       <thead>
         <tr>
             {
-                headers.map((header, index: number) => (
+                headers.map((header: THeader, index: number) => (
                     <TableHeader
                         key={index}
                         className={clsx(
