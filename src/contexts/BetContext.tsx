@@ -9,7 +9,7 @@ interface BetState {
   isCalculating: boolean
 }
 
-interface BetContextInterface extends BetState {
+export interface BetContextInterface extends BetState {
   setIsCalculating: (newValue: boolean) => void
   setBetStoreValue: (inputType: InputEnum, newValue: number | boolean) => void
 }

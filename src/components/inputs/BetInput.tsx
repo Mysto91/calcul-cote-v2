@@ -1,10 +1,10 @@
-import React, { type ReactElement, useState, useContext } from 'react'
+import React, { type ReactElement, useState } from 'react'
 import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterface'
 import { hasInputError } from '../../services/hasInputError'
 import { type InputEnum } from '../../enums/inputEnums'
 import IconCheck from '../icons/IconCheck'
-import { ErrorContext } from '../../contexts/ErrorContext'
 import { type Style, useStyle } from '../../utils/useStyle'
+import { useErrorContext } from '../../contexts/context'
 
 interface BetInputProps extends ReactElementProps {
   id: InputEnum
@@ -45,7 +45,7 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit,
 
   const { textColorClass, borderColorClass, ringColorClass } = useStyle(style)
 
-  const { errors } = useContext(ErrorContext)
+  const { errors } = useErrorContext()
 
   return (
     <div className="

@@ -1,7 +1,7 @@
 import React, { type ReactElement, createContext, useState, type ReactNode } from 'react'
 import { type InputError } from '../interfaces/errorInterface'
 
-interface ErrorContextInterface {
+export interface ErrorContextInterface {
   errors: InputError[]
   setErrors: (errors: InputError[]) => void
 }

@@ -1,4 +1,4 @@
-import { useState, type MutableRefObject, useContext } from 'react'
+import { useState, type MutableRefObject } from 'react'
 import { EXCLUDE_FROM_SCREENSHOT } from '../constants/screenshotConstants'
 import html2canvas from 'html2canvas'
 import { getFirebaseBlob, getFirebaseImageUrl, storeImage } from '../services/firebase'
@@ -10,7 +10,7 @@ import {
 } from '../services/navigator'
 import { dataURLtoBlob } from '../utils/dataURLtoBlob'
 import { ExceptionEnums } from '../enums/exceptionEnums'
-import { FlashMessageContext } from '../contexts/FlashMessageContext'
+import { useFlashMessageContext } from '../contexts/context'
 
 interface ScreenshotHook {
   firebaseImageUrl: string | null
@@ -42,7 +42,7 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
     }
   }
 
-  const { addErrorMessage, addInfoMessage } = useContext(FlashMessageContext)
+  const { addErrorMessage, addInfoMessage } = useFlashMessageContext()
 
   async function getScreenshotImageBlob (fileName: string): Promise<Blob | null> {
     if (screenshotUrl === null) {

@@ -2,7 +2,7 @@ import React, { type ReactElement, createContext, useState, type ReactNode } fro
 import { type FlashMessage } from '../interfaces/flashMessageInterface'
 import { StatusEnums } from '../enums/statusEnums'
 
-interface FlashMessageContextInterface {
+export interface FlashMessageContextInterface {
   flashMessage: FlashMessage | null
   addErrorMessage: (message: string, duration?: number) => void
   addSuccessMessage: (message: string, duration?: number) => void

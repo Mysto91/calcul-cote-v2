@@ -1,8 +1,8 @@
-import React, { useContext, type ReactElement } from 'react'
+import React, { type ReactElement } from 'react'
 import BetInput from './BetInput'
 import { InputEnum } from '../../enums/inputEnums'
 import BetSwitch from './BetSwitch'
-import { BetContext } from '../../contexts/BetContext'
+import { useBetContext } from '../../contexts/context'
 
 export default function BetForm (): ReactElement {
   const {
@@ -11,7 +11,7 @@ export default function BetForm (): ReactElement {
     quotationTwo,
     betValue,
     boostedBetEnabled
-  } = useContext(BetContext)
+  } = useBetContext()
 
   return (
     <form className="
