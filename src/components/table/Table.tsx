@@ -1,4 +1,4 @@
-import React, { useContext, type ReactElement } from 'react'
+import React, { type ReactElement } from 'react'
 import { calculateNoBet, calculateOneOrTwo } from '../../services/betCalculate'
 import TableHeader from './TableHeader'
 import TableRow from './TableRow'
@@ -6,8 +6,7 @@ import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterf
 import { formatNumber } from '../../utils/formatNumber'
 import { type TableRow as TableRowInterface } from '../../interfaces/tableRowInterface'
 import clsx from 'clsx'
-import { ErrorContext } from '../../contexts/ErrorContext'
-import { BetContext } from '../../contexts/BetContext'
+import { useBetContext, useErrorContext } from '../../contexts/context'
 
 interface THeader {
   title: string
@@ -21,7 +20,7 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
     quotationTwo,
     boostedBetEnabled,
     isCalculating
-  } = useContext(BetContext)
+  } = useBetContext()
 
   const headers: THeader[] = [
     { title: '' },
@@ -33,7 +32,7 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
     { title: 'Gain net' }
   ]
 
-  const { errors } = useContext(ErrorContext)
+  const { errors } = useErrorContext()
 
   let tableRows: TableRowInterface[] = []
 

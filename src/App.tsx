@@ -1,4 +1,4 @@
-import React, { type ReactElement, useEffect, useRef, useState, useContext } from 'react'
+import React, { type ReactElement, useEffect, useRef, useState } from 'react'
 import './App.css'
 import Table from './components/table/Table'
 import ShareButton from './components/ShareButton'
@@ -10,9 +10,7 @@ import { handleValidation } from './services/validation'
 import IconRocket from './components/icons/IconRocket'
 import Button from './components/Button'
 import BetForm from './components/inputs/BetForm'
-import { ErrorContext } from './contexts/ErrorContext'
-import { FlashMessageContext } from './contexts/FlashMessageContext'
-import { BetContext } from './contexts/BetContext'
+import { useBetContext, useErrorContext, useFlashMessageContext } from './contexts/context'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -26,10 +24,10 @@ function App (): ReactElement {
     betValue,
     boostedBetEnabled,
     setIsCalculating
-  } = useContext(BetContext)
+  } = useBetContext()
 
-  const { flashMessage, clearMessage } = useContext(FlashMessageContext)
-  const { errors, setErrors } = useContext(ErrorContext)
+  const { flashMessage, clearMessage } = useFlashMessageContext()
+  const { errors, setErrors } = useErrorContext()
 
   const {
     screenshotUrl,
