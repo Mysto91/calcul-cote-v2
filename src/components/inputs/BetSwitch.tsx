@@ -12,20 +12,19 @@ export default function BetSwitch ({ id, isActive, setIsActive, children }: BetS
   return (
     <div
         id={id}
-        className={`
-            relative
-            ml-auto mr-auto
-            w-14 h-8
-            px-1
-            flex items-center
-            rounded-full
-            cursor-pointer
-            drop-shadow-lg
-            ${isActive ? 'bg-violet-500' : 'bg-violet-300'}
-        `}
-         onClick={() => { setIsActive(!isActive) }}
+        className={clsx(
+          'relative',
+          'ml-auto mr-auto',
+          'w-14 h-8',
+          'px-1',
+          'flex items-center',
+          'rounded-full',
+          'cursor-pointer',
+          'drop-shadow-lg',
+          isActive ? 'bg-violet-500' : 'bg-violet-300'
+        )}
+        onClick={() => { setIsActive(!isActive) }}
     >
-        { isActive }
         <label
             htmlFor="toggle"
             className={clsx(
@@ -36,13 +35,14 @@ export default function BetSwitch ({ id, isActive, setIsActive, children }: BetS
               'flex items-center justify-center',
               'transition ease-in-out',
               isActive && 'translate-x-full'
-            )}>
-            <span className={`
-                    w-3 h-3
-                    rounded-full
-                    ${isActive ? 'bg-violet-500' : 'bg-violet-300'}
-                `}
-            />
+            )}
+            onClick={(event) => { event.stopPropagation() }}
+        >
+            <span className={clsx(
+              'w-3 h-3',
+              'rounded-full',
+              isActive ? 'bg-violet-500' : 'bg-violet-300'
+            )}/>
         </label>
         <span className={clsx(
           'absolute',
