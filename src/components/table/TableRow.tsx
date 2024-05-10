@@ -18,12 +18,9 @@ export default function TableRow ({ title, bet, className }: TableRowProps): Rea
 
   return (
       <>
-          <tr className={`
-                even:bg-slate-100
-                text-center
-                md:whitespace-nowrap
-                ${className}
-              `}
+          <tr
+            className={`even:bg-slate-100 text-center md:whitespace-nowrap ${className}`}
+            onClick={() => { setIsExpanded(!isExpanded) }}
           >
               <td className="w-4">
                   <button
@@ -62,7 +59,8 @@ export default function TableRow ({ title, bet, className }: TableRowProps): Rea
                   {bet.netProfit > 0 ? '+' : ''}{formatToEuroCurrency(bet.netProfit)}
               </td>
           </tr>
-          <TableRowExpansion isExpanded={isExpanded}>
+
+          <TableRowExpansion isExpanded={isExpanded} close={() => { setIsExpanded(false) }}>
               <div className="p-3 space-y-2">
                   <p>Probabilité</p>
                   <Progress value={bet.probability * 100} />
