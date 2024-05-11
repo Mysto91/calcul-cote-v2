@@ -22,6 +22,13 @@ jobs:
       - name: Run Jest tests
         run: yarn test:nowatch
 
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          build: yarn run build
+          start: yarn start
+          browser: chrome
+
       - name: Publish test results
         if: ${{ always() }}
         uses: actions/upload-artifact@v2

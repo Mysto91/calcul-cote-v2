@@ -23,10 +23,17 @@ export function calculateNoBet (betParams: BetParams, reverse: boolean = false):
 
     finalBetValue = betOne + betTwo
   } else {
-    betTwo = betValue / q2
-    betOne = betValue - betTwo
+    if (reverse) {
+      betTwo = betValue / q1
+      betOne = betValue - betTwo
 
-    quotationRef = betOne * q1
+      quotationRef = betOne * q2
+    } else {
+      betTwo = betValue / q2
+      betOne = betValue - betTwo
+
+      quotationRef = betOne * q1
+    }
   }
 
   const quotation = quotationRef / finalBetValue
