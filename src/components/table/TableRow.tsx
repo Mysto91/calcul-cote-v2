@@ -19,7 +19,7 @@ export default function TableRow ({ title, bet, className }: TableRowProps): Rea
   return (
       <>
           <tr
-            className={`even:bg-slate-100 text-center md:whitespace-nowrap ${className}`}
+            className={clsx('text-center', 'md:whitespace-nowrap', 'cursor-pointer', className)}
             onClick={() => { setIsExpanded(!isExpanded) }}
           >
               <td className="w-4">
