@@ -26,17 +26,18 @@ export default function BetSwitch ({ id, isActive, setIsActive, children }: BetS
         onClick={() => { setIsActive(!isActive) }}
     >
         <label
-            htmlFor="toggle"
-            className={clsx(
-              'absolute',
-              'w-6 h-6',
-              'bg-white',
-              'rounded-full shadow-md',
-              'flex items-center justify-center',
-              'transition ease-in-out',
-              isActive && 'translate-x-full'
-            )}
-            onClick={(event) => { event.stopPropagation() }}
+          htmlFor="toggle"
+          className={clsx(
+            'absolute',
+            'w-6 h-6',
+            'bg-white',
+            'rounded-full shadow-md',
+            'flex items-center justify-center',
+            'cursor-pointer',
+            'transition ease-in-out duration-300',
+            isActive && 'translate-x-full'
+          )}
+          onClick={(event) => { event.stopPropagation() }}
         >
             <span className={clsx(
               'w-3 h-3',

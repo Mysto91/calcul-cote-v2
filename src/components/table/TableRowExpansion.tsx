@@ -28,6 +28,7 @@ export default function TableRowExpansion ({ isExpanded, children, close }: Tabl
       className={clsx(
         'border border-violet-100',
         'transition-all ease-in-out duration-300',
+        'cursor-pointer',
         isExpanded ? 'h-20' : 'h-0')
       }
       onClick={close}

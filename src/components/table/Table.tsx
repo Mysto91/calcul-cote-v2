@@ -84,7 +84,7 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
             </tr>
         }
         {
-          tableRows.map((tableRow: TableRowInterface, index: number) => <TableRow key={index} title={tableRow.title} bet={tableRow.bet}/>)
+          tableRows.map((tableRow: TableRowInterface) => <TableRow key={tableRow.title} title={tableRow.title} bet={tableRow.bet}/>)
         }
       </tbody>
     </table>
