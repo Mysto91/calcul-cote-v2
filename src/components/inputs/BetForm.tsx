@@ -29,6 +29,7 @@ export default function BetForm (): ReactElement {
               ringColor: boostedBetEnabled ? 'amber-300' : null
             }}
             unit="€"
+            incrementValue={1}
         >
             { boostedBetEnabled ? 'Mise cote boostée' : 'Mise' }
         </BetInput>
@@ -37,6 +38,7 @@ export default function BetForm (): ReactElement {
             id={InputEnum.QUOTATION_ONE}
             textValue={quotationOne}
             setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.QUOTATION_ONE, target.value) }}
+            minValue={1}
         >
             { boostedBetEnabled ? 'Cote 1 boostée' : 'Cote 1' }
         </BetInput>
@@ -45,6 +47,7 @@ export default function BetForm (): ReactElement {
             id={InputEnum.QUOTATION_TWO}
             textValue={quotationTwo}
             setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.QUOTATION_TWO, target.value) }}
+            minValue={1}
         >
             Cote 2
         </BetInput>
