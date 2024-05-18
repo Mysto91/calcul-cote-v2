@@ -11,10 +11,21 @@ interface BetInputProps extends ReactElementProps {
   textValue: any
   style?: Style
   unit?: string
+  minValue?: number
+  incrementValue?: number
   setTextValue: (newTextValue: any) => void
 }
 
-export default function BetInput ({ id, children, textValue, setTextValue, unit, style = {} }: BetInputProps): ReactElement {
+export default function BetInput ({
+  id,
+  children,
+  textValue,
+  setTextValue,
+  unit,
+  minValue = 0,
+  incrementValue = 0.1,
+  style = {}
+}: BetInputProps): ReactElement {
   const [inputIsFocused, setInputIsFocused] = useState<boolean>(false)
 
   function inputIsFocusedOrHasTextValue (): boolean {
@@ -83,7 +94,9 @@ export default function BetInput ({ id, children, textValue, setTextValue, unit,
             ${textColorClass}
             transition ease-in-out
             `}
-          type="text"
+          type="number"
+          min={minValue}
+          step={incrementValue}
           name={`${id}-input`}
           value={textValue ?? ''}
           maxLength={8}
