@@ -6,7 +6,7 @@ it('test with boosted bet enabled', () => {
     betValue: 10,
     q1: 2,
     q2: 2.5,
-    boostedBetEnabled: true
+    boostedBetEnabled: true,
   }
 
   const bet: Bet = calculateOneOrTwo(betParams)
@@ -17,7 +17,7 @@ it('test with boosted bet enabled', () => {
     betTwo: 8,
     probability: 0.9,
     profit: 20,
-    netProfit: 2
+    netProfit: 2,
   }
 
   expect(bet).toEqual(expected)
@@ -28,7 +28,7 @@ it('test with boosted bet disabled', () => {
     betValue: 10,
     q1: 2,
     q2: 2.2,
-    boostedBetEnabled: false
+    boostedBetEnabled: false,
   }
 
   const bet: Bet = calculateOneOrTwo(betParams)
@@ -39,7 +39,7 @@ it('test with boosted bet disabled', () => {
     betTwo: 4.76,
     probability: 0.95,
     profit: 10.48,
-    netProfit: 0.48
+    netProfit: 0.48,
   }
 
   expect(bet).toEqual(expected)

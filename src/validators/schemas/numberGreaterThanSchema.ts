@@ -7,12 +7,12 @@ export function numberGreaterThanSchema (minValue: number, fieldName: string): y
     .transform(avoidTypeError)
     .transform(avoidCommaError)
     .test('isNumber',
-        `La ${fieldName} doit être un nombre valide`,
-        (value: any) => !isNaN(value)
+      `La ${fieldName} doit être un nombre valide`,
+      (value: unknown) => !isNaN(value as number),
     )
     .test(
       `greaterThan${minValue}`,
-            `La ${fieldName} doit être supérieure à ${minValue}`,
-            (value: any) => value > minValue
+      `La ${fieldName} doit être supérieure à ${minValue}`,
+      (value: unknown) => value as number > minValue,
     )
 }

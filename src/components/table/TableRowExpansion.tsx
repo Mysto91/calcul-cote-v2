@@ -14,13 +14,17 @@ export default function TableRowExpansion ({ isExpanded, children, close }: Tabl
     let timeoutId: NodeJS.Timeout
 
     if (isExpanded) {
-      timeoutId = setTimeout(() => { setShowChildren(true) }, 200)
+      timeoutId = setTimeout(() => {
+        setShowChildren(true) 
+      }, 200)
       return
     }
 
     setShowChildren(false)
 
-    return () => { clearTimeout(timeoutId) }
+    return () => {
+      clearTimeout(timeoutId) 
+    }
   }, [isExpanded])
 
   return (

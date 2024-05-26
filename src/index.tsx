@@ -12,7 +12,7 @@ if (process.env.REACT_APP_APP_ENV === 'prod') {
 }
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root') as HTMLElement,
 )
 
 root.render(
@@ -24,5 +24,5 @@ root.render(
         </FlashMessageContextProvider>
       </ErrorContextProvider>
     </BetContextProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 )

@@ -20,6 +20,6 @@ export function useStyle (style: Style): {
   return {
     textColorClass,
     borderColorClass,
-    ringColorClass
+    ringColorClass,
   }
 }

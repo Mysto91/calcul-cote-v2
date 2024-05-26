@@ -1,9 +1,10 @@
 import React, { type ReactElement, createContext, useState, type ReactNode } from 'react'
 import { type FlashMessage } from '../interfaces/flashMessageInterface'
 import { StatusEnums } from '../enums/statusEnums'
+import { Nullable } from '../interfaces/nullableType'
 
 export interface FlashMessageContextInterface {
-  flashMessage: FlashMessage | null
+  flashMessage: Nullable<FlashMessage>
   addErrorMessage: (message: string, duration?: number) => void
   addSuccessMessage: (message: string, duration?: number) => void
   addInfoMessage: (message: string, duration?: number) => void
@@ -15,11 +16,11 @@ export const FlashMessageContext = createContext<FlashMessageContextInterface>({
   addErrorMessage: () => {},
   addSuccessMessage: () => {},
   addInfoMessage: () => {},
-  clearMessage: () => {}
+  clearMessage: () => {},
 })
 
 export function FlashMessageContextProvider ({ children }: { children: ReactNode }): ReactElement {
-  const [flashMessage, setFlashMessage] = useState<FlashMessage | null>(null)
+  const [flashMessage, setFlashMessage] = useState<Nullable<FlashMessage>>(null)
 
   const defaultDuration = 5000
 
@@ -52,7 +53,9 @@ export function FlashMessageContextProvider ({ children }: { children: ReactNode
       addErrorMessage,
       addInfoMessage,
       addSuccessMessage,
-      clearMessage: () => { setFlashMessage(null) }
+      clearMessage: () => {
+        setFlashMessage(null) 
+      },
     }}>
       {children}
     </FlashMessageContext.Provider>

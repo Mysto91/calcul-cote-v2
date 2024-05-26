@@ -1,20 +1,21 @@
 import { useState, type MutableRefObject } from 'react'
 import { EXCLUDE_FROM_SCREENSHOT } from '../constants/screenshotConstants'
-import html2canvas from 'html2canvas'
+import html2canvas, { Options } from 'html2canvas'
 import { getFirebaseBlob, getFirebaseImageUrl, storeImage } from '../services/firebase'
 import {
   hasNavigatorShare,
   navigatorCanShare,
   shareUrl,
-  shareBlob
+  shareBlob,
 } from '../services/navigator'
 import { dataURLtoBlob } from '../utils/dataURLtoBlob'
 import { ExceptionEnums } from '../enums/exceptionEnums'
 import { useFlashMessageContext } from '../contexts/context'
+import { Nullable } from '../interfaces/nullableType'
 
 interface ScreenshotHook {
-  firebaseImageUrl: string | null
-  screenshotUrl: string | null
+  firebaseImageUrl: Nullable<string>
+  screenshotUrl: Nullable<string>
   handleShare: (fileName: string, showManualShareButton: (show: boolean) => void) => Promise<void>
   screenshotInProgress: boolean
   shareManually: (imageUrl: string) => void
@@ -22,29 +23,31 @@ interface ScreenshotHook {
 }
 
 /* TODO : séparer le share et le screenshot */
-export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | null>): ScreenshotHook {
-  const [screenshotUrl, setScreenshotUrl] = useState<string | null>(null)
-  const [firebaseImageUrl, setFirebaseImageUrl] = useState<string | null>(null)
+export function useScreenshot (screenshotRef: MutableRefObject<Nullable<HTMLElement>>): ScreenshotHook {
+  const [screenshotUrl, setScreenshotUrl] = useState<Nullable<string>>(null)
+  const [firebaseImageUrl, setFirebaseImageUrl] = useState<Nullable<string>>(null)
   const [screenshotInProgress, setScreenshotInProgress] = useState<boolean>(false)
 
   async function captureScreenshot (): Promise<void> {
     const element = screenshotRef.current
 
-    if (element !== null) {
-      void (async () => {
-        const options: any = {
-          ignoreElements: (element: any) => element.classList.contains(EXCLUDE_FROM_SCREENSHOT)
-        }
-
-        const canvas = await html2canvas(element, options)
-        setScreenshotUrl(canvas.toDataURL('image/png'))
-      })()
+    if (element === null) {
+      return
     }
+
+    const options: Partial<Options> = {
+      ignoreElements: (element: Element) =>
+        element.classList.contains(EXCLUDE_FROM_SCREENSHOT),
+    }
+
+    const canvas = await html2canvas(element, options)
+
+    setScreenshotUrl(canvas.toDataURL('image/png'))
   }
 
   const { addErrorMessage, addInfoMessage } = useFlashMessageContext()
 
-  async function getScreenshotImageBlob (fileName: string): Promise<Blob | null> {
+  async function getScreenshotImageBlob (fileName: string): Promise<Nullable<Blob>> {
     if (screenshotUrl === null) {
       return null
     }
@@ -72,7 +75,7 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
         return
       }
 
-      addInfoMessage("La fonction de partage du navigateur n'est pas disponible")
+      addInfoMessage('La fonction de partage du navigateur n\'est pas disponible')
     } catch (error) {
       if (error instanceof DOMException && error.name === ExceptionEnums.NOT_ALLOWED) {
         addInfoMessage('Cliquez sur la fusée pour partager')
@@ -80,7 +83,7 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
         return
       }
 
-      addErrorMessage("Une erreur s'est produite lors du partage")
+      addErrorMessage('Une erreur s\'est produite lors du partage')
       console.error(error)
     }
   }
@@ -95,7 +98,7 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
         await shareUrl(imageUrl)
       } catch (error) {
         console.error(error)
-        addErrorMessage("Une erreur s'est produite lors du partage")
+        addErrorMessage('Une erreur s\'est produite lors du partage')
       }
     }
 
@@ -125,6 +128,6 @@ export function useScreenshot (screenshotRef: MutableRefObject<HTMLElement | nul
     screenshotInProgress,
     handleShare,
     shareManually,
-    handleShareButtonClick
+    handleShareButtonClick,
   }
 }

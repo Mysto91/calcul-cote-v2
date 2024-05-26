@@ -1,9 +1,21 @@
-export function avoidTypeError (currentValue: string, originalValue: string | null): string | null {
+import { Nullable } from '../../interfaces/nullableType'
+
+export function avoidTypeError (
+  currentValue: string,
+  originalValue: Nullable<string>,
+): Nullable<string> {
   return (originalValue === '' ? null : currentValue)
 }
 
-export function avoidCommaError (currentValue: string, originalValue: string | null | undefined): string {
-  if (originalValue === null || originalValue === undefined || originalValue === '') {
+export function avoidCommaError(
+  currentValue: string,
+  originalValue: Nullable<string | undefined>,
+): string {
+  if (
+    originalValue === null ||
+    originalValue === undefined ||
+    originalValue === ''
+  ) {
     return currentValue
   }
 

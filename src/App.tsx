@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { type ReactElement, useEffect, useRef, useState } from 'react'
 import './App.css'
 import Table from './components/table/Table'
@@ -11,10 +12,11 @@ import IconRocket from './components/icons/IconRocket'
 import Button from './components/Button'
 import BetForm from './components/inputs/BetForm'
 import { useBetContext, useErrorContext, useFlashMessageContext } from './contexts/context'
+import { Nullable } from './interfaces/nullableType'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
-  const messengerButtonRef = useRef<HTMLButtonElement | null>(null)
+  const messengerButtonRef = useRef<Nullable<HTMLButtonElement>>(null)
 
   const [showManualShareButton, setShowManualShareButton] = useState<boolean>(false)
 
@@ -23,7 +25,7 @@ function App (): ReactElement {
     quotationTwo,
     betValue,
     boostedBetEnabled,
-    setIsCalculating
+    setIsCalculating,
   } = useBetContext()
 
   const { flashMessage, clearMessage } = useFlashMessageContext()
@@ -35,7 +37,7 @@ function App (): ReactElement {
     screenshotInProgress,
     handleShareButtonClick,
     handleShare,
-    shareManually
+    shareManually,
   } = useScreenshot(betContainerRef)
 
   useEffect(() => {
@@ -43,7 +45,7 @@ function App (): ReactElement {
     void handleValidation({
       params: { quotationOne, quotationTwo, betValue, boostedBetEnabled },
       setIsLoading: setIsCalculating,
-      setErrors
+      setErrors,
     })
   }, [quotationOne, quotationTwo, betValue, boostedBetEnabled])
 
@@ -64,88 +66,85 @@ function App (): ReactElement {
   }, [firebaseImageUrl])
 
   return (
-      <>
-          <div className="mt-4 flex justify-center">
-            <FlashMessage flashMessage={flashMessage} clearMessage={clearMessage} />
+    <>
+      <div className="mt-4 flex justify-center">
+        <FlashMessage flashMessage={flashMessage} clearMessage={clearMessage} />
+      </div>
+
+      <div
+        ref={betContainerRef}
+        className="absolute top-1/2 -translate-y-1/2 py-5 w-full flex items-center justify-center font-mono"
+      >
+        <div className="w-full">
+          <div className="hidden md:flex md:justify-center">
+            {
+              !showManualShareButton &&
+              <ShareButton
+                className="w-16 h-10"
+                disabled={errors.length > 0}
+                onClick={handleShareButtonClick}
+                isLoading={screenshotInProgress}
+              />
+            }
+
+            {
+              showManualShareButton && (firebaseImageUrl !== null) &&
+              <Button
+                className="w-16 h-10"
+                onClick={() => {
+                  shareManually(firebaseImageUrl) 
+                }}
+              >
+                <IconRocket className="w-6 w-6" />
+              </Button>
+            }
+
+            {
+              process.env.REACT_APP_FACEBOOK_APP_ID && (
+                <FacebookMessengerShareButton
+                  hidden
+                  ref={messengerButtonRef}
+                  appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+                  url={firebaseImageUrl as string}
+                >
+                  <FacebookMessengerIcon />
+                </FacebookMessengerShareButton>
+              )
+            }
           </div>
 
-          <div
-              ref={betContainerRef}
-              className="
-                absolute top-1/2 -translate-y-1/2
-                py-5
-                w-full
-                flex items-center justify-center
-                font-mono"
+          <BetForm />
+
+          <div className="flex justify-center">
+            <Table className="mt-20 lg:mt-10" />
+          </div>
+        </div>
+      </div>
+
+      <div className="fixed bottom-0 mb-5 w-full flex md:hidden justify-center">
+        {
+          !showManualShareButton &&
+          <ShareButton
+            className="w-16 h-10"
+            disabled={errors.length > 0}
+            onClick={handleShareButtonClick}
+            isLoading={screenshotInProgress}
+          />
+        }
+
+        {
+          showManualShareButton && (firebaseImageUrl !== null) &&
+          <Button
+            className="w-16 h-10"
+            onClick={() => {
+              shareManually(firebaseImageUrl) 
+            }}
           >
-              <div className="w-full">
-                  <div className="hidden md:flex md:justify-center">
-                      {
-                          !showManualShareButton &&
-                          <ShareButton
-                              className="w-16 h-10"
-                              disabled={errors.length > 0}
-                              onClick={handleShareButtonClick}
-                              isLoading={screenshotInProgress}
-                          />
-                      }
-
-                      {
-                          showManualShareButton && (firebaseImageUrl !== null) &&
-                          <Button
-                              className="w-16 h-10"
-                              onClick={() => { shareManually(firebaseImageUrl) }}
-                          >
-                              <IconRocket className="w-6 w-6" />
-                          </Button>
-                      }
-
-                      <FacebookMessengerShareButton
-                          hidden
-                          ref={messengerButtonRef}
-                          appId={process.env.REACT_APP_FACEBOOK_APP_ID as string}
-                          url={firebaseImageUrl as string}
-                      >
-                          <FacebookMessengerIcon />
-                      </FacebookMessengerShareButton>
-                  </div>
-
-                  <BetForm />
-
-                  <div className="flex justify-center">
-                      <Table className="mt-20 lg:mt-10" />
-                  </div>
-              </div>
-          </div>
-
-          <div className="
-                fixed bottom-0
-                mb-5
-                w-full
-                flex md:hidden justify-center
-              "
-          >
-              {
-                  !showManualShareButton &&
-                  <ShareButton
-                      className="w-16 h-10"
-                      disabled={errors.length > 0}
-                      onClick={handleShareButtonClick}
-                      isLoading={screenshotInProgress}
-                  />
-              }
-
-              {
-                  showManualShareButton && (firebaseImageUrl !== null) &&
-                  <Button
-                      className="w-16 h-10"
-                      onClick={() => { shareManually(firebaseImageUrl) }}
-                  >
-                      <IconRocket className="w-6 w-6" />
-                  </Button>
-              }
-          </div>
-      </>
+            <IconRocket className="w-6 w-6" />
+          </Button>
+        }
+      </div>
+    </>
   )
 }
 

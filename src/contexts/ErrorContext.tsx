@@ -8,7 +8,7 @@ export interface ErrorContextInterface {
 
 export const ErrorContext = createContext<ErrorContextInterface>({
   errors: [],
-  setErrors: (errors: InputError[]) => {}
+  setErrors: () => {},
 })
 
 export function ErrorContextProvider ({ children }: { children: ReactNode }): ReactElement {
@@ -17,7 +17,7 @@ export function ErrorContextProvider ({ children }: { children: ReactNode }): Re
   return (
     <ErrorContext.Provider value={{
       errors,
-      setErrors: (newErrors) => { setErrors(newErrors) }
+      setErrors: (newErrors) => setErrors(newErrors),
     }}>
       {children}
     </ErrorContext.Provider>

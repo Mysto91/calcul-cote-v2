@@ -1,10 +1,11 @@
 import React, { type ReactElement, createContext, useState, useReducer } from 'react'
 import { InputEnum } from '../enums/inputEnums'
+import { Nullable } from '../interfaces/nullableType'
 
 interface BetState {
-  betValue: number | null
-  quotationOne: number | null
-  quotationTwo: number | null
+  betValue: Nullable<number>
+  quotationOne: Nullable<number>
+  quotationTwo: Nullable<number>
   boostedBetEnabled: boolean
   isCalculating: boolean
 }
@@ -14,6 +15,8 @@ export interface BetContextInterface extends BetState {
   setBetStoreValue: (inputType: InputEnum, newValue: number | boolean) => void
 }
 
+type StateFunction = (value: number | boolean) => BetState
+
 export const BetContext = createContext<BetContextInterface>({
   betValue: null,
   quotationOne: null,
@@ -21,7 +24,7 @@ export const BetContext = createContext<BetContextInterface>({
   boostedBetEnabled: true,
   isCalculating: true,
   setIsCalculating: () => {},
-  setBetStoreValue: () => {}
+  setBetStoreValue: () => {},
 })
 
 interface Action {
@@ -32,11 +35,11 @@ interface Action {
 function betReducer (betState: BetState, action: Action): BetState {
   const { type, newValue } = action
 
-  const actionHandlers = new Map<InputEnum, (value: any) => BetState>([
-    [InputEnum.BET_BOOSTED, (value) => ({ ...betState, boostedBetEnabled: value })],
-    [InputEnum.BET_VALUE, (value) => ({ ...betState, betValue: value })],
-    [InputEnum.QUOTATION_ONE, (value) => ({ ...betState, quotationOne: value })],
-    [InputEnum.QUOTATION_TWO, (value) => ({ ...betState, quotationTwo: value })]
+  const actionHandlers = new Map<InputEnum, StateFunction>([
+    [InputEnum.BET_BOOSTED, (value) => ({ ...betState, boostedBetEnabled: value as boolean })],
+    [InputEnum.BET_VALUE, (value) => ({ ...betState, betValue: value as number })],
+    [InputEnum.QUOTATION_ONE, (value) => ({ ...betState, quotationOne: value  as number })],
+    [InputEnum.QUOTATION_TWO, (value) => ({ ...betState, quotationTwo: value as number })],
   ])
 
   const handler = actionHandlers.get(type)
@@ -56,7 +59,7 @@ export function BetContextProvider ({ children }: React.PropsWithChildren): Reac
     quotationOne: 2,
     quotationTwo: null,
     boostedBetEnabled: true,
-    isCalculating: true
+    isCalculating: true,
   })
 
   return (
@@ -64,7 +67,9 @@ export function BetContextProvider ({ children }: React.PropsWithChildren): Reac
       ...state,
       isCalculating,
       setIsCalculating,
-      setBetStoreValue: (inputType: InputEnum, newValue: number | boolean) => { dispatch({ type: inputType, newValue }) }
+      setBetStoreValue: (inputType: InputEnum, newValue: number | boolean) => {
+        dispatch({ type: inputType, newValue }) 
+      },
     }}>
       {children}
     </BetContext.Provider>

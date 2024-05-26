@@ -3,14 +3,8 @@ import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterf
 
 export default function TableHeader ({ children, className }: ReactElementProps): ReactElement {
   return (
-    <th className={`
-        p-2
-        bg-violet-100
-        sm:whitespace-nowrap
-        ${className}
-    `}
-    >
-        { children }
+    <th className={`p-2 bg-violet-100 sm:whitespace-nowrap ${className}`}>
+      { children }
     </th>
   )
 }

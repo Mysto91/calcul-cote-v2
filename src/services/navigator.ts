@@ -9,8 +9,8 @@ export function navigatorCanShare (): boolean {
 export async function shareBlob (imageBlob: Blob, fileName: string): Promise<void> {
   await navigator.share({
     files: [
-      new File([imageBlob], fileName)
-    ]
+      new File([imageBlob], fileName),
+    ],
   })
 }
 
