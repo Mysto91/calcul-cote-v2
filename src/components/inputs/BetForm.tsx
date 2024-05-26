@@ -3,6 +3,7 @@ import BetInput from './BetInput'
 import { InputEnum } from '../../enums/inputEnums'
 import BetSwitch from './BetSwitch'
 import { useBetContext } from '../../contexts/context'
+import { type Style } from '../../utils/useStyle'
 
 export default function BetForm (): ReactElement {
   const {
@@ -12,6 +13,14 @@ export default function BetForm (): ReactElement {
     betValue,
     boostedBetEnabled
   } = useBetContext()
+
+  function getBoostedBetInputStyle (): Style {
+    return {
+      textColor: boostedBetEnabled ? 'amber-500' : null,
+      borderColor: boostedBetEnabled ? 'amber-500' : null,
+      ringColor: boostedBetEnabled ? 'amber-300' : null
+    }
+  }
 
   return (
     <form className="
@@ -23,11 +32,7 @@ export default function BetForm (): ReactElement {
             id={InputEnum.BET_VALUE}
             textValue={betValue}
             setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.BET_VALUE, target.value) }}
-            style={{
-              textColor: boostedBetEnabled ? 'amber-500' : null,
-              borderColor: boostedBetEnabled ? 'amber-500' : null,
-              ringColor: boostedBetEnabled ? 'amber-300' : null
-            }}
+            style={getBoostedBetInputStyle()}
             unit="€"
             incrementValue={1}
         >
@@ -39,6 +44,7 @@ export default function BetForm (): ReactElement {
             textValue={quotationOne}
             setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.QUOTATION_ONE, target.value) }}
             minValue={1}
+            style={getBoostedBetInputStyle()}
         >
             { boostedBetEnabled ? 'Cote 1 boostée' : 'Cote 1' }
         </BetInput>
