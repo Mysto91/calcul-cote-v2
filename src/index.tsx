@@ -4,8 +4,9 @@ import App from './App'
 import { ErrorContextProvider } from './contexts/ErrorContext'
 import { FlashMessageContextProvider } from './contexts/FlashMessageContext'
 import { BetContextProvider } from './contexts/BetContext'
+import { getEnv } from './services/env'
 
-if (process.env.REACT_APP_APP_ENV === 'prod') {
+if (getEnv().VITE_APP_APP_ENV === 'prod') {
   console.log = () => {}
   console.error = () => {}
   console.debug = () => {}

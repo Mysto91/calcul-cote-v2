@@ -20,7 +20,7 @@ jobs:
         run: yarn install
 
       - name: Run Jest tests
-        run: yarn test:nowatch
+        run: yarn test
 
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6
@@ -45,12 +45,12 @@ jobs:
         env:
           FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
         run: |
-          echo "REACT_APP_APP_ENV=${{ secrets.REACT_APP_APP_ENV }}" >> .env
-          echo "REACT_APP_FIREBASE_BUCKET=${{ secrets.REACT_APP_FIREBASE_BUCKET }}" >> .env
-          echo "REACT_APP_FIREBASE_CLIENT_EMAIL=${{ secrets.REACT_APP_FIREBASE_CLIENT_EMAIL }}" >> .env
-          echo "REACT_APP_FIREBASE_PRIVATE_KEY=${{ secrets.REACT_APP_FIREBASE_PRIVATE_KEY }}" >> .env
-          echo "REACT_APP_FIREBASE_PROJECT_ID=${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}" >> .env
-          echo "REACT_APP_FACEBOOK_APP_ID=${{ secrets.REACT_APP_FACEBOOK_APP_ID }}" >> .env
+          echo "VITE_APP_APP_ENV=${{ secrets.VITE_APP_APP_ENV }}" >> .env
+          echo "VITE_APP_FIREBASE_BUCKET=${{ secrets.VITE_APP_FIREBASE_BUCKET }}" >> .env
+          echo "VITE_APP_FIREBASE_CLIENT_EMAIL=${{ secrets.VITE_APP_FIREBASE_CLIENT_EMAIL }}" >> .env
+          echo "VITE_APP_FIREBASE_PRIVATE_KEY=${{ secrets.VITE_APP_FIREBASE_PRIVATE_KEY }}" >> .env
+          echo "VITE_APP_FIREBASE_PROJECT_ID=${{ secrets.VITE_APP_FIREBASE_PROJECT_ID }}" >> .env
+          echo "VITE_APP_FACEBOOK_APP_ID=${{ secrets.VITE_APP_FACEBOOK_APP_ID }}" >> .env
           yarn global add firebase-tools
           yarn build
           echo "$FIREBASE_SERVICE_ACCOUNT_KEY" > service-account-key.json

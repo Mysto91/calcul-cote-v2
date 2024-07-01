@@ -1,6 +1,7 @@
 import { initializeApp, type FirebaseApp } from 'firebase/app'
 import { getStorage, ref, uploadBytes, getBlob, getDownloadURL, type StorageReference, type UploadResult } from 'firebase/storage'
 import { Nullable } from '../interfaces/nullableType'
+import { getEnv } from './env'
 
 interface FirebaseConfig {
   projectId: string
@@ -11,17 +12,17 @@ interface FirebaseConfig {
 function getFirebaseStorageRef (fileName: string): StorageReference {
   const firebaseApp: FirebaseApp = firebaseInit()
 
-  const storage = getStorage(firebaseApp, process.env.REACT_APP_FIREBASE_BUCKET)
+  const storage = getStorage(firebaseApp, getEnv().VITE_APP_FIREBASE_BUCKET)
 
-  return ref(storage, `${process.env.REACT_APP_APP_ENV}/${fileName}`)
+  return ref(storage, `${getEnv().VITE_APP_APP_ENV}/${fileName}`)
 }
 
 // TODO voir pour initialiser qu'une seule fois
 export function firebaseInit (): FirebaseApp {
   const firebaseConfig: FirebaseConfig = {
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID ?? '',
-    privateKey: process.env.REACT_APP_FIREBASE_PRIVATE_KEY ?? '',
-    clientEmail: process.env.REACT_APP_FIREBASE_CLIENT_EMAIL ?? '',
+    projectId: getEnv().VITE_APP_FIREBASE_PROJECT_ID ?? '',
+    privateKey: getEnv().VITE_APP_FIREBASE_PRIVATE_KEY ?? '',
+    clientEmail: getEnv().VITE_APP_FIREBASE_CLIENT_EMAIL ?? '',
   }
 
   return initializeApp(firebaseConfig)
