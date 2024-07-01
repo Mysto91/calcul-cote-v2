@@ -1,1 +1,1 @@
-export const EXCLUDE_FROM_SCREENSHOT: string = 'exclude-from-screenshot'
+export const EXCLUDE_FROM_SCREENSHOT = 'exclude-from-screenshot'

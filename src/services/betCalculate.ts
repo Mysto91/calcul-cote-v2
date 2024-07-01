@@ -8,7 +8,7 @@ interface BetParams {
   boostedBetEnabled: boolean
 }
 
-export function calculateNoBet (betParams: BetParams, reverse: boolean = false): Bet {
+export function calculateNoBet (betParams: BetParams, reverse = false): Bet {
   const { betValue, q1, q2, boostedBetEnabled } = betParams
 
   let betOne: number, betTwo: number, quotationRef: number

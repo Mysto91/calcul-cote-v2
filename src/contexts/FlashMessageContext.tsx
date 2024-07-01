@@ -36,7 +36,7 @@ export function FlashMessageContextProvider ({ children }: { children: ReactNode
     setTemporaryMessage(message, StatusEnums.INFO, duration)
   }
 
-  function setTemporaryMessage (message: string, status: StatusEnums, duration: number = 5000): void {
+  function setTemporaryMessage (message: string, status: StatusEnums, duration = 5000): void {
     setFlashMessage({ status, message })
     clearMessageWithDelay(duration)
   }

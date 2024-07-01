@@ -13,6 +13,7 @@ import Button from './components/Button'
 import BetForm from './components/inputs/BetForm'
 import { useBetContext, useErrorContext, useFlashMessageContext } from './contexts/context'
 import { Nullable } from './interfaces/nullableType'
+import { getEnv } from './services/env'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -100,11 +101,11 @@ function App (): ReactElement {
             }
 
             {
-              process.env.REACT_APP_FACEBOOK_APP_ID && (
+              getEnv().VITE_APP_FACEBOOK_APP_ID && (
                 <FacebookMessengerShareButton
                   hidden
                   ref={messengerButtonRef}
-                  appId={process.env.REACT_APP_FACEBOOK_APP_ID}
+                  appId={getEnv().VITE_APP_FACEBOOK_APP_ID}
                   url={firebaseImageUrl as string}
                 >
                   <FacebookMessengerIcon />
