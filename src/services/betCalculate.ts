@@ -45,7 +45,7 @@ export function calculateNoBet (betParams: BetParams, reverse: boolean = false):
     quotation,
     profit: finalBetValue * quotation,
     netProfit: finalBetValue * quotation - finalBetValue,
-    probability: probability < 1 ? probability : 1
+    probability: probability < 1 ? probability : 1,
   }
 
   if (reverse && !boostedBetEnabled) {
@@ -80,7 +80,7 @@ export function calculateOneOrTwo (betParams: BetParams): Bet {
     quotation,
     profit: finalBetValue * quotation,
     netProfit: finalBetValue * quotation - finalBetValue,
-    probability: probability < 1 ? probability : 1
+    probability: probability < 1 ? probability : 1,
   }
 
   return truncateValues(bet)

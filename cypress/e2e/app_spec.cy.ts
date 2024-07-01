@@ -1,29 +1,29 @@
 describe('calculations', () => {
-  it("should not calculate when quotation or betValue is missing", () => {
-    cy.visit("/");
+  it('should not calculate when quotation or betValue is missing', () => {
+    cy.visit('/')
 
-    cy.get("#betValue-input").clear()
-    cy.get("#quotationOne-input").clear()
-    cy.get("#quotationTwo-input").clear()
+    cy.get('#betValue-input').clear()
+    cy.get('#quotationOne-input').clear()
+    cy.get('#quotationTwo-input').clear()
 
-    cy.get("td").contains("C'est l'heure des cotes, sortez vos billets")
+    cy.get('td').contains('C\'est l\'heure des cotes, sortez vos billets')
 
-    cy.get("#betValue-input").type("10");
-    cy.get("td").contains("C'est l'heure des cotes, sortez vos billets")
+    cy.get('#betValue-input').type('10')
+    cy.get('td').contains('C\'est l\'heure des cotes, sortez vos billets')
 
-    cy.get("#betValue-input").clear()
-    cy.get("#quotationOne-input").type("2")
-    cy.get("td").contains("C'est l'heure des cotes, sortez vos billets")
+    cy.get('#betValue-input').clear()
+    cy.get('#quotationOne-input').type('2')
+    cy.get('td').contains('C\'est l\'heure des cotes, sortez vos billets')
 
-    cy.get("#quotationOne-input").clear();
-    cy.get("#quotationTwo-input").type("2");
-    cy.get("td").contains("C'est l'heure des cotes, sortez vos billets");
-  });
+    cy.get('#quotationOne-input').clear()
+    cy.get('#quotationTwo-input').type('2')
+    cy.get('td').contains('C\'est l\'heure des cotes, sortez vos billets')
+  })
 
   it('should calculate bets with boosted bet enabled', () => {
     cy.visit('/')
 
-    cy.get('td').contains("C'est l'heure des cotes, sortez vos billets")
+    cy.get('td').contains('C\'est l\'heure des cotes, sortez vos billets')
 
     cy.get('#betValue-input').clear().type('10')
     cy.get('#quotationOne-input').clear().type('2')

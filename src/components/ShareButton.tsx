@@ -13,12 +13,12 @@ interface ShareButtonProps extends ReactElementProps {
 
 export default function ShareButton ({ onClick, disabled, isLoading, className }: ShareButtonProps): ReactElement {
   return (
-      <Button
-          onClick={onClick}
-          className={className}
-          disabled={disabled === true || isLoading}
-      >
-          { isLoading ? <IconSpinner className="fill-white" /> : <IconShareFromSquare /> }
-      </Button>
+    <Button
+      onClick={onClick}
+      className={className}
+      disabled={disabled === true || isLoading}
+    >
+      { isLoading ? <IconSpinner className="fill-white" /> : <IconShareFromSquare /> }
+    </Button>
   )
 }

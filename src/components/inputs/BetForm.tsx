@@ -11,60 +11,64 @@ export default function BetForm (): ReactElement {
     quotationOne,
     quotationTwo,
     betValue,
-    boostedBetEnabled
+    boostedBetEnabled,
   } = useBetContext()
 
   function getBoostedBetInputStyle (): Style {
     return {
       textColor: boostedBetEnabled ? 'amber-500' : null,
       borderColor: boostedBetEnabled ? 'amber-500' : null,
-      ringColor: boostedBetEnabled ? 'amber-300' : null
+      ringColor: boostedBetEnabled ? 'amber-300' : null,
     }
   }
 
   return (
-    <form className="
-          md:mt-6
-          lg:flex lg:items-center lg:justify-center
-          space-y-4 lg:space-y-0 lg:space-x-4"
-    >
-        <BetInput
-            id={InputEnum.BET_VALUE}
-            textValue={betValue}
-            setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.BET_VALUE, target.value) }}
-            style={getBoostedBetInputStyle()}
-            unit="€"
-            incrementValue={1}
-        >
-            { boostedBetEnabled ? 'Mise cote boostée' : 'Mise' }
-        </BetInput>
+    <form className="md:mt-6 lg:flex lg:items-center lg:justify-center space-y-4 lg:space-y-0 lg:space-x-4">
+      <BetInput
+        id={InputEnum.BET_VALUE}
+        textValue={betValue}
+        setTextValue={(value) => {
+          setBetStoreValue(InputEnum.BET_VALUE, value as number) 
+        }}
+        style={getBoostedBetInputStyle()}
+        unit="€"
+        incrementValue={1}
+      >
+        { boostedBetEnabled ? 'Mise cote boostée' : 'Mise' }
+      </BetInput>
 
-        <BetInput
-            id={InputEnum.QUOTATION_ONE}
-            textValue={quotationOne}
-            setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.QUOTATION_ONE, target.value) }}
-            minValue={1}
-            style={getBoostedBetInputStyle()}
-        >
-            { boostedBetEnabled ? 'Cote 1 boostée' : 'Cote 1' }
-        </BetInput>
+      <BetInput
+        id={InputEnum.QUOTATION_ONE}
+        textValue={quotationOne}
+        setTextValue={(value) => {
+          setBetStoreValue(InputEnum.QUOTATION_ONE, value as number) 
+        }}
+        minValue={1}
+        style={getBoostedBetInputStyle()}
+      >
+        { boostedBetEnabled ? 'Cote 1 boostée' : 'Cote 1' }
+      </BetInput>
 
-        <BetInput
-            id={InputEnum.QUOTATION_TWO}
-            textValue={quotationTwo}
-            setTextValue={ ({ target }) => { setBetStoreValue(InputEnum.QUOTATION_TWO, target.value) }}
-            minValue={1}
-        >
-            Cote 2
-        </BetInput>
+      <BetInput
+        id={InputEnum.QUOTATION_TWO}
+        textValue={quotationTwo}
+        setTextValue={(value) => {
+          setBetStoreValue(InputEnum.QUOTATION_TWO, value as number) 
+        }}
+        minValue={1}
+      >
+        Cote 2
+      </BetInput>
 
-        <BetSwitch
-            id={InputEnum.BET_BOOSTED}
-            isActive={boostedBetEnabled}
-            setIsActive={ (newValue) => { setBetStoreValue(InputEnum.BET_BOOSTED, newValue) }}
-        >
-            Cote boostée
-        </BetSwitch>
+      <BetSwitch
+        id={InputEnum.BET_BOOSTED}
+        isActive={boostedBetEnabled}
+        setIsActive={(value) => {
+          setBetStoreValue(InputEnum.BET_BOOSTED, value as boolean) 
+        }}
+      >
+        Cote boostée
+      </BetSwitch>
     </form>
   )
 }

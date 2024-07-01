@@ -4,12 +4,14 @@ export function truncate (value: number, digit: number = 2): number {
   return !isNaN(value) && value % 1 !== 0 ? Number(value.toFixed(digit)) : value
 }
 
-export function truncateValues (object: any): Bet {
-  const truncatedValues: any = {}
 
-  for (const property in object) {
-    truncatedValues[property] = truncate(object[property])
+export function truncateValues(bet: Bet): Bet {
+  return {
+    betOne: truncate(bet.betOne),
+    betTwo: truncate(bet.betTwo),
+    quotation: truncate(bet.quotation),
+    profit: truncate(bet.profit),
+    netProfit: truncate(bet.netProfit),
+    probability: truncate(bet.probability),
   }
-
-  return truncatedValues
 }

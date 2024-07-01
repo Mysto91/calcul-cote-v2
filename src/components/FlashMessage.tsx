@@ -6,9 +6,10 @@ import IconSuccess from './icons/IconSuccess'
 import IconError from './icons/IconError'
 import { type FlashMessage as FlashMessageInterface } from '../interfaces/flashMessageInterface'
 import IconInfo from './icons/IconInfo'
+import { Nullable } from '../interfaces/nullableType'
 
 interface FlashMessageProps extends ReactElementProps {
-  flashMessage: FlashMessageInterface | null
+  flashMessage: Nullable<FlashMessageInterface>
   clearMessage: () => void
 }
 
@@ -30,14 +31,14 @@ const statusMap = new Map<StatusEnums, { title: string, colorStyle: FlashMessage
       colorStyle: {
         bgColor: 'bg-red-100',
         span: {
-          bgColor: 'bg-red-500'
+          bgColor: 'bg-red-500',
         },
         closeButton: {
-          fillColor: 'fill-red-500'
-        }
+          fillColor: 'fill-red-500',
+        },
       },
-      icon: <IconError className="fill-red-500 h-8 w-8" />
-    }
+      icon: <IconError className="fill-red-500 h-8 w-8" />,
+    },
   ],
   [
     StatusEnums.SUCCESS,
@@ -46,14 +47,14 @@ const statusMap = new Map<StatusEnums, { title: string, colorStyle: FlashMessage
       colorStyle: {
         bgColor: 'bg-green-100',
         span: {
-          bgColor: 'bg-green-500'
+          bgColor: 'bg-green-500',
         },
         closeButton: {
-          fillColor: 'fill-green-500'
-        }
+          fillColor: 'fill-green-500',
+        },
       },
-      icon: <IconSuccess className="fill-green-500 h-8 w-8" />
-    }
+      icon: <IconSuccess className="fill-green-500 h-8 w-8" />,
+    },
   ],
   [
     StatusEnums.INFO,
@@ -62,19 +63,19 @@ const statusMap = new Map<StatusEnums, { title: string, colorStyle: FlashMessage
       colorStyle: {
         bgColor: 'bg-blue-100',
         span: {
-          bgColor: 'bg-blue-500'
+          bgColor: 'bg-blue-500',
         },
         closeButton: {
-          fillColor: 'fill-blue-500'
-        }
+          fillColor: 'fill-blue-500',
+        },
       },
-      icon: <IconInfo className="fill-blue-500 h-8 w-8" />
-    }
-  ]
+      icon: <IconInfo className="fill-blue-500 h-8 w-8" />,
+    },
+  ],
 ])
 
 export default function FlashMessage ({ flashMessage, clearMessage }: FlashMessageProps): ReactElement {
-  function getColorStyle (): FlashMessageStyle | null {
+  function getColorStyle (): Nullable<FlashMessageStyle> {
     if (flashMessage === null) {
       return null
     }
@@ -105,46 +106,46 @@ export default function FlashMessage ({ flashMessage, clearMessage }: FlashMessa
   }
 
   return (
-        <div className={`
+    <div className={`
             w-3/4 max-w-[500px]
             rounded-lg drop-shadow-2xl
             flex
             ${colorStyle?.bgColor}
             transition ease-in-out duration-300
             text-black`
-        }>
-            <span className={`
+    }>
+      <span className={`
                     w-3
                     ${colorStyle?.span.bgColor}
                     rounded-l-lg
                 `}
-            >
-                &#8203;
-            </span>
-            <span className="w-14 flex items-center justify-center">
-                { getIcon() }
-            </span>
-            <div className="ml-2 py-2 flex items-center">
-                <div>
-                    <h1 className="font-semibold">{ getTitle() }</h1>
-                    <p className="text-gray-500">
-                        { flashMessage?.message }
-                    </p>
-                </div>
-            </div>
-            <div className="flex flex-grow items-center justify-end">
-                <button
-                    className={`
+      >
+        &#8203;
+      </span>
+      <span className="w-14 flex items-center justify-center">
+        { getIcon() }
+      </span>
+      <div className="ml-2 py-2 flex items-center">
+        <div>
+          <h1 className="font-semibold">{ getTitle() }</h1>
+          <p className="text-gray-500">
+            { flashMessage?.message }
+          </p>
+        </div>
+      </div>
+      <div className="flex flex-grow items-center justify-end">
+        <button
+          className={`
                         mr-3
                         h-8 w-8
                         flex items-center justify-center
                         ${colorStyle?.closeButton.fillColor}
                     `}
-                    onClick={clearMessage}
-                >
-                    <IconClose />
-                </button>
-            </div>
-        </div>
+          onClick={clearMessage}
+        >
+          <IconClose />
+        </button>
+      </div>
+    </div>
   )
 }

@@ -6,7 +6,7 @@ it('test with boosted bet enabled', () => {
     betValue: 10,
     q1: 2,
     q2: 2.5,
-    boostedBetEnabled: true
+    boostedBetEnabled: true,
   }
 
   const bet: Bet = calculateNoBet(betParams)
@@ -17,7 +17,7 @@ it('test with boosted bet enabled', () => {
     betTwo: 6.67,
     probability: 0.83,
     profit: 20,
-    netProfit: 3.33
+    netProfit: 3.33,
   }
 
   expect(bet).toEqual(expected)
@@ -28,7 +28,7 @@ it('test with boosted bet disabled', () => {
     betValue: 10,
     q1: 2.25,
     q2: 2.10,
-    boostedBetEnabled: false
+    boostedBetEnabled: false,
   }
 
   const bet: Bet = calculateNoBet(betParams)
@@ -39,7 +39,7 @@ it('test with boosted bet disabled', () => {
     betTwo: 4.76,
     probability: 0.85,
     profit: 11.79,
-    netProfit: 1.79
+    netProfit: 1.79,
   }
 
   expect(bet).toEqual(expected)
@@ -50,7 +50,7 @@ it('test with boosted bet enabled and reverse', () => {
     betValue: 10,
     q1: 2,
     q2: 2.45,
-    boostedBetEnabled: true
+    boostedBetEnabled: true,
   }
 
   const bet: Bet = calculateNoBet(betParams, true)
@@ -61,7 +61,7 @@ it('test with boosted bet enabled and reverse', () => {
     betTwo: 10,
     probability: 0.82,
     profit: 24.5,
-    netProfit: 4.5
+    netProfit: 4.5,
   }
 
   expect(bet).toEqual(expected)
@@ -72,7 +72,7 @@ it('test with boosted bet enabled and reverse with bet value over 10€', () => 
     betValue: 15,
     q1: 2.5,
     q2: 2.3,
-    boostedBetEnabled: true
+    boostedBetEnabled: true,
   }
 
   const bet: Bet = calculateNoBet(betParams, true)
@@ -83,7 +83,7 @@ it('test with boosted bet enabled and reverse with bet value over 10€', () => 
     betTwo: 22.5,
     probability: 0.72,
     profit: 51.75,
-    netProfit: 14.25
+    netProfit: 14.25,
   }
 
   expect(bet).toEqual(expected)
@@ -94,7 +94,7 @@ it('test with boosted bet disabled and reverse', () => {
     betValue: 5,
     q1: 2.1,
     q2: 2.25,
-    boostedBetEnabled: false
+    boostedBetEnabled: false,
   }
 
   const bet: Bet = calculateNoBet(betParams, true)
@@ -105,7 +105,7 @@ it('test with boosted bet disabled and reverse', () => {
     betTwo: 2.62,
     probability: 0.85,
     profit: 5.89,
-    netProfit: 0.89
+    netProfit: 0.89,
   }
 
   expect(bet).toEqual(expected)

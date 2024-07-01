@@ -5,12 +5,12 @@ import { type InputError } from '../../interfaces/errorInterface'
 const inputErrors: InputError[] = [
   {
     inputId: InputEnum.QUOTATION_ONE,
-    message: 'erreur lamda'
+    message: 'erreur lamda',
   },
   {
     inputId: InputEnum.BET_VALUE,
-    message: 'erreur lamda'
-  }
+    message: 'erreur lamda',
+  },
 ]
 
 it('test having errors on field returns true', () => {
