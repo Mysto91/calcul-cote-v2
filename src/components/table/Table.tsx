@@ -6,7 +6,7 @@ import { type ReactElementProps } from '../../interfaces/ReactElementPropsInterf
 import { formatNumber } from '../../utils/formatNumber'
 import { type TableRow as TableRowInterface } from '../../interfaces/tableRowInterface'
 import clsx from 'clsx'
-import { useBetContext, useErrorContext } from '../../contexts/context'
+import { useBetContext } from '../../contexts/context'
 
 interface THeader {
   title: string
@@ -19,7 +19,6 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
     quotationOne,
     quotationTwo,
     boostedBetEnabled,
-    isCalculating,
   } = useBetContext()
 
   const headers: THeader[] = [
@@ -32,27 +31,26 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
     { title: 'Gain net' },
   ]
 
-  const { errors } = useErrorContext()
-
-  let tableRows: TableRowInterface[] = []
-
-  if (!isCalculating && errors.length === 0) {
-    const betParams = {
-      betValue: formatNumber(betValue),
-      q1: formatNumber(quotationOne),
-      q2: formatNumber(quotationTwo),
-      boostedBetEnabled,
-    }
-
-    tableRows = [
-      { title: '1r2', bet: calculateNoBet(betParams) },
-      { title: '2r1', bet: calculateNoBet(betParams, true) },
-      { title: '1ou2', bet: calculateOneOrTwo(betParams) },
-    ]
+  const betParams = {
+    betValue: formatNumber(betValue),
+    q1: formatNumber(quotationOne),
+    q2: formatNumber(quotationTwo),
+    boostedBetEnabled,
   }
 
+  const tableRows: TableRowInterface[] = [
+    { title: '1r2', bet: calculateNoBet(betParams), description: 'Le pari est gagnant si la cote 1 est validée et remboursé si c\'est la cote 2.' },
+    { title: '2r1', bet: calculateNoBet(betParams, true), description: 'Le pari est gagnant si la cote 2 est validée et remboursé si c\'est la cote 1.' },
+    { title: '1ou2', bet: calculateOneOrTwo(betParams), description: 'Le pari est gagnant si la cote 1 ou la cote 2 est validée.' },
+  ]
+
   return (
-    <table className={`mx-2 md:mx-auto md:w-3/4 max-w-7xl shadow-2xl rounded-b-lg ${className}`}>
+    <table className={clsx(
+      'mx-2 md:mx-auto md:w-3/4',
+      'max-w-7xl',
+      'shadow-2xl rounded-b-lg',
+      className)
+    }>
       <thead>
         <tr>
           {
@@ -73,18 +71,7 @@ export default function Table ({ className }: ReactElementProps): ReactElement {
       </thead>
       <tbody>
         {
-          errors.length > 0 &&
-            <tr className="text-center">
-              <td
-                className="py-3"
-                colSpan={7}
-              >
-                C'est l'heure des cotes, sortez vos billets
-              </td>
-            </tr>
-        }
-        {
-          tableRows.map((tableRow: TableRowInterface) => <TableRow key={tableRow.title} title={tableRow.title} bet={tableRow.bet}/>)
+          tableRows.map((tableRow: TableRowInterface) => <TableRow key={tableRow.title} tableRow={tableRow} />)
         }
       </tbody>
     </table>

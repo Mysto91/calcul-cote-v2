@@ -26,9 +26,7 @@ export default function Button ({
         EXCLUDE_FROM_SCREENSHOT,
         className,
       )}
-      onClick={(event) => {
-        onClick(event) 
-      }}
+      onClick={(event) => onClick(event)}
       disabled={disabled}
     >
       { children }
