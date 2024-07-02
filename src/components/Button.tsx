@@ -7,9 +7,16 @@ interface ButtonProps extends ReactElementProps {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-export default function Button ({ className, children, disabled = false, onClick }: ButtonProps): ReactElement {
+export default function Button ({
+  id,
+  className,
+  children,
+  disabled = false,
+  onClick,
+}: ButtonProps): ReactElement {
   return (
     <button
+      id={id}
       className={clsx(
         'flex items-center justify-center',
         'fill-white',

@@ -11,9 +11,16 @@ interface ShareButtonProps extends ReactElementProps {
   isLoading: boolean
 }
 
-export default function ShareButton ({ onClick, disabled, isLoading, className }: ShareButtonProps): ReactElement {
+export default function ShareButton ({
+  id,
+  onClick,
+  disabled,
+  isLoading,
+  className,
+}: ShareButtonProps): ReactElement {
   return (
     <Button
+      id={id}
       onClick={onClick}
       className={className}
       disabled={disabled === true || isLoading}

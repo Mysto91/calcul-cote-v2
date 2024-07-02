@@ -51,7 +51,13 @@ function App (): ReactElement {
   }, [quotationOne, quotationTwo, betValue, boostedBetEnabled])
 
   useEffect(() => {
-    void handleShare(`betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}.png`, setShowManualShareButton)
+    let imageName = `betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}`
+
+    if (boostedBetEnabled) {
+      imageName += '_boostedBetEnabled'
+    }
+
+    void handleShare(`${imageName}.png`, setShowManualShareButton)
   }, [screenshotUrl])
 
   useEffect(() => {
@@ -81,6 +87,7 @@ function App (): ReactElement {
             {
               !showManualShareButton &&
               <ShareButton
+                id="share-button"
                 className="w-16 h-10"
                 disabled={errors.length > 0}
                 onClick={handleShareButtonClick}
@@ -126,6 +133,7 @@ function App (): ReactElement {
         {
           !showManualShareButton &&
           <ShareButton
+            id="share-button"
             className="w-16 h-10"
             disabled={errors.length > 0}
             onClick={handleShareButtonClick}

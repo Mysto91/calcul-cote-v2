@@ -107,3 +107,15 @@ describe('calculations', () => {
       })
   })
 })
+
+describe('share', () => {
+  it('should create the screenshot into firebase', () => {
+    cy.visit('/')
+
+    cy.get('#share-button').should('be.disabled')
+    cy.get('#quotationTwo-input').type('10')
+
+    cy.get('#share-button').should('be.enabled')
+    cy.get('#share-button').click()
+  })
+})
