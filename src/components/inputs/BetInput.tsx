@@ -13,8 +13,6 @@ interface BetInputProps extends ReactElementProps {
   textValue: Nullable<number | string>
   style?: Style
   unit?: string
-  minValue?: number
-  incrementValue?: number
   setTextValue: (newTextValue: Nullable<number | string>) => void
 }
 
@@ -24,8 +22,6 @@ export default function BetInput ({
   textValue,
   setTextValue,
   unit,
-  minValue = 0,
-  incrementValue = 0.1,
   style = {},
 }: BetInputProps): ReactElement {
   const [inputIsFocused, setInputIsFocused] = useState<boolean>(false)
@@ -99,9 +95,6 @@ export default function BetInput ({
           textColorClass,
           'transition ease-in-out',
         )}
-        type="number"
-        min={minValue}
-        step={incrementValue}
         name={`${id}-input`}
         value={textValue ?? ''}
         maxLength={8}
@@ -113,6 +106,7 @@ export default function BetInput ({
         }}
         onChange={({ target }) => setTextValue(target.value)}
         autoComplete="off"
+        inputMode="decimal"
       />
       {
         (textValue !== '' && textValue !== null) &&
