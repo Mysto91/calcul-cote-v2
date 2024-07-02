@@ -27,9 +27,7 @@ export default function BetForm (): ReactElement {
       <BetInput
         id={InputEnum.BET_VALUE}
         textValue={betValue}
-        setTextValue={(value) => {
-          setBetStoreValue(InputEnum.BET_VALUE, value as number) 
-        }}
+        setTextValue={(value) => setBetStoreValue(InputEnum.BET_VALUE, value as number)}
         style={getBoostedBetInputStyle()}
         unit="€"
         incrementValue={1}
@@ -40,9 +38,7 @@ export default function BetForm (): ReactElement {
       <BetInput
         id={InputEnum.QUOTATION_ONE}
         textValue={quotationOne}
-        setTextValue={(value) => {
-          setBetStoreValue(InputEnum.QUOTATION_ONE, value as number) 
-        }}
+        setTextValue={(value) => setBetStoreValue(InputEnum.QUOTATION_ONE, value as number)}
         minValue={1}
         style={getBoostedBetInputStyle()}
       >
@@ -52,9 +48,7 @@ export default function BetForm (): ReactElement {
       <BetInput
         id={InputEnum.QUOTATION_TWO}
         textValue={quotationTwo}
-        setTextValue={(value) => {
-          setBetStoreValue(InputEnum.QUOTATION_TWO, value as number) 
-        }}
+        setTextValue={(value) => setBetStoreValue(InputEnum.QUOTATION_TWO, value as number)}
         minValue={1}
       >
         Cote 2
@@ -63,9 +57,7 @@ export default function BetForm (): ReactElement {
       <BetSwitch
         id={InputEnum.BET_BOOSTED}
         isActive={boostedBetEnabled}
-        setIsActive={(value) => {
-          setBetStoreValue(InputEnum.BET_BOOSTED, value as boolean) 
-        }}
+        setIsActive={(value) => setBetStoreValue(InputEnum.BET_BOOSTED, value as boolean)}
       >
         Cote boostée
       </BetSwitch>

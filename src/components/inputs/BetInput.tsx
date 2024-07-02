@@ -99,7 +99,6 @@ export default function BetInput ({
           textColorClass,
           'transition ease-in-out',
         )}
-        type="number"
         min={minValue}
         step={incrementValue}
         name={`${id}-input`}
@@ -113,6 +112,7 @@ export default function BetInput ({
         }}
         onChange={({ target }) => setTextValue(target.value)}
         autoComplete="off"
+        inputMode="decimal"
       />
       {
         (textValue !== '' && textValue !== null) &&

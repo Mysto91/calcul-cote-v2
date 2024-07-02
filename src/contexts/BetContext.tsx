@@ -67,9 +67,7 @@ export function BetContextProvider ({ children }: React.PropsWithChildren): Reac
       ...state,
       isCalculating,
       setIsCalculating,
-      setBetStoreValue: (inputType: InputEnum, newValue: number | boolean) => {
-        dispatch({ type: inputType, newValue }) 
-      },
+      setBetStoreValue: (inputType: InputEnum, newValue: number | boolean) => dispatch({ type: inputType, newValue }),
     }}>
       {children}
     </BetContext.Provider>
