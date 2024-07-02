@@ -26,3 +26,5 @@ yarn-error.log*
 
 /.firebase/*.cache
 /.idea/
+
+/cypress/screenshots
