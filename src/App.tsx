@@ -14,6 +14,7 @@ import BetForm from './components/inputs/BetForm'
 import { useBetContext, useErrorContext, useFlashMessageContext } from './contexts/context'
 import { Nullable } from './interfaces/nullableType'
 import { getEnv } from './services/env'
+import InputInfoMessage from './components/InputInfoMessage'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -27,6 +28,7 @@ function App (): ReactElement {
     betValue,
     boostedBetEnabled,
     setIsCalculating,
+    isCalculating,
   } = useBetContext()
 
   const { flashMessage, clearMessage } = useFlashMessageContext()
@@ -99,9 +101,7 @@ function App (): ReactElement {
               showManualShareButton && (firebaseImageUrl !== null) &&
               <Button
                 className="w-16 h-10"
-                onClick={() => {
-                  shareManually(firebaseImageUrl) 
-                }}
+                onClick={() => shareManually(firebaseImageUrl)}
               >
                 <IconRocket className="w-6 w-6" />
               </Button>
@@ -123,9 +123,12 @@ function App (): ReactElement {
 
           <BetForm />
 
-          <div className="flex justify-center">
-            <Table className="mt-20 lg:mt-10" />
+          <div className="mt-20 lg:mt-10 flex justify-center">
+            {
+              errors.length === 0 && !isCalculating ? <Table /> : <InputInfoMessage id='input-info-message' className="mx-10" />
+            }
           </div>
+
         </div>
       </div>
 
@@ -145,9 +148,7 @@ function App (): ReactElement {
           showManualShareButton && (firebaseImageUrl !== null) &&
           <Button
             className="w-16 h-10"
-            onClick={() => {
-              shareManually(firebaseImageUrl) 
-            }}
+            onClick={() => shareManually(firebaseImageUrl)}
           >
             <IconRocket className="w-6 w-6" />
           </Button>

@@ -23,9 +23,7 @@ export default function BetSwitch ({ id, isActive, setIsActive, children }: BetS
         'drop-shadow-lg',
         isActive ? 'bg-violet-500' : 'bg-violet-300',
       )}
-      onClick={() => {
-        setIsActive(!isActive) 
-      }}
+      onClick={() => setIsActive(!isActive)}
     >
       <label
         htmlFor="toggle"
@@ -39,9 +37,7 @@ export default function BetSwitch ({ id, isActive, setIsActive, children }: BetS
           'transition ease-in-out duration-300',
           isActive && 'translate-x-full',
         )}
-        onClick={(event) => {
-          event.stopPropagation() 
-        }}
+        onClick={(event) => event.stopPropagation()}
       >
         <span className={clsx(
           'w-3 h-3',

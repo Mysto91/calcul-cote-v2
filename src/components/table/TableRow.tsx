@@ -8,28 +8,27 @@ import { type TableRow as TableRowInterface } from '../../interfaces/tableRowInt
 import clsx from 'clsx'
 import { useBetContext } from '../../contexts/context'
 
-interface TableRowProps extends ReactElementProps, TableRowInterface {
+interface TableRowProps extends ReactElementProps {
+  tableRow: TableRowInterface
 }
 
-export default function TableRow ({ title, bet, className }: TableRowProps): ReactElement {
+export default function TableRow ({ tableRow, className }: TableRowProps): ReactElement {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const { boostedBetEnabled } = useBetContext()
+
+  const { title, bet, description } = tableRow
 
   return (
     <>
       <tr
         className={clsx('text-center', 'md:whitespace-nowrap', 'cursor-pointer', className)}
-        onClick={() => {
-          setIsExpanded(!isExpanded) 
-        }}
+        onClick={() => setIsExpanded(!isExpanded)}
       >
         <td className="w-4">
           <button
             className="p-2 md:p-3"
-            onClick={() => {
-              setIsExpanded(!isExpanded) 
-            }}
+            onClick={() => setIsExpanded(!isExpanded)}
           >
             <span className={clsx(
               'block',
@@ -64,12 +63,17 @@ export default function TableRow ({ title, bet, className }: TableRowProps): Rea
         </td>
       </tr>
 
-      <TableRowExpansion isExpanded={isExpanded} close={() => {
-        setIsExpanded(false) 
-      }}>
+      <TableRowExpansion isExpanded={isExpanded} close={() => setIsExpanded(false)}>
         <div className="p-3 space-y-2">
-          <p>Probabilité</p>
-          <Progress value={bet.probability * 100} />
+          <div>
+            <p>Explication</p>
+            <p className="text-gray-500 text-sm md:text-md">{description}</p>
+          </div>
+
+          <div>
+            <p>Probabilité</p>
+            <Progress value={bet.probability * 100} />
+          </div>
         </div>
       </TableRowExpansion>
     </>

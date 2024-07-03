@@ -6,24 +6,24 @@ describe('calculations', () => {
     cy.get('#quotationOne-input').clear()
     cy.get('#quotationTwo-input').clear()
 
-    cy.get('td').contains('C\'est l\'heure des cotes, sortez vos billets')
+    cy.get('#input-info-message').should('be.visible')
 
     cy.get('#betValue-input').type('10')
-    cy.get('td').contains('C\'est l\'heure des cotes, sortez vos billets')
+    cy.get('#input-info-message').should('be.visible')
 
     cy.get('#betValue-input').clear()
     cy.get('#quotationOne-input').type('2')
-    cy.get('td').contains('C\'est l\'heure des cotes, sortez vos billets')
+    cy.get('#input-info-message').should('be.visible')
 
     cy.get('#quotationOne-input').clear()
     cy.get('#quotationTwo-input').type('2')
-    cy.get('td').contains('C\'est l\'heure des cotes, sortez vos billets')
+    cy.get('#input-info-message').should('be.visible')
   })
 
   it('should calculate bets with boosted bet enabled', () => {
     cy.visit('/')
 
-    cy.get('td').contains('C\'est l\'heure des cotes, sortez vos billets')
+    cy.get('#input-info-message').should('be.visible')
 
     cy.get('#betValue-input').clear().type('10')
     cy.get('#quotationOne-input').clear().type('2')
@@ -66,7 +66,7 @@ describe('calculations', () => {
   it('should calculate bets with boosted bet disabled', () => {
     cy.visit('/')
 
-    cy.get('td').contains('C\'est l\'heure des cotes, sortez vos billets')
+    cy.get('#input-info-message').should('be.visible')
 
     cy.get('#betValue-input').clear().type('20')
     cy.get('#quotationOne-input').clear().type('2.25')

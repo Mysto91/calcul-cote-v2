@@ -33,11 +33,11 @@ export default function TableRowExpansion ({ isExpanded, children, close }: Tabl
         'border border-violet-100',
         'transition-all ease-in-out duration-300',
         'cursor-pointer',
-        isExpanded ? 'h-20' : 'h-0')
+        isExpanded ? 'h-40' : 'h-0')
       }
       onClick={close}
     >
-      <td colSpan={6} className={clsx(!showChildren && 'hidden')}>
+      <td colSpan={7} className={clsx(!showChildren && 'hidden')}>
         { children }
       </td>
     </tr>
