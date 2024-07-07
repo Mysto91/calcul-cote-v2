@@ -68,8 +68,10 @@ export default function BetInput ({
           'absolute z-20',
           'px-2',
           'flex',
-          'transition ease-in-out',
-          inputIsFocusedOrHasTextValue() ? `-translate-y-5 bg-white text-xs ${textColorClass ?? 'text-violet-500'}` : 'text-base',
+          'transition-all duration-200 ease-in-out',
+          'bg-white',
+          'cursor-text rounded-full',
+          inputIsFocusedOrHasTextValue() ? `-translate-y-5 text-xs ${textColorClass ?? 'text-violet-500'}` : 'text-base',
         )}
         htmlFor={`${id}-input`}
       >
@@ -93,7 +95,7 @@ export default function BetInput ({
           'text-base text-center text-violet',
           'caret-violet-500',
           textColorClass,
-          'transition ease-in-out',
+          'transition-all duration-200 ease-in-out',
         )}
         name={`${id}-input`}
         value={textValue ?? ''}
