@@ -1,12 +1,18 @@
 import React, { type ReactElement } from 'react'
 import { type ReactElementProps } from '../interfaces/ReactElementPropsInterface'
 import clsx from 'clsx'
+import { truncate } from '../utils/truncate'
+import { Nullable } from '../interfaces/nullableType'
 
 interface ProgressProps extends ReactElementProps {
   value: number
 }
 
-export default function Progress ({ value }: ProgressProps): ReactElement {
+export default function Progress ({ value }: ProgressProps): Nullable<ReactElement> {
+  if (value < 0 || value > 1) {
+    return null
+  }
+
   return (
     <div className="w-full bg-gray-200 rounded-full ring-2 ring-gray-300">
       <div
@@ -18,9 +24,9 @@ export default function Progress ({ value }: ProgressProps): ReactElement {
           'text-center text-sm text-white',
           'ring-2 ring-violet-300',
         )}
-        style={{ width: `${value}%` }}
+        style={{ width: `${truncate(value) * 100}%` }}
       >
-        { value }%
+        { truncate(value) * 100 }%
       </div>
     </div>
   )

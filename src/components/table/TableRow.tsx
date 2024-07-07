@@ -72,7 +72,7 @@ export default function TableRow ({ tableRow, className }: TableRowProps): React
 
           <div>
             <p>Probabilité</p>
-            <Progress value={bet.probability * 100} />
+            <Progress value={bet.probability} />
           </div>
         </div>
       </TableRowExpansion>
