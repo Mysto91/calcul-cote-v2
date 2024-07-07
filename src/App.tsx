@@ -15,6 +15,7 @@ import { useBetContext, useErrorContext, useFlashMessageContext } from './contex
 import { Nullable } from './interfaces/nullableType'
 import { getEnv } from './services/env'
 import InputInfoMessage from './components/InputInfoMessage'
+import { formatNumber } from './utils/formatNumber'
 
 function App (): ReactElement {
   const betContainerRef = useRef(null)
@@ -45,6 +46,7 @@ function App (): ReactElement {
 
   useEffect(() => {
     setShowManualShareButton(false)
+
     void handleValidation({
       params: { quotationOne, quotationTwo, betValue, boostedBetEnabled },
       setIsLoading: setIsCalculating,
@@ -53,7 +55,11 @@ function App (): ReactElement {
   }, [quotationOne, quotationTwo, betValue, boostedBetEnabled])
 
   useEffect(() => {
-    let imageName = `betValue_${betValue}_q1_${quotationOne}_q2_${quotationTwo}`
+    if (!screenshotUrl) {
+      return
+    }
+
+    let imageName = `betValue_${formatNumber(betValue)}_q1_${formatNumber(quotationOne)}_q2_${formatNumber(quotationTwo)}`
 
     if (boostedBetEnabled) {
       imageName += '_boostedBetEnabled'
@@ -63,11 +69,11 @@ function App (): ReactElement {
   }, [screenshotUrl])
 
   useEffect(() => {
-    if (navigatorCanShare()) {
+    if (!firebaseImageUrl) {
       return
     }
 
-    if (firebaseImageUrl === null || firebaseImageUrl === undefined) {
+    if (navigatorCanShare()) {
       return
     }
 
