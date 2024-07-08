@@ -26,8 +26,12 @@ export default function BetInput ({
 }: BetInputProps): ReactElement {
   const [inputIsFocused, setInputIsFocused] = useState<boolean>(false)
 
+  function hasTextValue(): boolean {
+    return (textValue !== '' && textValue !== null)
+  }
+
   function inputIsFocusedOrHasTextValue (): boolean {
-    return inputIsFocused || (textValue !== '' && textValue !== null)
+    return inputIsFocused || hasTextValue()
   }
 
   function getUnitSpanClassWidth (): string {
@@ -76,7 +80,17 @@ export default function BetInput ({
         htmlFor={`${id}-input`}
       >
         {children}
-        { !hasInputError(errors, id) && <IconCheck className="ml-2 fill-green-500" /> }
+        {
+          <div
+            className={clsx(
+              'overflow-hidden',
+              'transition-all ease-in-out duration-300',
+              hasTextValue() && !hasInputError(errors, id) ? 'ml-2 w-2.5' : 'w-0',
+            )}
+          >
+            <IconCheck className="fill-green-500" />
+          </div>
+        }
       </label>
 
       <input
@@ -100,12 +114,8 @@ export default function BetInput ({
         name={`${id}-input`}
         value={textValue ?? ''}
         maxLength={8}
-        onFocus={() => {
-          setInputIsFocused(true) 
-        }}
-        onBlur={() => {
-          setInputIsFocused(false) 
-        }}
+        onFocus={() => setInputIsFocused(true)}
+        onBlur={() => setInputIsFocused(false)}
         onChange={({ target }) => setTextValue(target.value)}
         autoComplete="off"
         inputMode="decimal"
