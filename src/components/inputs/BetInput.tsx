@@ -76,7 +76,17 @@ export default function BetInput ({
         htmlFor={`${id}-input`}
       >
         {children}
-        { !hasInputError(errors, id) && <IconCheck className="ml-2 fill-green-500" /> }
+        {
+          <div
+            className={clsx('ml-2',
+              'overflow-hidden',
+              'transition-all ease-in-out duration-300',
+              !hasInputError(errors, id) ? 'w-2.5' : 'w-0',
+            )}
+          >
+            <IconCheck className="fill-green-500" />
+          </div>
+        }
       </label>
 
       <input
@@ -100,12 +110,8 @@ export default function BetInput ({
         name={`${id}-input`}
         value={textValue ?? ''}
         maxLength={8}
-        onFocus={() => {
-          setInputIsFocused(true) 
-        }}
-        onBlur={() => {
-          setInputIsFocused(false) 
-        }}
+        onFocus={() => setInputIsFocused(true)}
+        onBlur={() => setInputIsFocused(false)}
         onChange={({ target }) => setTextValue(target.value)}
         autoComplete="off"
         inputMode="decimal"
