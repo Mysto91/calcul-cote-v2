@@ -19,6 +19,18 @@ export default function TableRow ({ tableRow, className }: TableRowProps): React
 
   const { title, bet, description } = tableRow
 
+  function getNetProfitColorClass(netProfit: number): string {
+    if (netProfit === 0) {
+      return 'text-gray-400'
+    }
+
+    if (netProfit < 0) {
+      return 'text-red-400'
+    }
+
+    return 'text-green-400'
+  }
+
   return (
     <>
       <tr
@@ -58,7 +70,7 @@ export default function TableRow ({ tableRow, className }: TableRowProps): React
         <td>
           {formatToEuroCurrency(bet.profit)}
         </td>
-        <td className={`${bet.netProfit >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+        <td className={getNetProfitColorClass(bet.netProfit)}>
           {bet.netProfit > 0 ? '+' : ''}{formatToEuroCurrency(bet.netProfit)}
         </td>
       </tr>
