@@ -39,19 +39,19 @@ export default function TableRow ({ tableRow, className }: TableRowProps): React
       >
         <td className="w-4">
           <button
-            className="p-2 md:p-3"
+            className="px-0.5 py-2 md:p-3"
             onClick={() => setIsExpanded(!isExpanded)}
           >
             <span className={clsx(
               'block',
-              'h-7 w-7',
+              'h-5 w-5 md:h-7 md:w-7',
               'flex items-center justify-center',
               'rounded-full',
               'bg-violet-100',
               'transition ease-in-out duration-300',
               isExpanded && 'rotate-180',
             )}>
-              <IconDownArrow className="fill-violet-500" />
+              <IconDownArrow className="h-2.5 w-2.5 lg:h-3 lg:w-3 fill-violet-500" />
             </span>
           </button>
         </td>
