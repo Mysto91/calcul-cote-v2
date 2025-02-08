@@ -7,7 +7,7 @@ interface IconDownArrowProps {
 export default function IconDownArrow ({ className }: IconDownArrowProps): ReactElement {
   return (
     <svg
-      className={`h-4 w-4 ${className}`}
+      className={className}
       version="1.1"
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"
