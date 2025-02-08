@@ -14,7 +14,7 @@ export default function BetSwitch ({ id, isActive, setIsActive, children }: BetS
       id={id}
       className={clsx(
         'relative',
-        'ml-auto mr-auto',
+        'ml-auto mr-auto lg:ml-0 lg:mr-0',
         'w-14 h-8',
         'px-1',
         'flex items-center',

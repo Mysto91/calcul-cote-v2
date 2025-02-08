@@ -133,7 +133,7 @@ export default function FlashMessage ({ flashMessage, clearMessage }: FlashMessa
           </p>
         </div>
       </div>
-      <div className="flex flex-grow items-center justify-end">
+      <div className="flex grow items-center justify-end">
         <button
           className={`
                         mr-3

@@ -102,7 +102,7 @@ export default function BetInput ({
           'w-2/3 md:w-1/3 lg:w-full h-full',
           'rounded-md border-2',
           borderColorClass ? `${borderColorClass} focus-visible:${borderColorClass}` : 'border-violet-300 focus-visible:border-violet-500',
-          'outline-none',
+          'outline-hidden',
           borderColorClass ? `focus-visible:${ringColorClass}` : 'focus-visible:ring-violet-300',
           'focus:ring-2',
           'bg-transparent',
