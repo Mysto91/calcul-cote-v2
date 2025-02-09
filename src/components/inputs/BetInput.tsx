@@ -75,9 +75,10 @@ export default function BetInput ({
           'transition-all duration-200 ease-in-out',
           'bg-white',
           'cursor-text rounded-full',
-          inputIsFocusedOrHasTextValue() ? `-translate-y-5 text-xs ${textColorClass ?? 'text-violet-500'}` : 'text-base',
+          inputIsFocusedOrHasTextValue() ? `text-xs ${textColorClass ?? 'text-violet-500'}` : 'text-base',
         )}
         htmlFor={`${id}-input`}
+        style={{ transform: inputIsFocusedOrHasTextValue() ? 'translateY(-20px)' : '' }}
       >
         {children}
         {
@@ -121,7 +122,7 @@ export default function BetInput ({
         inputMode="decimal"
       />
       {
-        (textValue !== '' && textValue !== null) &&
+        (textValue !== '' && textValue !== null && unit) &&
         <div className={`absolute flex ${textColorClass} transition ease-in-out`}>
           <span className={`z-0 ${getUnitSpanClassWidth()} bg-transparent`} />
 
