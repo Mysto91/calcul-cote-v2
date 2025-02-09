@@ -18,7 +18,7 @@
     "eslint": "^9.6.0",
     "eslint-config-react-app": "^7.0.1",
     "firebase": "^10.4.0",
-    "html2canvas": "^1.4.1",
+    "html2canvas-pro": "^1.5.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
