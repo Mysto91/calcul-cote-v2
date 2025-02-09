@@ -1,6 +1,6 @@
 import { useState, type MutableRefObject } from 'react'
 import { EXCLUDE_FROM_SCREENSHOT } from '../constants/screenshotConstants'
-import html2canvas, { Options } from 'html2canvas'
+import html2canvas, { type Options } from 'html2canvas-pro'
 import { getFirebaseBlob, getFirebaseImageUrl, storeImage } from '../services/firebase'
 import {
   hasNavigatorShare,
